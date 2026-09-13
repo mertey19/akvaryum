@@ -20,6 +20,9 @@ test("supplied logo and manufacturing brand are prominent", async ({
   await expect(page.locator(".hero-intro")).toContainText(
     "Su altı dünyanıza doğru başlangıç.",
   );
+  await expect(page.locator(".ready-stock")).toContainText(
+    "Hazır ölçü akvaryumlar mevcut",
+  );
   const footerBrand = page.locator("footer .footer-brand");
   await expect(footerBrand).toHaveAccessibleName(
     "DSN Akvaryum İmalatı ana sayfa",
@@ -27,6 +30,12 @@ test("supplied logo and manufacturing brand are prominent", async ({
   await expect(footerBrand.locator("img")).toHaveAttribute(
     "src",
     /dsn-logo\.jpeg/,
+  );
+  await expect(page.locator(".footer-bottom")).toContainText(
+    "© 2026 DSN Akvaryum İmalatı",
+  );
+  await expect(page.locator("body")).not.toContainText(
+    /Görseller temsilidir|Online satış kapalı|Özenle tasarlandı|Tasarım önizlemesi/,
   );
 });
 
@@ -75,6 +84,66 @@ test("verified DIAMOND glass information is consistent", async ({ page }) => {
   await expect(page.locator(".product-card")).toHaveCount(12);
   await expect(page.locator(".material-badge")).toHaveCount(12);
 });
+test("terrarium and paludarium are integrated across discovery flows", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await expect(page.locator(".category-grid .category-card")).toHaveCount(8);
+  await expect(
+    page.locator('.category-grid a[href="/urunler?kategori=teraryumlar"] img'),
+  ).toHaveAttribute("src", /terrarium\.webp/);
+  await expect(
+    page.locator(
+      '.category-grid a[href="/urunler?kategori=paludaryumlar"] img',
+    ),
+  ).toHaveAttribute("src", /paludarium\.webp/);
+
+  const habitats = page.getByRole("button", {
+    name: "Yaşam Alanları",
+    exact: true,
+  });
+  await habitats.click();
+  await expect(
+    page.getByRole("link", { name: "Teraryumlar", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Paludaryumlar", exact: true }),
+  ).toBeVisible();
+  await page.keyboard.press("Escape");
+
+  await page.goto("/urunler?kategori=teraryumlar");
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Teraryumlar" }),
+  ).toBeVisible();
+  await expect(page.locator(".product-card")).toHaveCount(1);
+  await expect(page.locator(".material-badge")).toHaveCount(0);
+  await expect(page.locator(".product-card").first()).toContainText(
+    "Fiyat için bilgi alın",
+  );
+
+  await page
+    .locator(".product-card")
+    .first()
+    .getByRole("link", { name: "Ürünü incele" })
+    .click();
+  await expect(page.locator(".detail-price")).toContainText(
+    "Fiyat için bilgi alın",
+  );
+  await expect(page.locator(".detail-material")).toHaveCount(0);
+  await expect(
+    page.getByRole("link", { name: "WhatsApp’tan Bilgi Al" }),
+  ).toHaveAttribute("href", /wa\.me\/905453897147/);
+  await expect(
+    page.getByRole("link", { name: "Detaylı talep hazırla" }),
+  ).toHaveAttribute("href", /\/iletisim\?urun=teraryum-tasarimi/);
+
+  await page.goto("/");
+  await page.getByRole("combobox", { name: "Ürün ara" }).fill("paladaryum");
+  await expect(page.locator(".suggestions")).toContainText("Paludaryumlar");
+  await page.goto("/urunler?q=terrarium");
+  await expect(page.locator(".results-top")).toContainText("1 ürün");
+  await expect(page.locator(".product-card")).toHaveCount(1);
+});
 test("search request failure is visible and can recover", async ({ page }) => {
   await page.route("**/api/arama?**", (r) =>
     r.fulfill({ status: 503, body: "unavailable" }),
@@ -89,7 +158,7 @@ test("search request failure is visible and can recover", async ({ page }) => {
 test("variant favorites retain identity and restore selected variant", async ({
   page,
 }) => {
-  await page.goto("/urun/clear-60?varyant=45");
+  await page.goto("/urun/akvaryum-60x40x40?varyant=45");
   await page.getByRole("button", { name: /favori ekle/ }).click();
   await page.getByRole("button", { name: /90° fiyat seçeneği/ }).click();
   await page.getByRole("button", { name: /favori ekle/ }).click();
@@ -101,7 +170,7 @@ test("variant favorites retain identity and restore selected variant", async ({
       exact: true,
     })
     .click();
-  await expect(page.getByTestId("sku")).toHaveText("DEMO-DSN-604040-45");
+  await expect(page.getByTestId("sku")).toHaveText("AKV-60X40X40-45");
 });
 test("clipboard failure does not claim successful copy or delivery", async ({
   page,
@@ -114,28 +183,33 @@ test("clipboard failure does not claim successful copy or delivery", async ({
     }),
   );
   await page.getByLabel("Mesajınız").fill("Ürün hakkında bilgi istiyorum");
-  await page.getByRole("button", { name: "Talep özetini oluştur" }).click();
+  await page.getByRole("button", { name: "WhatsApp mesajını hazırla" }).click();
   await page.getByRole("button", { name: "Özeti kopyala" }).click();
   await expect(page.locator(".copy-status")).toContainText("elle kopyalayın");
   await expect(
     page.getByRole("textbox", { name: "Talep özeti" }),
   ).toBeFocused();
 });
-test("verified contact details render without invented contact channels", async ({
+test("verified contact details and WhatsApp sales links render consistently", async ({
   page,
 }) => {
   await page.goto("/iletisim");
   const contact = page.locator(".contact-info");
-  await expect(
-    contact.getByRole("link", { name: "0545 389 71 47", exact: true }),
-  ).toHaveAttribute("href", "tel:+905453897147");
+  await expect(contact.locator('a[href="tel:+905453897147"]')).toHaveAttribute(
+    "href",
+    "tel:+905453897147",
+  );
   await expect(contact).toContainText(
     "Mamak Hüseyin Gazi, Ekin, Su Sk. No:17, 06160 Mamak/Ankara",
   );
-  await expect(contact).toContainText("@Dursun_belgic");
-  await expect(page.locator(".notice")).toContainText(
-    "Doğrulanmış WhatsApp numarası henüz eklenmedi",
-  );
+  await expect(contact).toContainText("@Dursun.belgic");
+  await expect(
+    contact.getByRole("link", { name: /0545 389 71 47/ }).first(),
+  ).toHaveAttribute("href", /wa\.me\/905453897147/);
+  await expect(page.locator(".notice")).toContainText("Yeşil düğme WhatsApp'ı");
+  await expect(
+    page.getByRole("button", { name: "WhatsApp mesajını hazırla" }),
+  ).toHaveClass(/whatsapp/);
 
   const footer = page.locator("footer");
   await expect(
@@ -144,9 +218,11 @@ test("verified contact details render without invented contact channels", async 
   await expect(footer).toContainText(
     "Mamak Hüseyin Gazi, Ekin, Su Sk. No:17, 06160 Mamak/Ankara",
   );
-  await expect(footer).toContainText("@Dursun_belgic");
+  await expect(footer).toContainText("@Dursun.belgic");
 
-  await expect(page.locator('a[href*="wa.me"]')).toHaveCount(0);
+  const whatsAppLinks = page.locator('a[href*="wa.me/905453897147"]');
+  expect(await whatsAppLinks.count()).toBeGreaterThanOrEqual(4);
+  await expect(page.locator(".floating-whatsapp")).toBeVisible();
   await expect(
     page.locator(
       'a[href*="instagram.com"], a[href*="facebook.com"], a[href*="tiktok.com"], a[href*="x.com/"], a[href*="twitter.com"], a[href*="youtube.com"], a[href*="linkedin.com"]',
@@ -167,7 +243,7 @@ test("no personal form data is sent to network, storage, URL or console", async 
       leaks.push("network");
   });
   await page.getByLabel("Notunuz (isteğe bağlı)").fill(marker);
-  await page.getByRole("button", { name: "Talep özetini oluştur" }).click();
+  await page.getByRole("button", { name: "WhatsApp mesajını hazırla" }).click();
   expect(page.url()).not.toContain(marker);
   expect(
     await page.evaluate(
@@ -186,11 +262,11 @@ test("search supports Turkish normalization, suggestions, keyboard and empty res
   await expect(page.getByRole("option").first()).toContainText("Dış Filtre");
   await search.press("ArrowDown");
   await search.press("Enter");
-  await expect(page).toHaveURL(/\/urun\/flow-/);
+  await expect(page).toHaveURL(/\/urun\/dis-filtre-secimi/);
   await page.goto("/urunler?q=dis+filtre");
   const names = await page.locator(".product-info h3").allTextContents();
   expect(names[0]).toContain("Dış Filtre");
-  expect(names.findIndex((n) => n.includes("Dolabı"))).toBeGreaterThan(2);
+  expect(names.findIndex((n) => n.includes("Mobilyası"))).toBeGreaterThan(0);
   await page.goto("/urunler?q=olmayan-urun-xyz");
   await expect(
     page.getByRole("heading", { name: "Bu seçimle ürün bulunamadı." }),
@@ -198,27 +274,27 @@ test("search supports Turkish normalization, suggestions, keyboard and empty res
   await page
     .getByRole("link", { name: "Filtreleri temizle", exact: true })
     .click();
-  await expect(page.locator(".results-top")).toContainText("28");
+  await expect(page.locator(".results-top")).toContainText("22");
 });
 test("filter, sorting, reload and browser history preserve URL-backed state", async ({
   page,
 }) => {
   await page.goto("/urunler?sayfa=2");
   await page.locator("#desktop-category").selectOption("filtreler");
-  await page.locator("#desktop-sort").selectOption("fiyat-artan");
+  await page.locator("#desktop-sort").selectOption("yeni");
   await page
     .getByRole("button", { name: "Filtreleri uygula", exact: true })
     .click();
   await expect(page).toHaveURL(/kategori=filtreler/);
   expect(new URL(page.url()).searchParams.has("sayfa")).toBeFalsy();
-  await expect(page.locator(".results-top")).toContainText("4 ürün");
+  await expect(page.locator(".results-top")).toContainText("2 ürün");
   await expect(page.locator(".product-info h3").first()).toContainText(
-    "Inner 300",
+    "İç Filtre Seçimi",
   );
   await page.reload();
   await expect(page.locator("#desktop-category")).toHaveValue("filtreler");
   await page.getByRole("link", { name: "kategori filtresini kaldır" }).click();
-  await expect(page.locator(".results-top")).toContainText("28 ürün");
+  await expect(page.locator(".results-top")).toContainText("22 ürün");
   await page.goBack();
   await expect(page.locator("#desktop-category")).toHaveValue("filtreler");
   await page.goForward();
@@ -227,28 +303,30 @@ test("filter, sorting, reload and browser history preserve URL-backed state", as
 test("variant updates SKU, price, stock and preserves context in contact draft", async ({
   page,
 }) => {
-  await page.goto("/urun/clear-60");
+  await page.goto("/urun/akvaryum-60x40x40");
   await page.getByRole("button", { name: /45° fiyat seçeneği/ }).click();
-  await expect(page.getByTestId("sku")).toHaveText("DEMO-DSN-604040-45");
+  await expect(page.getByTestId("sku")).toHaveText("AKV-60X40X40-45");
   await expect(page.locator(".detail-price")).toContainText("4.200,00");
   await expect(page.locator(".detail-meta")).toContainText(
     "Stok bilgisi alınmalı",
   );
-  await page.getByRole("link", { name: "Bu Ürün İçin Bilgi Al" }).click();
+  await page.getByRole("link", { name: "Detaylı talep hazırla" }).click();
   await expect(page.locator(".context-box")).toContainText("45°");
   await expect(page.locator(".context-box")).toContainText("Cam: DIAMOND cam");
   await page.getByLabel("Mesajınız").fill("Paket içeriği nedir?");
-  await page.getByRole("button", { name: "Talep özetini oluştur" }).click();
+  await page.getByRole("button", { name: "WhatsApp mesajını hazırla" }).click();
   await expect(page.getByRole("textbox", { name: "Talep özeti" })).toHaveValue(
-    /DEMO-DSN-604040-45/,
+    /AKV-60X40X40-45/,
   );
   expect(page.url()).not.toContain("Paket");
-  await expect(page.locator('a[href*="wa.me"]')).toHaveCount(0);
+  await expect(
+    page.getByRole("link", { name: "WhatsApp’tan gönder" }),
+  ).toHaveAttribute("href", /wa\.me\/905453897147/);
   await expect(page.locator(".copy-status")).toContainText(
-    "Bilgiler gönderilmedi",
+    "WhatsApp mesajınız hazır",
   );
-  await page.goto("/urun/clear-60?varyant=45");
-  await expect(page.getByTestId("sku")).toHaveText("DEMO-DSN-604040-45");
+  await page.goto("/urun/akvaryum-60x40x40?varyant=45");
+  await expect(page.getByTestId("sku")).toHaveText("AKV-60X40X40-45");
 });
 test("favorites persist and comparison enforces category and maximum size", async ({
   page,
@@ -310,13 +388,13 @@ test("dimension validation, gross volume and clipboard summary are honest", asyn
   await page.goto("/teklif");
   await expect(page.getByTestId("volume")).toContainText("64,8");
   await page.getByLabel("Genişlik (cm)").fill("-1");
-  await page.getByRole("button", { name: "Talep özetini oluştur" }).click();
+  await page.getByRole("button", { name: "WhatsApp mesajını hazırla" }).click();
   await expect(page.getByRole("textbox", { name: "Talep özeti" })).toHaveCount(
     0,
   );
   await page.getByLabel("Genişlik (cm)").fill("100");
   await page.getByLabel("Teslimat şehri").fill("İzmir");
-  await page.getByRole("button", { name: "Talep özetini oluştur" }).click();
+  await page.getByRole("button", { name: "WhatsApp mesajını hazırla" }).click();
   await expect(page.getByRole("textbox", { name: "Talep özeti" })).toHaveValue(
     /108 L/,
   );
@@ -359,7 +437,7 @@ test("dialogs close on Escape and restore focus", async ({ page }) => {
     .click();
   await expect(page).toHaveURL(/kategori=filtreler/);
   await expect(filters).toBeFocused();
-  await page.goto("/urun/flow-800");
+  await page.goto("/urun/dis-filtre-secimi");
   const image = page.getByRole("button", { name: "Görseli büyüt" });
   await image.click();
   await expect(page.getByRole("dialog")).toBeVisible();
@@ -390,12 +468,23 @@ for (const width of [360, 390, 768, 1024, 1440]) {
       "/",
       "/urunler?kategori=filtreler",
       "/urunler?kategori=akvaryumlar",
-      "/urun/clear-60",
+      "/urunler?kategori=teraryumlar",
+      "/urunler?kategori=paludaryumlar",
+      "/urun/akvaryum-60x40x40",
       "/teklif",
       "/iletisim",
     ]) {
       await page.goto(route);
       await expect(page.locator("h1")).toBeVisible();
+      if (width < 768) {
+        await expect(page.locator(".sales-bar")).toContainText(
+          "Hazır ölçü akvaryumlar mevcut",
+        );
+        const floatingBox = await page
+          .locator(".floating-whatsapp")
+          .boundingBox();
+        expect(floatingBox?.width).toBeLessThanOrEqual(44);
+      }
       const overflow = await page.evaluate(
         () => document.documentElement.scrollWidth > innerWidth + 1,
       );
@@ -415,11 +504,20 @@ for (const width of [360, 390, 768, 1024, 1440]) {
       await page.evaluate(() =>
         window.scrollTo({ top: 0, behavior: "instant" }),
       );
-      if ([390, 1440].includes(width))
+      if ([390, 1440].includes(width)) {
+        const screenshotSlug =
+          route === "/"
+            ? "home"
+            : route.startsWith("/urunler?")
+              ? new URL(route, "http://localhost").searchParams.get(
+                  "kategori",
+                ) || "urunler"
+              : route.split(/[/?]/)[1];
         await page.screenshot({
-          path: `artifacts/screenshots/${width}-${route === "/" ? "home" : route.includes("akvaryumlar") ? "akvaryumlar" : route.split(/[/?]/)[1]}.png`,
+          path: `artifacts/screenshots/${width}-${screenshotSlug}.png`,
           fullPage: true,
         });
+      }
     }
   });
 }
@@ -427,7 +525,10 @@ for (const route of [
   "/",
   "/urunler?kategori=filtreler",
   "/urunler?kategori=akvaryumlar",
-  "/urun/clear-60",
+  "/urunler?kategori=teraryumlar",
+  "/urunler?kategori=paludaryumlar",
+  "/urun/teraryum-tasarimi",
+  "/urun/akvaryum-60x40x40",
   "/teklif",
   "/iletisim",
 ]) {

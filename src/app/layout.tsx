@@ -7,13 +7,15 @@ import "./globals.css";
 import { getProducts } from "@/lib/repository";
 import { StructuredData } from "@/components/structured-data";
 import { BrandLogo } from "@/components/brand-logo";
+import { Icon } from "@/components/icon";
+import { whatsappLink } from "@/lib/quote";
 export const metadata: Metadata = {
   title: {
     default: `${siteConfig.fullName} — Su altı dünyanıza doğru başlangıç`,
     template: `%s | ${siteConfig.fullName}`,
   },
   description:
-    "Akvaryum ve ekipman seçeneklerini keşfedin, karşılaştırın ve kurulumunuzu planlayın.",
+    "Akvaryum, teraryum, paludaryum ve ekipman seçeneklerini keşfedin, karşılaştırın ve kurulumunuzu planlayın.",
   robots: { index: !siteConfig.demo, follow: !siteConfig.demo },
 };
 export default function RootLayout({
@@ -21,6 +23,10 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const salesWhatsApp = whatsappLink(
+    siteConfig.whatsapp,
+    "Merhaba, DSN Akvaryum ürünleri hakkında bilgi ve sipariş vermek istiyorum.",
+  );
   return (
     <html lang="tr">
       <body>
@@ -61,7 +67,7 @@ export default function RootLayout({
                   </span>
                 </Link>
                 <p>
-                  Su altı dünyanıza
+                  Doğal yaşam alanınıza
                   <br />
                   özenli bir başlangıç.
                 </p>
@@ -85,6 +91,16 @@ export default function RootLayout({
                 {siteConfig.phone && (
                   <a href={siteConfig.phoneHref}>{siteConfig.phone}</a>
                 )}
+                {salesWhatsApp && (
+                  <a
+                    className="footer-whatsapp"
+                    href={salesWhatsApp}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Icon name="whatsapp" size={17} /> WhatsApp’tan yazın
+                  </a>
+                )}
                 {siteConfig.address && (
                   <p className="footer-address">{siteConfig.address}</p>
                 )}
@@ -97,15 +113,22 @@ export default function RootLayout({
               </div>
             </div>
             <div className="container footer-bottom">
-              <span>{siteConfig.fullName}</span>
-              <span>
-                {siteConfig.demo
-                  ? "Yerel demo · Görseller temsilidir · Online satış kapalıdır"
-                  : "Ürün bilgileri için iletişime geçin."}
-              </span>
-              <span>Özenle tasarlandı.</span>
+              <span>© 2026 {siteConfig.fullName}</span>
+              <span>WhatsApp üzerinden bilgi ve sipariş</span>
             </div>
           </footer>
+          {salesWhatsApp && (
+            <a
+              className="floating-whatsapp"
+              href={salesWhatsApp}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="WhatsApp üzerinden bilgi ve sipariş"
+              title="WhatsApp üzerinden bilgi ve sipariş"
+            >
+              <Icon name="whatsapp" size={29} />
+            </a>
+          )}
         </SavedProvider>
       </body>
     </html>

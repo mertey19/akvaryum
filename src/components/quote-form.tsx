@@ -71,7 +71,9 @@ export function QuoteForm({
           for (const [k, v] of data.entries())
             if (String(v).trim()) lines.push(`${k}: ${v}`);
           setSummary(lines.join("\n"));
-          setStatus("Özet hazır. Bilgiler gönderilmedi.");
+          setStatus(
+            "WhatsApp mesajınız hazır. Göndermek için yeşil düğmeyi kullanın.",
+          );
           setTimeout(() => output.current?.focus(), 0);
         }}
       >
@@ -172,13 +174,13 @@ export function QuoteForm({
             {error}
           </p>
         )}
-        <button className="button">
-          Talep özetini oluştur <Icon name="arrow" size={18} />
+        <button className="button whatsapp">
+          WhatsApp mesajını hazırla <Icon name="whatsapp" size={18} />
         </button>
       </form>
       <section className="quote-summary panel">
         <span className="eyebrow">02 / PAYLAŞMAYA HAZIR</span>
-        <h2>Talebinizin özeti.</h2>
+        <h2>WhatsApp mesajınız.</h2>
         {summary ? (
           <>
             <label className="field">
@@ -201,7 +203,7 @@ export function QuoteForm({
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                WhatsApp taslağını aç
+                <Icon name="whatsapp" size={18} /> WhatsApp’tan gönder
               </a>
             )}
           </>
@@ -220,11 +222,12 @@ export function QuoteForm({
         </p>
         <div className="notice">
           {phone
-            ? "WhatsApp bağlantısı yalnızca mesaj taslağını açar. Gönderimi siz yaparsınız."
+            ? "Yeşil düğme WhatsApp'ı hazırladığınız mesajla açar; mesajı kontrol edip gönderin."
             : "Doğrulanmış WhatsApp numarası henüz eklenmedi. Hazırladığınız özeti kopyalayabilirsiniz."}
         </div>
         <p className="muted">
-          Bu adım fiyat garantisi, sipariş veya üretim taahhüdü oluşturmaz.
+          Güncel fiyat, stok, ödeme ve teslimat ayrıntıları WhatsApp
+          görüşmesinde netleştirilir.
         </p>
       </section>
     </div>

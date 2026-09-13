@@ -73,6 +73,7 @@ export default async function ProductPage({
         key={varyant || p.id}
         product={p}
         initialVariant={varyant}
+        whatsapp={siteConfig.whatsapp}
       />
       <div className="related-category">
         <h2>

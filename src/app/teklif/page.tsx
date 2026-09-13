@@ -16,12 +16,10 @@ export default function Page() {
         <h1>Ölçünüzle başlayan bir dünya.</h1>
         <p>Kurulum bilgilerinizi paylaşılabilir bir özete dönüştürün.</p>
       </div>
-      {siteConfig.demo && (
-        <p className="notice">
-          Örnek planlama akışı. DSN Akvaryum’un özel ölçü üretim hizmeti henüz
-          doğrulanmamıştır.
-        </p>
-      )}
+      <p className="notice">
+        Ölçülerinizi girin; hazırlanan mesajı WhatsApp üzerinden sipariş hattına
+        iletin.
+      </p>
       <QuoteForm
         phone={siteConfig.whatsapp}
         min={siteConfig.dimensionLimits.min}

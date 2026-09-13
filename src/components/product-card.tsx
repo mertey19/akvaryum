@@ -20,11 +20,6 @@ export function ProductCard({ product: p }: { product: Product }) {
         <div className="card-save">
           <SaveButton product={p} />
         </div>
-        {p.isDemo && (
-          <span className="image-caption">
-            {hasListPrices ? "TEMSİLİ GÖRSEL" : "ÖRNEK ÜRÜN"}
-          </span>
-        )}
       </div>
       <div className="product-info">
         <div className="product-flags">
@@ -66,7 +61,7 @@ export function ProductCard({ product: p }: { product: Product }) {
         ) : (
           <div className="card-bottom">
             <div>
-              <small>{p.isDemo ? "Örnek fiyat" : "Fiyat"}</small>
+              <small>{p.price === null ? "Fiyat bilgisi" : "Fiyat"}</small>
               <strong>{money(p.price)}</strong>
             </div>
             <SaveButton product={p} kind="compare" />

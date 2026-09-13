@@ -2,128 +2,143 @@ import { aquariumPriceListDate, categories, productSchema } from "./catalog";
 import { siteConfig } from "./config";
 import approvedProducts from "@/data/products.json";
 
-type EquipmentSeed = [
-  originalIndex: number,
-  slug: string,
-  name: string,
-  categoryId: string,
-  price: number | null,
-  specifications: Record<string, string>,
+type InquirySeed = {
+  addedAt: number;
+  slug: string;
+  name: string;
+  categoryId: string;
+  requestCode: string;
+  imageAlt: string;
+  specifications: Record<string, string>;
+  description: string;
+};
+
+const equipmentSeeds: InquirySeed[] = [
+  {
+    addedAt: 1,
+    slug: "dis-filtre-secimi",
+    name: "Dış Filtre Seçimi",
+    categoryId: "filtreler",
+    requestCode: "TALEP-FILTRE-DIS",
+    imageAlt: "Akvaryum filtreleri kategori görseli",
+    specifications: {
+      Tür: "Dış filtre",
+      Model: "WhatsApp görüşmesinde netleştirilir",
+    },
+    description:
+      "Akvaryum hacmi, kurulum biçimi ve bakım ihtiyacına göre dış filtre seçenekleri WhatsApp görüşmesinde değerlendirilir. Marka, model, teknik değer, stok ve fiyat görüşmede paylaşılır.",
+  },
+  {
+    addedAt: 2,
+    slug: "ic-filtre-secimi",
+    name: "İç Filtre Seçimi",
+    categoryId: "filtreler",
+    requestCode: "TALEP-FILTRE-IC",
+    imageAlt: "Akvaryum filtreleri kategori görseli",
+    specifications: {
+      Tür: "İç filtre",
+      Model: "WhatsApp görüşmesinde netleştirilir",
+    },
+    description:
+      "Akvaryum hacmi ve kullanım ihtiyacına göre iç filtre seçenekleri WhatsApp görüşmesinde değerlendirilir. Marka, model, teknik değer, stok ve fiyat görüşmede paylaşılır.",
+  },
+  {
+    addedAt: 3,
+    slug: "akvaryum-aydinlatmasi",
+    name: "Akvaryum Aydınlatması",
+    categoryId: "aydinlatma",
+    requestCode: "TALEP-AYDINLATMA",
+    imageAlt: "Akvaryum aydınlatmaları kategori görseli",
+    specifications: {
+      Kullanım: "Akvaryum kurulumuna göre",
+      Model: "WhatsApp görüşmesinde netleştirilir",
+    },
+    description:
+      "Akvaryum ölçüsü ve kurulum türüne uygun aydınlatma seçenekleri WhatsApp görüşmesinde değerlendirilir. Marka, model, teknik değer, stok ve fiyat görüşmede paylaşılır.",
+  },
+  {
+    addedAt: 4,
+    slug: "akvaryum-mobilyasi",
+    name: "Akvaryum Mobilyası",
+    categoryId: "mobilyalar",
+    requestCode: "TALEP-MOBILYA",
+    imageAlt: "Akvaryum mobilyaları kategori görseli",
+    specifications: {
+      Ölçü: "Akvaryuma göre netleştirilir",
+      Tasarım: "WhatsApp görüşmesinde netleştirilir",
+    },
+    description:
+      "Akvaryum ölçüsü, yerleşim alanı ve dış filtre ihtiyacına göre mobilya talebi WhatsApp görüşmesinde netleştirilir. Malzeme, renk, fiyat ve teslimat kapsamı görüşmede paylaşılır.",
+  },
+  {
+    addedAt: 5,
+    slug: "isitma-sogutma-secimi",
+    name: "Isıtma ve Soğutma Seçimi",
+    categoryId: "isitma",
+    requestCode: "TALEP-ISI",
+    imageAlt: "Akvaryum ısıtma ve soğutma ürünleri kategori görseli",
+    specifications: {
+      Kullanım: "Akvaryum ihtiyacına göre",
+      Model: "WhatsApp görüşmesinde netleştirilir",
+    },
+    description:
+      "Akvaryum hacmi ve hedef sıcaklığa göre ısıtma veya soğutma seçenekleri WhatsApp görüşmesinde değerlendirilir. Teknik değer, stok ve fiyat görüşmede paylaşılır.",
+  },
+  {
+    addedAt: 6,
+    slug: "bakim-dekor-secimi",
+    name: "Bakım ve Dekor Seçimi",
+    categoryId: "bakim-dekor",
+    requestCode: "TALEP-BAKIM-DEKOR",
+    imageAlt: "Akvaryum bakım ve dekor ürünleri kategori görseli",
+    specifications: {
+      Kapsam: "Kurulum ihtiyacına göre",
+      Ürünler: "WhatsApp görüşmesinde netleştirilir",
+    },
+    description:
+      "Bakım ve dekor ihtiyacına uygun seçenekler kurulum bilgileriyle birlikte WhatsApp görüşmesinde değerlendirilir. Ürün kapsamı, stok ve fiyat görüşmede paylaşılır.",
+  },
 ];
 
-const equipmentSeeds: EquipmentSeed[] = [
-  [
-    1,
-    "flow-800",
-    "Flow 800 Dış Filtre",
-    "filtreler",
-    285000,
-    { Debi: "800 L/sa", Güç: "12 W", Tür: "Dış filtre" },
-  ],
-  [
-    2,
-    "line-60",
-    "Line 60 LED Aydınlatma",
-    "aydinlatma",
-    195000,
-    { Uzunluk: "60 cm", Güç: "24 W", Renk: "Siyah" },
-  ],
-  [
-    3,
-    "stand-60",
-    "Stand 60 Akvaryum Dolabı",
-    "mobilyalar",
-    420000,
-    { Genişlik: "60 cm", Renk: "Siyah", Malzeme: "Kaplamalı panel" },
-  ],
-  [
-    5,
-    "flow-1200",
-    "Flow 1200 Dış Filtre",
-    "filtreler",
-    395000,
-    { Debi: "1200 L/sa", Güç: "18 W", Tür: "Dış filtre" },
-  ],
-  [
-    6,
-    "thermo-100",
-    "Thermo 100 Isıtıcı",
-    "isitma",
-    85000,
-    { Güç: "100 W", Tür: "Cam tüp", Uzunluk: "25 cm" },
-  ],
-  [
-    7,
-    "nature-stone",
-    "Nature Dekor Taşı Seti",
-    "bakim-dekor",
-    65000,
-    { Ağırlık: "3 kg", Tür: "Dekor", Renk: "Gri" },
-  ],
-  [
-    10,
-    "flow-500",
-    "Flow 500 Dış Filtre",
-    "filtreler",
-    210000,
-    { Debi: "500 L/sa", Güç: "8 W", Tür: "Dış filtre" },
-  ],
-  [
-    11,
-    "inner-300",
-    "Inner 300 İç Filtre",
-    "filtreler",
-    75000,
-    { Debi: "300 L/sa", Güç: "5 W", Tür: "İç filtre" },
-  ],
-  [
-    12,
-    "line-90",
-    "Line 90 LED Aydınlatma",
-    "aydinlatma",
-    275000,
-    { Uzunluk: "90 cm", Güç: "36 W", Renk: "Siyah" },
-  ],
-  [
-    13,
-    "stand-90",
-    "Stand 90 Akvaryum Dolabı",
-    "mobilyalar",
-    610000,
-    { Genişlik: "90 cm", Renk: "Siyah", Malzeme: "Kaplamalı panel" },
-  ],
-  [
-    14,
-    "thermo-200",
-    "Thermo 200 Isıtıcı",
-    "isitma",
-    115000,
-    { Güç: "200 W", Tür: "Cam tüp", Uzunluk: "30 cm" },
-  ],
-  [
-    15,
-    "nature-plant",
-    "Nature Bitkili Dekor Seti",
-    "bakim-dekor",
-    95000,
-    { Tür: "Dekor", İçerik: "Örnek bitki ve taş kompozisyonu" },
-  ],
-  [
-    16,
-    "line-30",
-    "Line 30 LED Aydınlatma",
-    "aydinlatma",
-    125000,
-    { Uzunluk: "30 cm", Güç: "12 W", Renk: "Siyah" },
-  ],
-  [
-    17,
-    "stand-120",
-    "Stand 120 Akvaryum Dolabı",
-    "mobilyalar",
-    null,
-    { Genişlik: "120 cm", Renk: "Siyah", Malzeme: "Kaplamalı panel" },
-  ],
+type HabitatSeed = {
+  slug: string;
+  name: string;
+  categoryId: "teraryumlar" | "paludaryumlar";
+  requestCode: string;
+  image: string;
+  imageAlt: string;
+  specifications: Record<string, string>;
+};
+
+const habitatSeeds: HabitatSeed[] = [
+  {
+    slug: "teraryum-tasarimi",
+    name: "Teraryum Tasarımı",
+    categoryId: "teraryumlar",
+    requestCode: "TALEP-TERARYUM",
+    image: "/images/terrarium.webp",
+    imageAlt: "Tropik bitkilerle düzenlenmiş cam teraryum kategori görseli",
+    specifications: {
+      Ölçü: "WhatsApp görüşmesinde netleştirilir",
+      "Yaşam alanı": "Karasal düzen",
+      Kapak: "Bilgi alınmalı",
+      Havalandırma: "Bilgi alınmalı",
+    },
+  },
+  {
+    slug: "paludaryum-tasarimi",
+    name: "Paludaryum Tasarımı",
+    categoryId: "paludaryumlar",
+    requestCode: "TALEP-PALUDARYUM",
+    image: "/images/paludarium.webp",
+    imageAlt: "Su ve kara bölümünü birleştiren cam paludaryum kategori görseli",
+    specifications: {
+      Ölçü: "WhatsApp görüşmesinde netleştirilir",
+      "Yaşam alanı": "Su ve kara bölümü",
+      "Su bölümü": "Bilgi alınmalı",
+      Drenaj: "Bilgi alınmalı",
+    },
+  },
 ];
 
 type AquariumPriceRow = {
@@ -135,70 +150,85 @@ type AquariumPriceRow = {
 
 const aquariumPriceRows: AquariumPriceRow[] = [
   {
-    slug: "dsn-30x20x15",
+    slug: "akvaryum-30x20x15",
     dimensions: [30, 20, 15],
     price90: 1000,
     price45: 1200,
   },
-  { slug: "cube-30", dimensions: [30, 30, 30], price90: 1600, price45: 2200 },
   {
-    slug: "dsn-35x35x35",
+    slug: "akvaryum-30x30x30",
+    dimensions: [30, 30, 30],
+    price90: 1600,
+    price45: 2200,
+  },
+  {
+    slug: "akvaryum-35x35x35",
     dimensions: [35, 35, 35],
     price90: 1900,
     price45: 2400,
   },
   {
-    slug: "dsn-40x40x40",
+    slug: "akvaryum-40x40x40",
     dimensions: [40, 40, 40],
     price90: 2400,
     price45: 3050,
   },
   {
-    slug: "dsn-50x30x30",
+    slug: "akvaryum-50x30x30",
     dimensions: [50, 30, 30],
     price90: 2400,
     price45: 3050,
   },
-  { slug: "clear-60", dimensions: [60, 40, 40], price90: 3700, price45: 4200 },
   {
-    slug: "dsn-40x40x30",
+    slug: "akvaryum-60x40x40",
+    dimensions: [60, 40, 40],
+    price90: 3700,
+    price45: 4200,
+  },
+  {
+    slug: "akvaryum-40x40x30",
     dimensions: [40, 40, 30],
     price90: 2250,
     price45: 2600,
   },
   {
-    slug: "dsn-40x30x20",
+    slug: "akvaryum-40x30x20",
     dimensions: [40, 30, 20],
     price90: 1650,
     price45: 2100,
   },
   {
-    slug: "dsn-70x40x40",
+    slug: "akvaryum-70x40x40",
     dimensions: [70, 40, 40],
     price90: 5000,
     price45: 6150,
   },
   {
-    slug: "dsn-80x40x40",
+    slug: "akvaryum-80x40x40",
     dimensions: [80, 40, 40],
     price90: 5200,
     price45: 6300,
   },
-  { slug: "clear-90", dimensions: [90, 45, 45], price90: 7950, price45: 9900 },
   {
-    slug: "dsn-100x50x45",
+    slug: "akvaryum-90x45x45",
+    dimensions: [90, 45, 45],
+    price90: 7950,
+    price45: 9900,
+  },
+  {
+    slug: "akvaryum-100x50x45",
     dimensions: [100, 50, 45],
     price90: 8400,
     price45: 10500,
   },
   {
-    slug: "clear-120",
+    slug: "akvaryum-120x50x45",
     dimensions: [120, 50, 45],
     price90: 9100,
     price45: 10800,
   },
   {
-    slug: "dsn-150x50x40",
+    slug: "akvaryum-150x50x40",
     dimensions: [150, 50, 40],
     price90: 12000,
     price45: 13100,
@@ -217,8 +247,8 @@ function grossVolumeLabel([
 const aquariumProducts = aquariumPriceRows.map((row, index) => {
   const [width, depth, height] = row.dimensions;
   const dimensions = `${width} × ${depth} × ${height}`;
-  const dimensionSku = `${width}${depth}${height}`;
-  const baseSku = `DEMO-DSN-${dimensionSku}`;
+  const dimensionSku = `${width}X${depth}X${height}`;
+  const baseSku = `AKV-${dimensionSku}`;
   const specifications = {
     Cam: siteConfig.aquariumGlass,
     Ölçü: `${dimensions} cm`,
@@ -236,7 +266,7 @@ const aquariumProducts = aquariumPriceRows.map((row, index) => {
     gtin: null,
     description: `${dimensions} cm ölçüsündeki DSN akvaryumun 90° ve 45° fiyat seçenekleri sağlanan fiyat listesindeki tutarlardan aktarılmıştır. DSN Akvaryum üretiminde ${siteConfig.aquariumGlass} kullanır. Cam kalınlığı, stok, hazırlık süresi ve paket içeriği teklif aşamasında netleştirilir.`,
     images: ["/images/products.webp"],
-    imageAlt: `${dimensions} cm ölçülü boş cam akvaryum için temsili kategori görseli`,
+    imageAlt: "Boş cam akvaryum kategori görseli",
     image: categories.find((category) => category.id === "akvaryumlar")!.image,
     specifications,
     variants: [
@@ -265,55 +295,82 @@ const aquariumProducts = aquariumPriceRows.map((row, index) => {
     stockQuantity: null,
     leadTime: null,
     priceListDate: aquariumPriceListDate,
-    deliveryType: "ozel",
+    deliveryType: "bilgi",
     saleMode: "quote",
     published: true,
     isDemo: true,
     addedAt: 100 + index,
-    packageContents:
-      "Paket içeriği doğrulanmamıştır; teklif aşamasında netleştirilmelidir.",
+    packageContents: "Paket içeriği WhatsApp görüşmesinde netleştirilir.",
   });
 });
 
-const equipmentProducts = equipmentSeeds.map(
-  ([originalIndex, slug, name, categoryId, price, specifications]) =>
-    productSchema.parse({
-      id: slug,
-      slug,
-      name,
-      categoryId,
-      brand: originalIndex % 3 === 0 ? "Atölye · demo" : "Studio · demo",
-      sku: `DEMO-${String(originalIndex + 1).padStart(3, "0")}`,
-      gtin: null,
-      description: `${name}, katalog deneyimini göstermek için hazırlanmış örnek bir üründür. ${categoryId === "mobilyalar" ? "Dış filtre yerleşimi kurulum planında ayrıca değerlendirilmelidir. " : ""}Teknik değerler, fiyat ve stok gerçek bir satış teklifi değildir. Ürün seçerken doğrulanmış ürün bilgilerini esas alın.`,
-      images: ["/images/products.webp"],
-      imageAlt: `${name} için temsili ürün görseli`,
-      image: categories.find((category) => category.id === categoryId)!.image,
-      specifications,
-      variants: [],
-      price,
-      currency: "TRY",
-      stockStatus:
-        originalIndex === 10
-          ? "tukendi"
-          : price === null
-            ? "bilgi"
-            : originalIndex % 4 === 0
-              ? "siparis"
-              : "stokta",
-      stockQuantity: originalIndex === 10 ? 0 : null,
-      leadTime: null,
-      deliveryType: categoryId === "mobilyalar" ? "ozel" : "standart",
-      saleMode: "quote",
-      published: true,
-      isDemo: true,
-      addedAt: originalIndex,
-      packageContents:
-        "Paket içeriği bu demo için doğrulanmamıştır; teklif aşamasında netleştirilmelidir.",
-    }),
+const equipmentProducts = equipmentSeeds.map((seed) =>
+  productSchema.parse({
+    id: seed.slug,
+    slug: seed.slug,
+    name: seed.name,
+    categoryId: seed.categoryId,
+    brand: siteConfig.fullName,
+    sku: seed.requestCode,
+    gtin: null,
+    description: seed.description,
+    images: ["/images/products.webp"],
+    imageAlt: seed.imageAlt,
+    image: categories.find((category) => category.id === seed.categoryId)!
+      .image,
+    specifications: seed.specifications,
+    variants: [],
+    price: null,
+    currency: "TRY",
+    stockStatus: "bilgi",
+    stockQuantity: null,
+    leadTime: null,
+    deliveryType: "bilgi",
+    saleMode: "quote",
+    published: true,
+    isDemo: true,
+    addedAt: seed.addedAt,
+    packageContents:
+      "Paket içeriği ve uyumlu ek parçalar WhatsApp görüşmesinde netleştirilir.",
+  }),
 );
 
-const demoProducts = [...aquariumProducts, ...equipmentProducts];
+const habitatProducts = habitatSeeds.map((seed, index) =>
+  productSchema.parse({
+    id: seed.slug,
+    slug: seed.slug,
+    name: seed.name,
+    categoryId: seed.categoryId,
+    brand: siteConfig.fullName,
+    sku: seed.requestCode,
+    gtin: null,
+    description: `${seed.name} için ölçü, cam tipi, kapak, havalandırma, drenaj, su bölümü ve canlı uyumu WhatsApp görüşmesinde netleştirilir.`,
+    images: [seed.image],
+    imageAlt: seed.imageAlt,
+    image: 0,
+    specifications: seed.specifications,
+    variants: [],
+    price: null,
+    currency: "TRY",
+    stockStatus: "bilgi",
+    stockQuantity: null,
+    leadTime: null,
+    priceListDate: null,
+    deliveryType: "bilgi",
+    saleMode: "quote",
+    published: true,
+    isDemo: true,
+    addedAt: 200 + index,
+    packageContents:
+      "Bitki, dekor ve ekipman kapsamı WhatsApp görüşmesinde netleştirilir.",
+  }),
+);
+
+const demoProducts = [
+  ...aquariumProducts,
+  ...habitatProducts,
+  ...equipmentProducts,
+];
 
 // Replace with validated, approved data from a repository or CMS. Demo data is excluded in live mode.
 export function getProducts() {

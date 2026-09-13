@@ -9,7 +9,7 @@ const projects = [
     type: "Bitkili konsept",
     image: "/images/hero.webp",
     description:
-      "Bitki ve kök dokularıyla hazırlanmış, yapay zekâ ile üretilmiş bir atmosfer çalışması. Gerçek müşteri projesi değildir.",
+      "Bitki, kaya ve doğal kök dokularını dengeli bir kompozisyonda buluşturan kurulum ilhamı.",
     permission: "generated-demo",
   },
 ];
@@ -50,7 +50,7 @@ export function Projects() {
             >
               <Image
                 src={p.image}
-                alt="Bitkili akvaryum konsepti, üretilmiş örnek"
+                alt="Bitkiler ve doğal kökle düzenlenmiş akvaryum"
                 width={1536}
                 height={1024}
                 sizes="(max-width: 768px) 100vw, 70vw"
@@ -73,11 +73,11 @@ export function Projects() {
         </button>
         <Image
           src="/images/hero.webp"
-          alt="Bitkili konsept, temsili görsel"
+          alt="Bitkiler ve doğal kökle düzenlenmiş akvaryum"
           width={1536}
           height={1024}
         />
-        <p>Üretilmiş konsept · Gerçek müşteri işi değildir.</p>
+        <p>Bitkili akvaryum kurulum ilhamı</p>
       </dialog>
     </>
   );

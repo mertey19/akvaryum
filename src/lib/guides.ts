@@ -30,7 +30,7 @@ export const guides = [
     sections: [
       [
         "Ürünün kendi bilgisiyle başlayın",
-        "Debi, güç, filtre tipi ve üreticinin önerdiği kullanım aralığını ayrı ayrı inceleyin. Buradaki örnek katalog verileri gerçek üretici önerisi değildir.",
+        "Debi, güç, filtre tipi ve üreticinin önerdiği kullanım aralığını ayrı ayrı inceleyin. Model seçerken üreticinin güncel teknik belgesini esas alın.",
       ],
       [
         "Yerleşimi önceden düşünün",

@@ -13,8 +13,8 @@ export default function Page() {
         <span className="eyebrow">İLHAM ALANI</span>
         <h1>Bir dünyayı hayal etmek.</h1>
         <p>
-          Bu önizlemede yalnızca üretilmiş konsept görselleri bulunur. İzinli
-          müşteri projeleri henüz eklenmedi.
+          Bitkili akvaryum düzenleri için renk, doku ve kompozisyon fikirlerini
+          keşfedin.
         </p>
       </div>
       <Projects />

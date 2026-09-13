@@ -2,13 +2,38 @@ import { z } from "zod";
 
 export const aquariumPriceListDate = "18.04.2026";
 
-export const categories = [
+export type Category = {
+  id: string;
+  name: string;
+  subtitle: string;
+  image: number;
+  imageSrc?: string;
+  family: "akvaryum" | "habitat" | "ekipman" | "bakim";
+};
+
+export const categories: readonly Category[] = [
   {
     id: "akvaryumlar",
     name: "Akvaryumlar",
     subtitle: "Her dünyaya bir başlangıç",
     image: 0,
     family: "akvaryum",
+  },
+  {
+    id: "teraryumlar",
+    name: "Teraryumlar",
+    subtitle: "Karasal yaşam için doğal ortam",
+    image: 0,
+    imageSrc: "/images/terrarium.webp",
+    family: "habitat",
+  },
+  {
+    id: "paludaryumlar",
+    name: "Paludaryumlar",
+    subtitle: "Su ve karanın buluştuğu dünya",
+    image: 0,
+    imageSrc: "/images/paludarium.webp",
+    family: "habitat",
   },
   {
     id: "filtreler",
@@ -47,6 +72,12 @@ export const categories = [
   },
 ] as const;
 const stockSchema = z.enum(["stokta", "siparis", "tukendi", "bilgi"]);
+const categoryIdSchema = z
+  .string()
+  .refine(
+    (categoryId) => categories.some((category) => category.id === categoryId),
+    "Tanımlı bir kategori kullanılmalı",
+  );
 const variantSchema = z.object({
   id: z.string(),
   name: z.string(),
@@ -62,12 +93,12 @@ export const productSchema = z
     id: z.string(),
     slug: z.string(),
     name: z.string(),
-    categoryId: z.string(),
+    categoryId: categoryIdSchema,
     brand: z.string(),
     sku: z.string(),
     gtin: z.string().nullable(),
     description: z.string(),
-    images: z.array(z.string()),
+    images: z.array(z.string()).min(1),
     imageAlt: z.string(),
     image: z.number().int(),
     specifications: z.record(z.string(), z.string()),
@@ -78,7 +109,7 @@ export const productSchema = z
     stockQuantity: z.number().int().nonnegative().nullable(),
     leadTime: z.string().nullable(),
     priceListDate: z.string().nullable().default(null),
-    deliveryType: z.enum(["standart", "ozel", "magaza"]),
+    deliveryType: z.enum(["standart", "ozel", "magaza", "bilgi"]),
     saleMode: z.literal("quote"),
     published: z.boolean(),
     isDemo: z.boolean(),
@@ -109,6 +140,7 @@ export const deliveryLabels = {
   standart: "Standart kargo",
   ozel: "Özel nakliye",
   magaza: "Mağazadan teslim",
+  bilgi: "Teslimat bilgisi alınmalı",
 };
 export function money(value: number | null) {
   return value === null
@@ -124,7 +156,9 @@ export function normalize(value: string) {
     .toLocaleLowerCase("tr-TR")
     .replace(/ı/g, "i")
     .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\b(?:paladaryum|paludarium)\b/g, "paludaryum")
+    .replace(/\b(?:terrarium|terraryum)\b/g, "teraryum");
 }
 export function relevance(p: Product, q: string) {
   const term = normalize(q.trim());

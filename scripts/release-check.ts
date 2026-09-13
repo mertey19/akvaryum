@@ -9,13 +9,14 @@ if (!siteConfig.phone && !siteConfig.email && !siteConfig.whatsapp)
   issues.push("Doğrulanmış iletişim kanalı eksik.");
 const real = getProducts().filter((p) => !p.isDemo);
 if (!real.length) issues.push("Onaylı, yayındaki gerçek ürün bulunmuyor.");
+const demoImages = new Set([
+  "/images/products.webp",
+  "/images/hero.webp",
+  "/images/terrarium.webp",
+  "/images/paludarium.webp",
+]);
 if (
-  real.some((p) =>
-    p.images.some(
-      (image) =>
-        image === "/images/products.webp" || image === "/images/hero.webp",
-    ),
-  )
+  real.some((product) => product.images.some((image) => demoImages.has(image)))
 )
   issues.push("Gerçek ürünlerde temsili demo görselleri kullanılamaz.");
 if (issues.length) {

@@ -5,6 +5,8 @@ import { ProductCard } from "@/components/product-card";
 import { Filters } from "@/components/filters";
 import { meta } from "@/lib/seo";
 import { siteConfig } from "@/lib/config";
+import { Icon } from "@/components/icon";
+import { whatsappLink } from "@/lib/quote";
 export async function generateMetadata({
   searchParams,
 }: {
@@ -16,7 +18,7 @@ export async function generateMetadata({
       q.q
         ? `${q.q} araması`
         : categories.find((c) => c.id === q.kategori)?.name || "Ürün kataloğu",
-      "Akvaryumları, filtreleri ve ekipmanları teknik özelliklere göre inceleyin.",
+      "Akvaryum, teraryum, paludaryum ve ekipman seçeneklerini teknik özelliklere göre inceleyin.",
       "/urunler",
     ),
     robots: { index: false, follow: false },
@@ -38,6 +40,10 @@ export default async function Catalog({
   const priceListDate = all.find(
     (product) => product.categoryId === "akvaryumlar" && product.priceListDate,
   )?.priceListDate;
+  const readyWhatsApp = whatsappLink(
+    siteConfig.whatsapp,
+    "Merhaba, hazır ölçü akvaryumlar hakkında güncel ölçü, fiyat ve stok bilgisi almak istiyorum.",
+  );
   const technical = q.kategori
     ? [
         ...new Set(
@@ -77,9 +83,19 @@ export default async function Catalog({
               {`${siteConfig.aquariumGlass} ile üretilen akvaryumları ölçülerine göre inceleyin. 90° ve 45° seçenek fiyatları${priceListDate ? `, sağlanan ${priceListDate} tarihli listeden aktarılmıştır` : " birlikte gösterilir"}.`}
             </p>
             <small>
-              Güncel tutar, stok ve üretim ayrıntıları teklif öncesinde teyit
-              edilir.
+              Hazır ölçü akvaryumlar mevcuttur. Güncel tutar ve stok WhatsApp
+              üzerinden teyit edilir.
             </small>
+            {readyWhatsApp && (
+              <a
+                className="button whatsapp catalog-whatsapp"
+                href={readyWhatsApp}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Icon name="whatsapp" size={18} /> Hazır ölçüler için yazın
+              </a>
+            )}
           </div>
           <dl aria-label="Akvaryum koleksiyonu özeti">
             <div>
@@ -98,7 +114,7 @@ export default async function Catalog({
         </section>
       ) : (
         <div className="page-heading">
-          <span className="eyebrow">DÜNYANIZI TAMAMLAYIN</span>
+          <span className="eyebrow">YAŞAM ALANINIZI TAMAMLAYIN</span>
           <h1>
             {q.q ? `“${q.q}” için sonuçlar` : cat?.name || "Ürün kataloğu"}
           </h1>

@@ -11,12 +11,15 @@ import {
 import { ProductImage } from "./product-image";
 import { SaveButton } from "./saved";
 import { Icon } from "./icon";
+import { whatsappLink } from "@/lib/quote";
 export function ProductDetail({
   product: p,
   initialVariant = "",
+  whatsapp,
 }: {
   product: Product;
   initialVariant?: string;
+  whatsapp: string;
 }) {
   const priceOptions = aquariumPriceOptions(p);
   const hasListPrices = priceOptions.length === 2;
@@ -31,6 +34,8 @@ export function ProductDetail({
   const [photo, setPhoto] = useState(0);
   const selected = p.variants.find((v) => v.id === variant);
   const current = selected ? { ...p, ...selected } : p;
+  const canOrder = p.categoryId === "akvaryumlar" && Boolean(p.priceListDate);
+  const codeLabel = canOrder ? "Seçim kodu" : "Talep kodu";
   const dialog = useRef<HTMLDialogElement>(null);
   const opener = useRef<HTMLButtonElement>(null);
   function close() {
@@ -38,6 +43,16 @@ export function ProductDetail({
     opener.current?.focus();
   }
   const quoteHref = `/iletisim?urun=${p.slug}${selected ? `&varyant=${selected.id}` : ""}`;
+  const orderHref = whatsappLink(
+    whatsapp,
+    [
+      `Merhaba, ${p.name}${selected ? ` · ${selected.name}` : ""} için ${canOrder ? "bilgi alıp sipariş vermek" : "bilgi almak"} istiyorum.`,
+      `${codeLabel}: ${current.sku}`,
+      ...Object.entries(current.specifications).map(
+        ([label, value]) => `${label}: ${value}`,
+      ),
+    ].join("\n"),
+  );
   return (
     <>
       <div className="detail-grid">
@@ -72,12 +87,6 @@ export function ProductDetail({
               ))}
             </div>
           )}
-          {p.isDemo && (
-            <p className="muted">
-              Temsili ürün görseli · Ürün ölçüsü ve seçeneği görselde birebir
-              gösterilmez.
-            </p>
-          )}
         </div>
         <div className="detail-info">
           <span className="eyebrow">{p.brand}</span>
@@ -92,8 +101,7 @@ export function ProductDetail({
               {stockLabels[current.stockStatus]}
             </span>
             <span>
-              {p.isDemo ? "Demo referansı" : "SKU"}:{" "}
-              <b data-testid="sku">{current.sku}</b>
+              {codeLabel}: <b data-testid="sku">{current.sku}</b>
             </span>
           </div>
           <p className="detail-intro">
@@ -105,8 +113,8 @@ export function ProductDetail({
             <small>
               {hasListPrices
                 ? `${p.priceListDate} fiyat listesi · ${selected?.name || priceOptions[0].name} seçeneği`
-                : p.isDemo
-                  ? "Örnek fiyat · satış teklifi değildir"
+                : current.price === null
+                  ? "Fiyat teklif öncesinde netleştirilir"
                   : "Fiyat"}
             </small>
             <strong>{money(current.price)}</strong>
@@ -169,8 +177,21 @@ export function ProductDetail({
             </div>
           </div>
           <div className="detail-actions">
-            <Link className="button" href={quoteHref}>
-              Bu Ürün İçin Bilgi Al <Icon name="arrow" size={18} />
+            {orderHref && (
+              <a
+                className="button whatsapp"
+                href={orderHref}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Icon name="whatsapp" size={19} />
+                {canOrder
+                  ? "WhatsApp’tan Sipariş Ver"
+                  : "WhatsApp’tan Bilgi Al"}
+              </a>
+            )}
+            <Link className="button secondary" href={quoteHref}>
+              Detaylı talep hazırla
             </Link>
             <SaveButton product={p} variant={selected?.id} />
             <SaveButton product={p} variant={selected?.id} kind="compare" />
@@ -192,7 +213,7 @@ export function ProductDetail({
                 </tr>
               ))}
               <tr>
-                <th scope="row">{p.isDemo ? "Demo referansı" : "SKU"}</th>
+                <th scope="row">{codeLabel}</th>
                 <td>{current.sku}</td>
               </tr>
               {p.gtin && (
@@ -262,10 +283,7 @@ export function ProductDetail({
             </button>
           </div>
         )}
-        <p>
-          {p.name}
-          {p.isDemo ? " — temsili görsel" : ""}
-        </p>
+        <p>{p.name}</p>
       </dialog>
     </>
   );

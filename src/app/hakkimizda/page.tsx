@@ -16,9 +16,9 @@ export default function Page() {
         Akvaryumlarımızı üretirken {siteConfig.aquariumGlass} kullanıyoruz.
       </p>
       <p>
-        Bu katalog, akvaryum ve ekipman seçeneklerini incelemek, teknik
-        detayları karşılaştırmak ve bir bilgi talebi hazırlamak için
-        oluşturuldu.
+        Bu katalog, akvaryum, teraryum, paludaryum ve ekipman seçeneklerini
+        incelemek, teknik detayları karşılaştırmak ve bir bilgi talebi
+        hazırlamak için oluşturuldu.
       </p>
       <p>
         Özel ölçü kapsamı, hizmet bölgesi ve işletme geçmişi hakkında onaylanmış

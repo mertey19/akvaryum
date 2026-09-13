@@ -8,13 +8,18 @@ import { ProductImage } from "@/components/product-image";
 import { Icon } from "@/components/icon";
 import { guides } from "@/lib/guides";
 import { meta } from "@/lib/seo";
+import { whatsappLink } from "@/lib/quote";
 export const metadata = meta(
   "Su altı dünyanıza doğru başlangıç",
-  "Akvaryumları ve ekipmanları keşfedin. Ürünleri karşılaştırın, kendi kurulumunuz için bir talep hazırlayın.",
+  "Akvaryum, teraryum, paludaryum ve ekipman seçeneklerini keşfedin. Ürünleri karşılaştırın, kendi kurulumunuz için bir talep hazırlayın.",
   "/",
 );
 export default function Home() {
   const products = getProducts();
+  const salesWhatsApp = whatsappLink(
+    siteConfig.whatsapp,
+    "Merhaba, hazır ölçü akvaryumlar ve sipariş seçenekleri hakkında bilgi almak istiyorum.",
+  );
   const categoryLeads = categories.flatMap((category) => {
     const product = products.find((item) => item.categoryId === category.id);
     return product ? [product] : [];
@@ -29,7 +34,7 @@ export default function Home() {
       <section className="hero">
         <Image
           src="/images/hero.webp"
-          alt="Bitkiler ve doğal köklerle düzenlenmiş cam akvaryum; üretilmiş atmosfer görseli"
+          alt="Bitkiler ve doğal köklerle düzenlenmiş cam akvaryum"
           fill
           priority
           sizes="100vw"
@@ -44,26 +49,49 @@ export default function Home() {
           <p className="hero-intro">
             <strong>Su altı dünyanıza doğru başlangıç.</strong>
             <span>
-              İlk kurulumdan yeni bir dünyaya; akvaryumunuzu, ekipmanınızı ve
-              ilhamınızı keşfedin.
+              Akvaryum, teraryum ve paludaryum seçenekleriyle ekipmanları ve
+              ilhamı keşfedin.
             </span>
           </p>
           <div className="actions">
             <Link className="button" href="/urunler?kategori=akvaryumlar">
               Akvaryum fiyatlarını incele <Icon name="arrow" size={19} />
             </Link>
-            <Link className="button ghost" href="/iletisim">
-              İletişime Geç
-            </Link>
+            {salesWhatsApp && (
+              <a
+                className="button whatsapp"
+                href={salesWhatsApp}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Icon name="whatsapp" size={19} /> WhatsApp’tan Sipariş
+              </a>
+            )}
           </div>
-          <span className="hero-note">
-            Görsel, marka atmosferi için üretilmiş bir örnektir.
-          </span>
         </div>
         <div className="hero-index">
           01 <span>/</span> KEŞFETMEYE BAŞLAYIN
         </div>
       </section>
+      {salesWhatsApp && (
+        <section className="ready-stock container">
+          <div>
+            <Icon name="box" size={26} />
+            <span>
+              <strong>Hazır ölçü akvaryumlar mevcut</strong>
+              Güncel ölçü, fiyat ve stok bilgisini WhatsApp üzerinden alın.
+            </span>
+          </div>
+          <a
+            className="button whatsapp"
+            href={salesWhatsApp}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Icon name="whatsapp" size={19} /> WhatsApp’tan bilgi alın
+          </a>
+        </section>
+      )}
       <div className="value-strip container">
         <div>
           <Icon name="water" />
@@ -99,7 +127,8 @@ export default function Home() {
               >
                 <ProductImage
                   tile={c.image}
-                  alt={`${c.name}, temsili kategori görseli`}
+                  alt={`${c.name} kategori görseli`}
+                  src={c.imageSrc}
                 />
                 <h3>{c.name}</h3>
                 <span>{c.subtitle}</span>
@@ -136,7 +165,7 @@ export default function Home() {
         <div className="intent-photo">
           <Image
             src="/images/hero.webp"
-            alt="Bitkili akvaryum konsepti; temsili görsel"
+            alt="Bitkiler ve doğal kökle düzenlenmiş akvaryum"
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
           />
@@ -150,16 +179,18 @@ export default function Home() {
             bir kurulum.
           </h2>
           <p>
-            Yeni bir akvaryum mu kuruyorsunuz, mevcut sisteminizi mi
+            Yeni bir yaşam alanı mı kuruyorsunuz, mevcut sisteminizi mi
             tamamlıyorsunuz? İhtiyacınız olan yerden başlayın.
           </p>
           <p className="verified-material">
             {`DSN Akvaryum, ürettiği akvaryumlarda ${siteConfig.aquariumGlass} kullanır.`}
           </p>
-          <Link href="/urunler?kategori=akvaryumlar">
+          <Link href="/urunler">
             <span>
-              <strong>Yeni bir dünya kuruyorum</strong>
-              <small>Akvaryumları ve ölçü seçeneklerini keşfedin.</small>
+              <strong>Yeni bir yaşam alanı kuruyorum</strong>
+              <small>
+                Akvaryum, teraryum ve paludaryum seçeneklerini keşfedin.
+              </small>
             </span>
             <Icon name="arrow" />
           </Link>
@@ -190,8 +221,7 @@ export default function Home() {
               Ölçülerinizi planlayın <Icon name="arrow" size={18} />
             </Link>
             <small>
-              Örnek planlama aracı · Özel ölçü üretim hizmeti henüz
-              doğrulanmamıştır.
+              Ölçülerinizi hazırlayın ve WhatsApp üzerinden paylaşın.
             </small>
           </div>
           <div className="measure-type">
@@ -240,8 +270,16 @@ export default function Home() {
           <details>
             <summary>Buradan online sipariş verebilir miyim?</summary>
             <p>
-              Bu önizleme bir ürün kataloğudur. Ödeme veya sipariş alma işlemi
-              yapılmaz. Ürün sayfasından bilgi talebinizi hazırlayabilirsiniz.
+              Ürün sayfasındaki yeşil düğmeyle WhatsApp üzerinden fiyat ve stok
+              teyidi alıp siparişinizi başlatabilirsiniz. Ödeme ve teslimat
+              ayrıntıları görüşmede netleştirilir.
+            </p>
+          </details>
+          <details>
+            <summary>Hazır ölçü akvaryumlar mevcut mu?</summary>
+            <p>
+              Evet. Güncel hazır ölçü seçenekleri ve stok durumu için WhatsApp
+              sipariş hattından bilgi alabilirsiniz.
             </p>
           </details>
           <details>

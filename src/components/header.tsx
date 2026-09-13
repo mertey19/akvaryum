@@ -6,13 +6,15 @@ import { Icon } from "./icon";
 import { SavedNav } from "./saved";
 import { BrandLogo } from "./brand-logo";
 import { siteConfig } from "@/lib/config";
-import { aquariumPriceListDate } from "@/lib/catalog";
+import { whatsappLink } from "@/lib/quote";
 type Suggestion = { name: string; href: string; type: string };
 const groups = [
   {
-    name: "Akvaryumlar",
+    name: "Yaşam Alanları",
     links: [
-      ["Tüm akvaryumlar", "akvaryumlar"],
+      ["Akvaryumlar", "akvaryumlar"],
+      ["Teraryumlar", "teraryumlar"],
+      ["Paludaryumlar", "paludaryumlar"],
       ["Akvaryum mobilyaları", "mobilyalar"],
     ],
   },
@@ -95,19 +97,23 @@ export function Header({
       links: g.links.filter(([, id]) => activeCategories.includes(id)),
     }))
     .filter((g) => g.links.length);
+  const salesWhatsApp = whatsappLink(
+    siteConfig.whatsapp,
+    "Merhaba, DSN Akvaryum ürünleri hakkında bilgi ve sipariş vermek istiyorum.",
+  );
   const showResults = searchOpen && q.trim().length > 0;
   return (
     <>
       <a className="skip-link" href="#main">
         İçeriğe geç
       </a>
-      {demo && (
-        <div className="demo-bar">
-          <span>{siteConfig.brandLabel} · TASARIM ÖNİZLEMESİ</span>
-          <span>
-            Temsili ürün görselleri · Fiyat listesi {aquariumPriceListDate} ·
-            Online satışa açık değildir
-          </span>
+      {salesWhatsApp && (
+        <div className="sales-bar">
+          <span>Hazır ölçü akvaryumlar mevcut</span>
+          <a href={salesWhatsApp} target="_blank" rel="noopener noreferrer">
+            <Icon name="whatsapp" size={15} /> WhatsApp üzerinden bilgi ve
+            sipariş · {siteConfig.phone}
+          </a>
         </div>
       )}
       <header className="site-header">
@@ -148,7 +154,7 @@ export function Header({
             <input
               aria-label="Ürün ara"
               name="q"
-              placeholder="Akvaryumunuz için ne arıyorsunuz?"
+              placeholder="Akvaryum, teraryum veya paludaryum arayın"
               value={q}
               role="combobox"
               aria-autocomplete="list"
@@ -271,13 +277,18 @@ export function Header({
               )}
             </div>
           ))}
-          {demo && <Link href="/projeler">Projeler</Link>}
+          {demo && <Link href="/projeler">İlham</Link>}
           <Link href="/rehber">Rehber</Link>
           <Link href="/iletisim">İletişim</Link>
-          {canPlan && (
-            <Link href="/teklif" className="nav-quote">
-              Ölçünüzü planlayın <Icon name="arrow" size={17} />
-            </Link>
+          {salesWhatsApp && (
+            <a
+              href={salesWhatsApp}
+              className="nav-quote whatsapp-nav"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Icon name="whatsapp" size={17} /> WhatsApp Sipariş
+            </a>
           )}
         </nav>
       </header>
@@ -307,6 +318,17 @@ export function Header({
               ))}
             </details>
           ))}
+          {salesWhatsApp && (
+            <a
+              className="mobile-whatsapp"
+              href={salesWhatsApp}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={closeMobile}
+            >
+              <Icon name="whatsapp" size={19} /> WhatsApp’tan Sipariş
+            </a>
+          )}
           {[
             ["Tüm ürünler", "/urunler"],
             ["Rehber", "/rehber"],

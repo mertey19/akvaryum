@@ -6,7 +6,7 @@ const results = [];
 for (const [name, path] of [
   ["home", "/"],
   ["catalog", "/urunler?kategori=filtreler"],
-  ["product", "/urun/clear-60"],
+  ["product", "/urun/akvaryum-60x40x40"],
 ]) {
   const chrome = await chromium.launch({
     headless: true,
