@@ -1,0 +1,251 @@
+import Image from "next/image";
+import Link from "next/link";
+import { categories } from "@/lib/catalog";
+import { getProducts } from "@/lib/repository";
+import { siteConfig } from "@/lib/config";
+import { ProductCard } from "@/components/product-card";
+import { ProductImage } from "@/components/product-image";
+import { Icon } from "@/components/icon";
+import { guides } from "@/lib/guides";
+import { meta } from "@/lib/seo";
+export const metadata = meta(
+  "Su altı dünyanıza doğru başlangıç",
+  "Akvaryumları ve ekipmanları keşfedin. Ürünleri karşılaştırın, kendi kurulumunuz için bir talep hazırlayın.",
+  "/",
+);
+export default function Home() {
+  const products = getProducts();
+  return (
+    <>
+      <section className="hero">
+        <Image
+          src="/images/hero.webp"
+          alt="Bitkiler ve doğal köklerle düzenlenmiş cam akvaryum; üretilmiş atmosfer görseli"
+          fill
+          priority
+          sizes="100vw"
+        />
+        <div className="hero-shade" />
+        <div className="container hero-content">
+          <span className="eyebrow light">BİR AKVARYUMDAN DAHA FAZLASI</span>
+          <h1>
+            Su altı dünyanıza
+            <br />
+            doğru başlangıç.
+          </h1>
+          <p>
+            İlk kurulumdan yeni bir dünyaya.
+            <br />
+            Akvaryumunuzu, ekipmanınızı ve ilhamınızı keşfedin.
+          </p>
+          <div className="actions">
+            <Link className="button" href="/urunler">
+              Ürünleri İncele <Icon name="arrow" size={19} />
+            </Link>
+            <Link className="button ghost" href="/iletisim">
+              İletişime Geç
+            </Link>
+          </div>
+          <span className="hero-note">
+            Görsel, marka atmosferi için üretilmiş bir örnektir.
+          </span>
+        </div>
+        <div className="hero-index">
+          01 <span>/</span> KEŞFETMEYE BAŞLAYIN
+        </div>
+      </section>
+      <div className="value-strip container">
+        <div>
+          <Icon name="water" />
+          <span>Yaşam alanınıza uygun seçenekler</span>
+        </div>
+        <div>
+          <Icon name="compare" />
+          <span>Karşılaştırılabilir teknik detaylar</span>
+        </div>
+        <div>
+          <Icon name="box" />
+          <span>İhtiyacınıza göre teklif hazırlığı</span>
+        </div>
+      </div>
+      <section className="section container">
+        <div className="section-heading">
+          <div>
+            <span className="eyebrow">DÜNYANIZI OLUŞTURUN</span>
+            <h2>Nereden başlamak istersiniz?</h2>
+          </div>
+          <Link className="text-link" href="/urunler">
+            Tüm kategoriler <Icon name="arrow" size={18} />
+          </Link>
+        </div>
+        <div className="category-grid">
+          {categories
+            .filter((c) => products.some((p) => p.categoryId === c.id))
+            .map((c) => (
+              <Link
+                className="category-card"
+                key={c.id}
+                href={`/urunler?kategori=${c.id}`}
+              >
+                <ProductImage
+                  tile={c.image}
+                  alt={`${c.name}, temsili kategori görseli`}
+                />
+                <h3>{c.name}</h3>
+                <span>{c.subtitle}</span>
+              </Link>
+            ))}
+        </div>
+      </section>
+      <section className="section soft">
+        <div className="container">
+          <div className="section-heading">
+            <div>
+              <span className="eyebrow">KATALOĞA YAKINDAN BAKIN</span>
+              <h2>Keşfetmeye değer seçenekler</h2>
+            </div>
+            <Link className="text-link" href="/urunler">
+              Tüm ürünleri gör <Icon name="arrow" size={18} />
+            </Link>
+          </div>
+          {products.length ? (
+            <div className="product-grid home-products">
+              {products.slice(0, 8).map((p) => (
+                <ProductCard key={p.id} product={p} />
+              ))}
+            </div>
+          ) : (
+            <p>
+              Onaylanmış ürün bilgileri için{" "}
+              <Link href="/iletisim">iletişim sayfasını ziyaret edin.</Link>
+            </p>
+          )}
+        </div>
+      </section>
+      <section className="section container intent-grid">
+        <div className="intent-photo">
+          <Image
+            src="/images/hero.webp"
+            alt="Bitkili akvaryum konsepti; temsili görsel"
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
+          <span>HER DETAY BİR BÜTÜNÜN PARÇASI</span>
+        </div>
+        <div className="intent-copy">
+          <span className="eyebrow">SİZİN ALANINIZ. SİZİN DÜNYANIZ.</span>
+          <h2>
+            Birlikte düşünülmüş
+            <br />
+            bir kurulum.
+          </h2>
+          <p>
+            Yeni bir akvaryum mu kuruyorsunuz, mevcut sisteminizi mi
+            tamamlıyorsunuz? İhtiyacınız olan yerden başlayın.
+          </p>
+          <Link href="/urunler?kategori=akvaryumlar">
+            <span>
+              <strong>Yeni bir dünya kuruyorum</strong>
+              <small>Akvaryumları ve ölçü seçeneklerini keşfedin.</small>
+            </span>
+            <Icon name="arrow" />
+          </Link>
+          <Link href="/urunler?kategori=filtreler">
+            <span>
+              <strong>Kurulumumu tamamlıyorum</strong>
+              <small>Filtre, aydınlatma ve ekipmanları inceleyin.</small>
+            </span>
+            <Icon name="arrow" />
+          </Link>
+        </div>
+      </section>
+      {siteConfig.demo && (
+        <section className="measure-banner container">
+          <div>
+            <span className="eyebrow">FİKRİNİZ ÖLÇÜ KAZANSIN</span>
+            <h2>
+              Hayalinizdeki akvaryum
+              <br />
+              ne kadar yer kaplıyor?
+            </h2>
+            <p>
+              Ölçülerinizi girin, yaklaşık brüt hacmi görün,
+              <br />
+              talebinizi paylaşmaya hazır bir özete dönüştürün.
+            </p>
+            <Link href="/teklif" className="button">
+              Ölçülerinizi planlayın <Icon name="arrow" size={18} />
+            </Link>
+            <small>
+              Örnek planlama aracı · Üretim hizmeti henüz doğrulanmamıştır.
+            </small>
+          </div>
+          <div className="measure-type">
+            <span>GENİŞLİK × DERİNLİK × YÜKSEKLİK</span>
+            <strong>
+              60 <i>×</i> 30 <i>×</i> 36
+            </strong>
+            <span>SİZİN ÖLÇÜLERİNİZLE BAŞLAR.</span>
+          </div>
+        </section>
+      )}
+      <section className="section container">
+        <div className="section-heading">
+          <div>
+            <span className="eyebrow">BİRAZ BİLGİ, DAHA İYİ BİR BAŞLANGIÇ</span>
+            <h2>Akvaryum notları</h2>
+          </div>
+          <Link className="text-link" href="/rehber">
+            Rehberi keşfet <Icon name="arrow" size={18} />
+          </Link>
+        </div>
+        <div className="guide-grid">
+          {guides.map((g, i) => (
+            <Link
+              href={`/rehber/${g.slug}`}
+              className="guide-card"
+              key={g.slug}
+            >
+              <span className="guide-number">0{i + 1}</span>
+              <span className="eyebrow">{g.tag}</span>
+              <h3>{g.title}</h3>
+              <p>{g.intro}</p>
+              <span className="text-link">
+                Yazıyı okuyun <Icon name="arrow" size={18} />
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
+      <section className="section container faq">
+        <div>
+          <span className="eyebrow">AKLINIZDAKİ SORULAR</span>
+          <h2>Başlamadan önce.</h2>
+        </div>
+        <div>
+          <details>
+            <summary>Buradan online sipariş verebilir miyim?</summary>
+            <p>
+              Bu önizleme bir ürün kataloğudur. Ödeme veya sipariş alma işlemi
+              yapılmaz. Ürün sayfasından bilgi talebinizi hazırlayabilirsiniz.
+            </p>
+          </details>
+          <details>
+            <summary>Ölçü aracındaki hacim ne anlama geliyor?</summary>
+            <p>
+              Dış ölçülere göre geometrik brüt hacmi gösterir. Gerçek su
+              miktarı, cam kalınlığı veya taşıma kapasitesi hesabı değildir.
+            </p>
+          </details>
+          <details>
+            <summary>Ürünleri nasıl karşılaştırırım?</summary>
+            <p>
+              Ürün kartındaki karşılaştırma düğmesiyle aynı kategoriden en fazla
+              üç ürün seçin. Seçimleriniz bu tarayıcıda saklanır.
+            </p>
+          </details>
+        </div>
+      </section>
+    </>
+  );
+}
