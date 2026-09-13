@@ -42,7 +42,7 @@ npm run audit
 - `/rehber` ve üç rehber detayı, `/hakkimizda`, demo konsept galerisi `/projeler`, doğru 404, katalog yükleniyor ve hata ekranları.
 - Mobil menü/filtre için yerel `dialog`, Escape ve odak dönüşü; klavye ile mega menü ve arama önerileri; azaltılmış hareket desteği.
 
-Demo açıkken `noindex,nofollow`, robots engeli ve boş sitemap uygulanır. Alan adı doğrulanmadığı için canonical uydurulmaz. Gerçek modda uygun Organization/BreadcrumbList/Article/Product şemaları desteklenir; ürün teklifine sahte `Offer`, yorum veya puan eklenmez. Tek başına Product şeması zengin sonuç uygunluğu veya görünürlüğü garanti etmez.
+Arama motoru erişimi demo modundan ayrıdır: site adresi bilinmiyorsa (`SITE_URL` boş ve Vercel production adresi yoksa), preview dağıtımlarında veya `ALLOW_INDEXING=false` iken `noindex,nofollow`, robots engeli ve boş sitemap uygulanır. Vercel production dağıtımında adres `VERCEL_PROJECT_PRODUCTION_URL` değerinden alınır; robots izin verir, sitemap sayfa ve ürünleri listeler ve canonical bu adresle üretilir. İndekslemeye açıkken uygun Organization/BreadcrumbList/Article/Product şemaları desteklenir; ürün teklifine sahte `Offer`, yorum veya puan eklenmez. Tek başına Product şeması zengin sonuç uygunluğu veya görünürlüğü garanti etmez.
 
 ## Güncelleme ve teslim belgeleri
 

@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   },
   description:
     "Akvaryum, teraryum, paludaryum ve ekipman seçeneklerini keşfedin, karşılaştırın ve kurulumunuzu planlayın.",
-  robots: { index: !siteConfig.demo, follow: !siteConfig.demo },
+  robots: { index: siteConfig.indexable, follow: siteConfig.indexable },
 };
 export default function RootLayout({
   children,

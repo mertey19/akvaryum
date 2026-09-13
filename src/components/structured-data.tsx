@@ -1,6 +1,6 @@
 import { siteConfig } from "@/lib/config";
 export function StructuredData({ data }: { data: Record<string, unknown> }) {
-  if (siteConfig.demo || !siteConfig.url) return null;
+  if (!siteConfig.indexable) return null;
   return (
     <script
       type="application/ld+json"

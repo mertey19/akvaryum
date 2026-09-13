@@ -3,7 +3,7 @@ import { siteConfig } from "@/lib/config";
 import { getProducts } from "@/lib/repository";
 import { guides } from "@/lib/guides";
 export default function sitemap(): MetadataRoute.Sitemap {
-  if (siteConfig.demo || !siteConfig.url) return [];
+  if (!siteConfig.indexable) return [];
   return [
     "",
     "/rehber",

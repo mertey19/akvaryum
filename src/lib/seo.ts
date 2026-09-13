@@ -17,6 +17,6 @@ export function meta(
       locale: "tr_TR",
       type: "website",
     },
-    robots: { index: !siteConfig.demo, follow: !siteConfig.demo },
+    robots: { index: siteConfig.indexable, follow: siteConfig.indexable },
   };
 }

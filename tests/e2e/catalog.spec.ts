@@ -468,7 +468,7 @@ test("dialogs close on Escape and restore focus", async ({ page }) => {
   await page.keyboard.press("Escape");
   await expect(image).toBeFocused();
 });
-test("404 status, demo noindex and no inert menu links", async ({
+test("404 status, noindex without a site address and no inert menu links", async ({
   page,
   request,
 }) => {

@@ -11,7 +11,11 @@ import {
   relevance,
 } from "../src/lib/catalog";
 import { grossVolume, whatsappLink } from "../src/lib/quote";
-import { siteConfig } from "../src/lib/config";
+import {
+  allowsIndexing,
+  productionSiteUrl,
+  siteConfig,
+} from "../src/lib/config";
 
 test("Turkish normalized search prioritizes external filters over cabinet descriptions", () => {
   assert.equal(normalize("I ı İ i Ş Ğ Ü Ö Ç"), "i i i i s g u o c");
@@ -245,6 +249,23 @@ test("45° and 90° aquarium pages filter and price by the selected option", () 
     queryProducts({ kategori: "akvaryumlar", secenek: "60" }, all).total,
     0,
   );
+});
+test("Search indexing opens only for a known production site address", () => {
+  assert.equal(
+    productionSiteUrl(undefined, "akvaryum.vercel.app"),
+    "https://akvaryum.vercel.app",
+  );
+  assert.equal(
+    productionSiteUrl("https://dsnakvaryum.com", "akvaryum.vercel.app"),
+    "https://dsnakvaryum.com",
+  );
+  assert.equal(productionSiteUrl(undefined, undefined), "");
+  const url = "https://akvaryum.vercel.app";
+  assert.equal(allowsIndexing("", undefined, undefined), false);
+  assert.equal(allowsIndexing(url, undefined, "production"), true);
+  assert.equal(allowsIndexing(url, undefined, undefined), true);
+  assert.equal(allowsIndexing(url, undefined, "preview"), false);
+  assert.equal(allowsIndexing(url, "false", "production"), false);
 });
 test("Volume rejects invalid dimensions and returns geometric gross liters", () => {
   assert.equal(grossVolume(60, 30, 36), 64.8);
