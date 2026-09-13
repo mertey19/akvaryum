@@ -28,6 +28,10 @@ export default function RootLayout({
             "@type": "Organization",
             name: siteConfig.name,
             url: siteConfig.url,
+            ...(siteConfig.phone
+              ? { telephone: siteConfig.phoneHref.replace("tel:", "") }
+              : {}),
+            ...(siteConfig.address ? { address: siteConfig.address } : {}),
           }}
         />
         <SavedProvider>
@@ -66,17 +70,18 @@ export default function RootLayout({
                 )}
               </div>
               <div>
-                <h2>Bir sonraki adımınız</h2>
-                <p>Kurulum fikrinizi ölçülerle netleştirin.</p>
-                <Link
-                  href={
-                    siteConfig.demo || siteConfig.customProductionVerified
-                      ? "/teklif"
-                      : "/iletisim"
-                  }
-                  className="footer-cta"
-                >
-                  Talebinizi hazırlayın ↗
+                <h2>İletişim</h2>
+                {siteConfig.phone && (
+                  <a href={siteConfig.phoneHref}>{siteConfig.phone}</a>
+                )}
+                {siteConfig.address && (
+                  <p className="footer-address">{siteConfig.address}</p>
+                )}
+                {siteConfig.socialHandle && (
+                  <p className="footer-social">@{siteConfig.socialHandle}</p>
+                )}
+                <Link href="/iletisim" className="footer-cta">
+                  Tüm iletişim bilgileri ↗
                 </Link>
               </div>
             </div>

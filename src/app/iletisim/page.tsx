@@ -4,7 +4,7 @@ import { getProduct } from "@/lib/repository";
 import { meta } from "@/lib/seo";
 export const metadata = meta(
   "İletişim ve ürün bilgisi",
-  "Ürünle ilgili sorularınızı hazırlayın ve bilgi talebinizin özetini kopyalayın.",
+  "DSN Akvaryum’un Mamak/Ankara adresi, telefon numarası ve sosyal medya kullanıcı adı.",
   "/iletisim",
 );
 export default async function Page({
@@ -34,17 +34,52 @@ export default async function Page({
           hazırlayın.
         </p>
       </div>
-      {(siteConfig.phone || siteConfig.email || siteConfig.address) && (
-        <div className="contact-info">
-          {siteConfig.phone && (
-            <a href={`tel:${siteConfig.phone}`}>{siteConfig.phone}</a>
-          )}
-          {siteConfig.email && (
-            <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
-          )}
-          {siteConfig.address && <p>{siteConfig.address}</p>}
-          {siteConfig.hours && <p>{siteConfig.hours}</p>}
-        </div>
+      {(siteConfig.phone ||
+        siteConfig.email ||
+        siteConfig.address ||
+        siteConfig.hours ||
+        siteConfig.socialHandle) && (
+        <section className="contact-details" aria-labelledby="contact-heading">
+          <h2 id="contact-heading">İletişim bilgilerimiz</h2>
+          <dl className="contact-info">
+            {siteConfig.phone && (
+              <div>
+                <dt>Telefon</dt>
+                <dd>
+                  <a href={siteConfig.phoneHref}>{siteConfig.phone}</a>
+                </dd>
+              </div>
+            )}
+            {siteConfig.address && (
+              <div>
+                <dt>Adres</dt>
+                <dd>
+                  <address>{siteConfig.address}</address>
+                </dd>
+              </div>
+            )}
+            {siteConfig.socialHandle && (
+              <div>
+                <dt>Sosyal medya hesabı</dt>
+                <dd>@{siteConfig.socialHandle}</dd>
+              </div>
+            )}
+            {siteConfig.email && (
+              <div>
+                <dt>E-posta</dt>
+                <dd>
+                  <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
+                </dd>
+              </div>
+            )}
+            {siteConfig.hours && (
+              <div>
+                <dt>Çalışma saatleri</dt>
+                <dd>{siteConfig.hours}</dd>
+              </div>
+            )}
+          </dl>
+        </section>
       )}
       <QuoteForm
         phone={siteConfig.whatsapp}

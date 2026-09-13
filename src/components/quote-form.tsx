@@ -221,7 +221,7 @@ export function QuoteForm({
         <div className="notice">
           {phone
             ? "WhatsApp bağlantısı yalnızca mesaj taslağını açar. Gönderimi siz yaparsınız."
-            : "Doğrulanmış iletişim numarası henüz eklenmedi. Hazırladığınız özeti kopyalayabilirsiniz."}
+            : "Doğrulanmış WhatsApp numarası henüz eklenmedi. Hazırladığınız özeti kopyalayabilirsiniz."}
         </div>
         <p className="muted">
           Bu adım fiyat garantisi, sipariş veya üretim taahhüdü oluşturmaz.

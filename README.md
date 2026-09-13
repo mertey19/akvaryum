@@ -37,8 +37,8 @@ npm run audit
 - `/urunler`: 18 demo ürün; Türkçe/aksansız arama, fiyat/marka/stok/kategori/teknik özellik filtreleri, sıralama, seçili etiketler ve sayfalama. URL, yenileme ve geçmiş gezinmesi aynı sonucu korur.
 - `/urun/[slug]`: teknik tablo, SKU/fiyat/stok/varyant seçimi, görsel büyütme ve çoklu görsel desteği, teslimat ayrımı, ürün ve varyantı koruyan bilgi talebi.
 - `/favoriler`, `/karsilastir`: tarayıcıda yalnızca anonim ürün/varyant kimliği saklanır; aynı kategoriden en fazla üç ürün karşılaştırılır. Ekleme, kaldırma ve yenileme çalışır.
-- `/teklif`: ölçü doğrulama, yaklaşık brüt hacim, su türü/mobilya/renk/şehir/not, okunabilir özet ve kopyalama. Gerçek numara ayarlanırsa WhatsApp taslağı açılır; otomatik gönderim yoktur.
-- `/iletisim`: tek ayar kaynağından doğrulanmış iletişim alanları; ürün bağlamı korunan mesaj taslağı. Numara/adres bilinmediği için gösterilmez. Kayıt yapılmış gibi başarı mesajı yoktur.
+- `/teklif`: ölçü doğrulama, yaklaşık brüt hacim, su türü/mobilya/renk/şehir/not, okunabilir özet ve kopyalama. Doğrulanmış WhatsApp numarası ayarlanırsa WhatsApp taslağı açılır; otomatik gönderim yoktur.
+- `/iletisim`: tek ayar kaynağından doğrulanmış telefon, adres ve sosyal hesap kullanıcı adı; ürün bağlamı korunan mesaj taslağı. Sosyal platform ve profil bağlantısı doğrulanmadığı için uydurulmaz. Kayıt yapılmış gibi başarı mesajı yoktur.
 - `/rehber` ve üç rehber detayı, `/hakkimizda`, demo konsept galerisi `/projeler`, doğru 404, katalog yükleniyor ve hata ekranları.
 - Mobil menü/filtre için yerel `dialog`, Escape ve odak dönüşü; klavye ile mega menü ve arama önerileri; azaltılmış hareket desteği.
 
@@ -54,7 +54,7 @@ Demo açıkken `noindex,nofollow`, robots engeli ve boş sitemap uygulanır. Ala
 
 ## Canlı yayın için beklenen girdiler
 
-DIAMOND cam kullanımı işletme tarafından doğrulanmış ve sisteme işlenmiştir. Canlı yayın için hâlâ gerçek telefon/WhatsApp/e-posta ve alan adı; gerekiyorsa adres/saatler; onaylı ürün, fiyat, SKU, stok, diğer teknik ve teslimat bilgileri; izinli ürün/varyant/proje fotoğrafları; özel ölçü üretim kapsamının ayrıca teyidi ve ilgili onaylı politika metinleri gerekir. Bu bilgiler olmadan site gerçek işletme kataloğu gibi yayımlanmadı.
+DIAMOND cam kullanımı, `0545 389 71 47` telefonu, `Mamak Hüseyin Gazi, Ekin, Su Sk. No:17, 06160 Mamak/Ankara` adresi ve `Dursun_belgic` sosyal hesap kullanıcı adı işletme tarafından doğrulanmış ve sisteme işlenmiştir. Telefon numarası WhatsApp numarası olarak varsayılmaz. Canlı yayın için hâlâ doğrulanmış alan adı; onaylı ürün, fiyat, SKU, stok, diğer teknik ve teslimat bilgileri; izinli ürün/varyant/proje fotoğrafları; özel ölçü üretim kapsamının ayrıca teyidi ve ilgili onaylı politika metinleri gerekir. WhatsApp, e-posta, sosyal platform/profil bağlantısı ve çalışma saatleri yalnızca gösterilecekse ayrıca doğrulanmalıdır. Bu bilgiler olmadan site gerçek işletme kataloğu gibi yayımlanmadı.
 
 Online ödeme, üyelik, sepet, sipariş takibi ve yönetim paneli belgedeki koşullu kapsamdır; varsayılan kataloğa eklenmedi. Sunucuya form kaydı veya mesaj gönderme entegrasyonu yoktur; kopyalama/WhatsApp taslağı akışı tamamlanmıştır. Gerçek e-posta/WhatsApp teslimi, gerçek müşteri siparişi ve ödeme test edilmedi.
 

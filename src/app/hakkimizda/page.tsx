@@ -21,9 +21,9 @@ export default function Page() {
         oluşturuldu.
       </p>
       <p>
-        Özel ölçü kapsamı, hizmet bölgesi, adres ve işletme geçmişi hakkında
-        onaylanmış bilgiler henüz sağlanmadı. Bu nedenle bu başlıklarda
-        doğrulanmamış ticari iddialara yer vermiyoruz.
+        Özel ölçü kapsamı, hizmet bölgesi ve işletme geçmişi hakkında onaylanmış
+        bilgiler henüz sağlanmadı. Bu nedenle bu başlıklarda doğrulanmamış
+        ticari iddialara yer vermiyoruz.
       </p>
       <Link className="button" href="/iletisim">
         Bilgi talebi hazırlayın

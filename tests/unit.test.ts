@@ -100,6 +100,17 @@ test("WhatsApp only uses configured valid number and preserves Turkish text", ()
   assert.equal(url.searchParams.get("text"), message);
   assert.equal(url.pathname, "/905551234567");
 });
+test("Verified contact settings keep the direct phone separate from WhatsApp", () => {
+  assert.equal(siteConfig.phone, "0545 389 71 47");
+  assert.equal(siteConfig.phoneHref, "tel:+905453897147");
+  assert.equal(
+    siteConfig.address,
+    "Mamak Hüseyin Gazi, Ekin, Su Sk. No:17, 06160 Mamak/Ankara",
+  );
+  assert.equal(siteConfig.socialHandle, "Dursun_belgic");
+  assert.equal(siteConfig.whatsapp, "");
+  assert.ok(!siteConfig.phoneHref.includes("wa.me"));
+});
 test("Disabling demo prevents every demo product from entering production", () => {
   const old = siteConfig.demo;
   try {

@@ -83,6 +83,38 @@ test("clipboard failure does not claim successful copy or delivery", async ({
     page.getByRole("textbox", { name: "Talep özeti" }),
   ).toBeFocused();
 });
+test("verified contact details render without invented contact channels", async ({
+  page,
+}) => {
+  await page.goto("/iletisim");
+  const contact = page.locator(".contact-info");
+  await expect(
+    contact.getByRole("link", { name: "0545 389 71 47", exact: true }),
+  ).toHaveAttribute("href", "tel:+905453897147");
+  await expect(contact).toContainText(
+    "Mamak Hüseyin Gazi, Ekin, Su Sk. No:17, 06160 Mamak/Ankara",
+  );
+  await expect(contact).toContainText("@Dursun_belgic");
+  await expect(page.locator(".notice")).toContainText(
+    "Doğrulanmış WhatsApp numarası henüz eklenmedi",
+  );
+
+  const footer = page.locator("footer");
+  await expect(
+    footer.getByRole("link", { name: "0545 389 71 47", exact: true }),
+  ).toHaveAttribute("href", "tel:+905453897147");
+  await expect(footer).toContainText(
+    "Mamak Hüseyin Gazi, Ekin, Su Sk. No:17, 06160 Mamak/Ankara",
+  );
+  await expect(footer).toContainText("@Dursun_belgic");
+
+  await expect(page.locator('a[href*="wa.me"]')).toHaveCount(0);
+  await expect(
+    page.locator(
+      'a[href*="instagram.com"], a[href*="facebook.com"], a[href*="tiktok.com"], a[href*="x.com/"], a[href*="twitter.com"], a[href*="youtube.com"], a[href*="linkedin.com"]',
+    ),
+  ).toHaveCount(0);
+});
 test("no personal form data is sent to network, storage, URL or console", async ({
   page,
 }) => {
@@ -342,7 +374,7 @@ for (const width of [360, 390, 768, 1024, 1440]) {
       await page.evaluate(() =>
         window.scrollTo({ top: 0, behavior: "instant" }),
       );
-      if ([390, 1440].includes(width) && !route.startsWith("/iletisim"))
+      if ([390, 1440].includes(width))
         await page.screenshot({
           path: `artifacts/screenshots/${width}-${route === "/" ? "home" : route.split(/[/?]/)[1]}.png`,
           fullPage: true,
