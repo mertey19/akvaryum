@@ -60,7 +60,7 @@ export default function RootLayout({
                 >
                   <BrandLogo
                     className="footer-brand-logo"
-                    sizes="(max-width: 767px) 230px, 260px"
+                    sizes="(max-width: 767px) 140px, 150px"
                   />
                   <span className="footer-brand-label">
                     {siteConfig.brandLabel}

@@ -137,7 +137,7 @@ export function Header({
           >
             <BrandLogo
               className="wordmark-logo"
-              sizes="(max-width: 767px) 174px, (max-width: 1100px) 210px, 238px"
+              sizes="(max-width: 767px) 72px, (max-width: 1100px) 84px, 96px"
             />
             <span className="wordmark-label">{siteConfig.brandLabel}</span>
           </Link>

@@ -328,14 +328,14 @@ dialog::backdrop {
 .brand-logo {
   position: relative;
   display: block;
-  aspect-ratio: 4.2 / 1;
+  aspect-ratio: 1.25 / 1;
   overflow: hidden;
   background: #000;
   isolation: isolate;
 }
 .brand-logo img {
   object-fit: cover;
-  object-position: 50% 43%;
+  object-position: 50% 78%;
 }
 .wordmark {
   display: flex;
@@ -347,7 +347,7 @@ dialog::backdrop {
   line-height: 1;
 }
 .wordmark-logo {
-  width: 238px;
+  width: 96px;
   border: 1px solid #225766;
   border-radius: 7px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
@@ -1168,7 +1168,7 @@ dialog::backdrop {
 }
 .footer-brand {
   display: block;
-  width: min(100%, 260px);
+  width: min(100%, 150px);
 }
 .footer-brand-logo {
   width: 100%;
@@ -2044,7 +2044,7 @@ footer {
     gap: 25px;
   }
   .wordmark-logo {
-    width: 210px;
+    width: 84px;
   }
   .wordmark-label {
     font-size: 8px;
@@ -2152,7 +2152,7 @@ footer {
   }
   .wordmark {
     gap: 3px;
-    width: min(100%, 174px);
+    width: min(100%, 72px);
   }
   .wordmark-logo {
     width: 100%;
@@ -2421,7 +2421,7 @@ footer {
     grid-column: 1/-1;
   }
   .footer-brand {
-    width: min(100%, 230px);
+    width: min(100%, 140px);
   }
   .footer-grid > div:last-child {
     grid-column: 1/-1;
