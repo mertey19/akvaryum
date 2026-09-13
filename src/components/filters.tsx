@@ -30,11 +30,16 @@ export function Filters({
           new FormData(e.currentTarget).forEach((v, k) => {
             if (String(v).trim()) params.set(k, String(v));
           });
+          if (params.get("kategori") !== "akvaryumlar")
+            params.delete("secenek");
           startTransition(() => router.push(`/urunler?${params}`));
           close();
         }}
       >
         {query.q && <input type="hidden" name="q" value={query.q} />}
+        {query.secenek && (
+          <input type="hidden" name="secenek" value={query.secenek} />
+        )}
         <h2>Filtrele</h2>
         <label htmlFor={`${id}-category`}>Kategori</label>
         <select

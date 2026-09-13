@@ -10,6 +10,8 @@ Doğrulanmış işletme bilgisi: DSN Akvaryum, akvaryumlarını üretirken DIAMO
 
 Akvaryum fiyatlarına arka fon ve zemin matının dahil olduğu bilgisi kullanıcı tarafından 13 Eylül 2026 tarihinde iletildi. Metin tek kaynak olarak `aquariumPriceIncludes` ayarında tutulur; akvaryum kartlarında, ürün detayındaki fiyat seçeneklerinde, akvaryum kataloğu girişinde ve akvaryum kayıtlarının açıklama ile paket içeriği alanlarında gösterilir.
 
+Menü yapısı kullanıcı isteğiyle 13 Eylül 2026 tarihinde güncellendi: `Ultra Clear Akvaryumlar` başlığı altında tüm akvaryumlar, `45° Akvaryumlar` ve `90° Akvaryumlar`; `Teraryumlar` başlığı altında tüm teraryumlar ve `Paludaryumlar` yer alır. 45° ve 90° sayfaları `/urunler?kategori=akvaryumlar&secenek=45` biçimindedir; kartlar yalnızca seçilen seçeneğin fiyatını gösterir, fiyat filtresi ve sıralama bu fiyata göre çalışır. "Ultra Clear" menü ve kategori adıdır; doğrulanmış cam bilgisi `aquariumGlass` (DIAMOND cam) olarak kalır.
+
 Hazır ölçü akvaryumların mevcut olduğu kullanıcı tarafından 13 Eylül 2026 tarihinde doğrulandı. Arayüz bu bilgiyi ana sayfa, üst duyuru alanı ve akvaryum kataloğunda gösterir; güncel ölçü ve stok doğrulaması WhatsApp görüşmesinde yapılır.
 
 ## Akvaryum fiyat listesi

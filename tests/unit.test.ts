@@ -2,6 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { getProducts } from "../src/lib/repository";
 import {
+  aquariumOptions,
   categories,
   normalize,
   queryProducts,
@@ -213,6 +214,37 @@ test("DIAMOND glass is applied only to aquarium products", () => {
   const search = queryProducts({ q: "diamond" }, all);
   assert.equal(search.total, aquariums.length);
   assert.ok(search.items.every((p) => p.categoryId === "akvaryumlar"));
+});
+test("45° and 90° aquarium pages filter and price by the selected option", () => {
+  const all = getProducts();
+  for (const option of aquariumOptions) {
+    const page = queryProducts(
+      { kategori: "akvaryumlar", secenek: option, sirala: "fiyat-artan" },
+      all,
+    );
+    assert.equal(page.total, 14);
+    const prices = page.items.map(
+      (p) => p.variants.find((v) => v.id === option)!.price!,
+    );
+    assert.deepEqual(
+      prices,
+      prices.toSorted((a, b) => a - b),
+    );
+  }
+  assert.ok(
+    queryProducts({ secenek: "45" }, all).items.every(
+      (p) => p.categoryId === "akvaryumlar",
+    ),
+  );
+  const slugs = (secenek: string) =>
+    queryProducts({ kategori: "akvaryumlar", secenek, min: "13100" }, all)
+      .items.map((p) => p.slug);
+  assert.ok(slugs("45").includes("akvaryum-150x50x40"));
+  assert.ok(!slugs("90").includes("akvaryum-150x50x40"));
+  assert.equal(
+    queryProducts({ kategori: "akvaryumlar", secenek: "60" }, all).total,
+    0,
+  );
 });
 test("Volume rejects invalid dimensions and returns geometric gross liters", () => {
   assert.equal(grossVolume(60, 30, 36), 64.8);

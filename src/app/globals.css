@@ -525,6 +525,25 @@ dialog::backdrop {
   padding: 17px 0;
   border-bottom: 1px solid var(--line);
 }
+.drawer summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+}
+.drawer summary::-webkit-details-marker {
+  display: none;
+}
+.drawer summary::after {
+  content: "+";
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1;
+}
+.drawer details[open] > summary::after {
+  content: "−";
+}
 .drawer details a {
   display: block;
   padding: 14px 18px;
@@ -958,6 +977,9 @@ dialog::backdrop {
 .aquarium-price-meta .icon-button {
   min-width: 38px;
   min-height: 38px;
+}
+.aquarium-price-options.single {
+  grid-template-columns: minmax(0, 1fr);
 }
 .aquarium-price-includes {
   margin: 8px 0 0;

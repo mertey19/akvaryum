@@ -14,7 +14,7 @@ export type Category = {
 export const categories: readonly Category[] = [
   {
     id: "akvaryumlar",
-    name: "Akvaryumlar",
+    name: "Ultra Clear Akvaryumlar",
     subtitle: "Her dünyaya bir başlangıç",
     image: 0,
     family: "akvaryum",
@@ -130,6 +130,10 @@ export function aquariumPriceOptions(product: Product) {
     ? product.variants.filter((variant) => ["90", "45"].includes(variant.id))
     : [];
 }
+export const aquariumOptions = ["45", "90"] as const;
+export function aquariumOptionName(option: string) {
+  return `${option}° Akvaryumlar`;
+}
 export const stockLabels = {
   stokta: "Stokta",
   siparis: "Sipariş üzerine",
@@ -179,23 +183,30 @@ export function relevance(p: Product, q: string) {
 }
 export type Query = Record<string, string | undefined>;
 export function queryProducts(query: Query, input: Product[]) {
-  let items = input.filter(
-    (p) =>
+  const priceOf = (p: Product) =>
+    query.secenek
+      ? (aquariumPriceOptions(p).find((v) => v.id === query.secenek)?.price ??
+        null)
+      : p.price;
+  let items = input.filter((p) => {
+    const price = priceOf(p);
+    return (
       (!query.kategori || p.categoryId === query.kategori) &&
+      (!query.secenek ||
+        aquariumPriceOptions(p).some((v) => v.id === query.secenek)) &&
       relevance(p, query.q || "") > 0 &&
       (!query.marka || p.brand === query.marka) &&
       (!query.stok || p.stockStatus === query.stok) &&
-      (!query.min ||
-        (p.price !== null && p.price >= Number(query.min) * 100)) &&
-      (!query.max ||
-        (p.price !== null && p.price <= Number(query.max) * 100)) &&
-      (!query.teknik || Object.values(p.specifications).includes(query.teknik)),
-  );
+      (!query.min || (price !== null && price >= Number(query.min) * 100)) &&
+      (!query.max || (price !== null && price <= Number(query.max) * 100)) &&
+      (!query.teknik || Object.values(p.specifications).includes(query.teknik))
+    );
+  });
   items = items.toSorted((a, b) =>
     query.sirala === "fiyat-artan"
-      ? (a.price ?? Infinity) - (b.price ?? Infinity)
+      ? (priceOf(a) ?? Infinity) - (priceOf(b) ?? Infinity)
       : query.sirala === "fiyat-azalan"
-        ? (b.price ?? -Infinity) - (a.price ?? -Infinity)
+        ? (priceOf(b) ?? -Infinity) - (priceOf(a) ?? -Infinity)
         : query.sirala === "yeni"
           ? b.addedAt - a.addedAt
           : relevance(b, query.q || "") - relevance(a, query.q || ""),

@@ -1,5 +1,12 @@
 import Link from "next/link";
-import { categories, queryProducts, Query, stockLabels } from "@/lib/catalog";
+import {
+  aquariumOptionName,
+  aquariumOptions,
+  categories,
+  queryProducts,
+  Query,
+  stockLabels,
+} from "@/lib/catalog";
 import { getProducts } from "@/lib/repository";
 import { ProductCard } from "@/components/product-card";
 import { Filters } from "@/components/filters";
@@ -13,11 +20,15 @@ export async function generateMetadata({
   searchParams: Promise<Query>;
 }) {
   const q = await searchParams;
+  const option = aquariumOptions.find((o) => o === q.secenek);
   return {
     ...meta(
       q.q
         ? `${q.q} araması`
-        : categories.find((c) => c.id === q.kategori)?.name || "Ürün kataloğu",
+        : (q.kategori === "akvaryumlar" && option
+            ? aquariumOptionName(option)
+            : categories.find((c) => c.id === q.kategori)?.name) ||
+            "Ürün kataloğu",
       "Akvaryum, teraryum, paludaryum ve ekipman seçeneklerini teknik özelliklere göre inceleyin.",
       "/urunler",
     ),
@@ -37,6 +48,10 @@ export default async function Catalog({
   const all = getProducts();
   const cat = categories.find((c) => c.id === q.kategori);
   const isAquariumCatalog = cat?.id === "akvaryumlar";
+  const option = isAquariumCatalog
+    ? aquariumOptions.find((o) => o === q.secenek)
+    : undefined;
+  const optionName = option && aquariumOptionName(option);
   const priceListDate = all.find(
     (product) => product.categoryId === "akvaryumlar" && product.priceListDate,
   )?.priceListDate;
@@ -65,6 +80,13 @@ export default async function Catalog({
     else params.delete(key);
     return `/urunler?${params}`;
   }
+  function chipLabel(key: string, value: string) {
+    if (key === "kategori") return cat?.name || value;
+    if (key === "stok")
+      return stockLabels[value as keyof typeof stockLabels] || value;
+    if (key === "secenek") return aquariumOptionName(value);
+    return value;
+  }
   return (
     <div
       className={`container catalog-page${isAquariumCatalog ? " aquarium-catalog" : ""}`}
@@ -72,15 +94,25 @@ export default async function Catalog({
       <nav className="breadcrumb" aria-label="İçerik yolu">
         <Link href="/">Ana sayfa</Link>
         <span>/</span>
-        <span>{cat?.name || "Ürünler"}</span>
+        {optionName ? (
+          <>
+            <Link href="/urunler?kategori=akvaryumlar">{cat?.name}</Link>
+            <span>/</span>
+            <span>{optionName}</span>
+          </>
+        ) : (
+          <span>{cat?.name || "Ürünler"}</span>
+        )}
       </nav>
       {isAquariumCatalog ? (
         <section className="aquarium-catalog-intro">
           <div>
             <span className="eyebrow light">DSN AKVARYUM KOLEKSİYONU</span>
-            <h1>{q.q ? `“${q.q}” için sonuçlar` : "Akvaryumlar"}</h1>
+            <h1>
+              {q.q ? `“${q.q}” için sonuçlar` : optionName || cat?.name}
+            </h1>
             <p>
-              {`${siteConfig.aquariumGlass} ile üretilen akvaryumları ölçülerine göre inceleyin. 90° ve 45° seçenek fiyatları${priceListDate ? `, sağlanan ${priceListDate} tarihli listeden aktarılmıştır` : " birlikte gösterilir"}.`}
+              {`${siteConfig.aquariumGlass} ile üretilen ${option ? `${option}° ` : ""}akvaryumları ölçülerine göre inceleyin. ${option ? `${option}° seçenek fiyatları` : "90° ve 45° seçenek fiyatları"}${priceListDate ? `, sağlanan ${priceListDate} tarihli listeden aktarılmıştır` : " birlikte gösterilir"}.`}
             </p>
             <small>
               {`Hazır ölçü akvaryumlar mevcuttur. ${siteConfig.aquariumPriceIncludes} Güncel tutar ve stok WhatsApp üzerinden teyit edilir.`}
@@ -103,7 +135,7 @@ export default async function Catalog({
             </div>
             <div>
               <dt>Fiyat seçeneği</dt>
-              <dd>90° / 45°</dd>
+              <dd>{option ? `${option}°` : "90° / 45°"}</dd>
             </div>
             <div>
               <dt>Cam</dt>
@@ -137,7 +169,8 @@ export default async function Catalog({
               <strong>{data.total}</strong> ürün bulundu
             </p>
             <span>
-              {cat?.name || "Tüm kategoriler"} · {data.page} / {data.pages}
+              {optionName || cat?.name || "Tüm kategoriler"} · {data.page} /{" "}
+              {data.pages}
             </span>
           </div>
           <div className="chips">
@@ -148,14 +181,9 @@ export default async function Catalog({
                   className="chip"
                   href={href(k)}
                   key={k}
-                  aria-label={`${k === "kategori" ? cat?.name || v : k === "stok" ? stockLabels[v as keyof typeof stockLabels] || v : v} ${k} filtresini kaldır`}
+                  aria-label={`${chipLabel(k, String(v))} ${k} filtresini kaldır`}
                 >
-                  {k === "kategori"
-                    ? cat?.name || v
-                    : k === "stok"
-                      ? stockLabels[v as keyof typeof stockLabels] || v
-                      : v}{" "}
-                  <span aria-hidden="true">×</span>
+                  {chipLabel(k, String(v))} <span aria-hidden="true">×</span>
                 </Link>
               ))}
             {Object.values(q).some(Boolean) && (
@@ -168,7 +196,7 @@ export default async function Catalog({
           {data.items.length ? (
             <div className="product-grid">
               {data.items.map((p) => (
-                <ProductCard key={p.id} product={p} />
+                <ProductCard key={p.id} product={p} option={option} />
               ))}
             </div>
           ) : (

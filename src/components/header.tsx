@@ -8,26 +8,40 @@ import { BrandLogo } from "./brand-logo";
 import { siteConfig } from "@/lib/config";
 import { whatsappLink } from "@/lib/quote";
 type Suggestion = { name: string; href: string; type: string };
-const groups = [
+type NavLink = { label: string; category: string; option?: string };
+const groups: { name: string; links: NavLink[] }[] = [
   {
-    name: "Yaşam Alanları",
+    name: "Ultra Clear Akvaryumlar",
     links: [
-      ["Akvaryumlar", "akvaryumlar"],
-      ["Teraryumlar", "teraryumlar"],
-      ["Paludaryumlar", "paludaryumlar"],
-      ["Akvaryum mobilyaları", "mobilyalar"],
+      { label: "Tüm Ultra Clear akvaryumlar", category: "akvaryumlar" },
+      { label: "45° Akvaryumlar", category: "akvaryumlar", option: "45" },
+      { label: "90° Akvaryumlar", category: "akvaryumlar", option: "90" },
+    ],
+  },
+  {
+    name: "Teraryumlar",
+    links: [
+      { label: "Tüm teraryumlar", category: "teraryumlar" },
+      { label: "Paludaryumlar", category: "paludaryumlar" },
     ],
   },
   {
     name: "Ekipmanlar",
     links: [
-      ["Filtreler", "filtreler"],
-      ["Aydınlatma", "aydinlatma"],
-      ["Isıtma ve soğutma", "isitma"],
+      { label: "Filtreler", category: "filtreler" },
+      { label: "Aydınlatma", category: "aydinlatma" },
+      { label: "Isıtma ve soğutma", category: "isitma" },
+      { label: "Akvaryum mobilyaları", category: "mobilyalar" },
     ],
   },
-  { name: "Bakım ve Besleme", links: [["Bakım ve dekor", "bakim-dekor"]] },
+  {
+    name: "Bakım ve Besleme",
+    links: [{ label: "Bakım ve dekor", category: "bakim-dekor" }],
+  },
 ];
+function navHref({ category, option }: NavLink) {
+  return `/urunler?kategori=${category}${option ? `&secenek=${option}` : ""}`;
+}
 export function Header({
   demo,
   canPlan,
@@ -94,7 +108,7 @@ export function Header({
   const visibleGroups = groups
     .map((g) => ({
       ...g,
-      links: g.links.filter(([, id]) => activeCategories.includes(id)),
+      links: g.links.filter((link) => activeCategories.includes(link.category)),
     }))
     .filter((g) => g.links.length);
   const salesWhatsApp = whatsappLink(
@@ -263,13 +277,13 @@ export function Header({
               {menu === i && (
                 <div className="mega" id={`mega-${i}`}>
                   <p className="eyebrow">{g.name}</p>
-                  {g.links.map(([label, id]) => (
+                  {g.links.map((link) => (
                     <Link
                       onClick={() => setMenu(null)}
-                      key={id}
-                      href={`/urunler?kategori=${id}`}
+                      key={navHref(link)}
+                      href={navHref(link)}
                     >
-                      {label}
+                      {link.label}
                       <Icon name="arrow" size={18} />
                     </Link>
                   ))}
@@ -307,13 +321,13 @@ export function Header({
           {visibleGroups.map((g) => (
             <details key={g.name}>
               <summary>{g.name}</summary>
-              {g.links.map(([label, id]) => (
+              {g.links.map((link) => (
                 <Link
-                  key={id}
-                  href={`/urunler?kategori=${id}`}
+                  key={navHref(link)}
+                  href={navHref(link)}
                   onClick={closeMobile}
                 >
-                  {label}
+                  {link.label}
                 </Link>
               ))}
             </details>

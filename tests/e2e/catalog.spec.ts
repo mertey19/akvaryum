@@ -45,10 +45,10 @@ test("desktop menu focuses links and returns to the opener", async ({
   await page.goto("/");
   const button = page.getByRole("button", { name: "Ekipmanlar", exact: true });
   await button.click();
-  await expect(page.locator("#mega-1 a").first()).toBeFocused();
+  await expect(page.locator("#mega-2 a").first()).toBeFocused();
   await page.keyboard.press("Escape");
   await expect(button).toBeFocused();
-  await expect(page.locator("#mega-1")).toHaveCount(0);
+  await expect(page.locator("#mega-2")).toHaveCount(0);
 });
 test("verified DIAMOND glass information is consistent", async ({ page }) => {
   await page.goto("/urunler?kategori=akvaryumlar");
@@ -84,6 +84,30 @@ test("verified DIAMOND glass information is consistent", async ({ page }) => {
   await expect(page.locator(".product-card")).toHaveCount(12);
   await expect(page.locator(".material-badge")).toHaveCount(12);
 });
+test("Ultra Clear menu opens 45° and 90° aquarium pages", async ({ page }) => {
+  await page.goto("/");
+  await page
+    .getByRole("button", { name: "Ultra Clear Akvaryumlar", exact: true })
+    .click();
+  await expect(
+    page.getByRole("link", { name: "90° Akvaryumlar", exact: true }),
+  ).toBeVisible();
+  await page
+    .getByRole("link", { name: "45° Akvaryumlar", exact: true })
+    .click();
+  await expect(page).toHaveURL(/kategori=akvaryumlar&secenek=45/);
+  await expect(
+    page.getByRole("heading", { level: 1, name: "45° Akvaryumlar" }),
+  ).toBeVisible();
+  await expect(page.locator(".product-card")).toHaveCount(14);
+  await expect(page.locator(".aquarium-price-option")).toHaveCount(14);
+  await page
+    .locator(".product-card")
+    .first()
+    .getByRole("link", { name: "Ürünü incele" })
+    .click();
+  await expect(page.getByTestId("sku")).toHaveText(/-45$/);
+});
 test("terrarium and paludarium are integrated across discovery flows", async ({
   page,
 }) => {
@@ -99,12 +123,12 @@ test("terrarium and paludarium are integrated across discovery flows", async ({
   ).toHaveAttribute("src", /paludarium\.webp/);
 
   const habitats = page.getByRole("button", {
-    name: "Yaşam Alanları",
+    name: "Teraryumlar",
     exact: true,
   });
   await habitats.click();
   await expect(
-    page.getByRole("link", { name: "Teraryumlar", exact: true }),
+    page.getByRole("link", { name: "Tüm teraryumlar", exact: true }),
   ).toBeVisible();
   await expect(
     page.getByRole("link", { name: "Paludaryumlar", exact: true }),
