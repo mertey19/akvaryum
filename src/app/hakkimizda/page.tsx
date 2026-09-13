@@ -9,9 +9,9 @@ export const metadata = meta(
 export default function Page() {
   return (
     <article className="container section prose">
-      <span className="eyebrow">DSN AKVARYUM</span>
+      <span className="eyebrow">{siteConfig.brandLabel}</span>
       <h1>Bir dünyaya özenle başlamak.</h1>
-      <p className="lead">DSN Akvaryum.</p>
+      <p className="lead">{siteConfig.fullName}.</p>
       <p className="verified-fact">
         Akvaryumlarımızı üretirken {siteConfig.aquariumGlass} kullanıyoruz.
       </p>

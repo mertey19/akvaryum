@@ -6,13 +6,13 @@ export function meta(
   path: string,
 ): Metadata {
   return {
-    title: { absolute: `${title} | DSN Akvaryum` },
+    title: { absolute: `${title} | ${siteConfig.fullName}` },
     description,
     alternates: siteConfig.url
       ? { canonical: `${siteConfig.url}${path}` }
       : undefined,
     openGraph: {
-      title: `${title} | DSN Akvaryum`,
+      title: `${title} | ${siteConfig.fullName}`,
       description,
       locale: "tr_TR",
       type: "website",

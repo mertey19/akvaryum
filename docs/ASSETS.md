@@ -4,9 +4,12 @@
 
 | Yerel dosya | Kaynak | Kullanım |
 | --- | --- | --- |
+| `public/images/dsn-logo.jpeg` | Kullanıcı tarafından bu görevde sağlanan `WhatsApp Image 2026-09-13 at 14.09.55.jpeg` marka dosyası | Header ve footer marka bağlantıları. Kaynak JPEG değiştirilmeden kopyalandı; yalnızca çevresindeki siyah boşluk CSS çerçevesiyle görünüm sırasında kırpılır. |
 | `public/images/hero.webp` | Bu görevde yerleşik image_gen ile üretilmiş özgün görsel | Ana görsel, açıklayıcı bölüm ve açıkça etiketlenen konsept galerisi; gerçek müşteri işi değildir. |
 | `public/images/products.webp` | Bu görevde yerleşik image_gen ile üretilmiş 3×2 temsili ürün görseli | Altı kategori görseli ve demo ürünlerde kategori temsili; marka/üretici veya gerçek teknik fotoğraf değildir. |
-| `src/app/icon.svg` | Projede yazılmış basit su damlası işareti | Sekme simgesi; üçüncü taraf logo kullanılmaz. |
+| `src/app/icon.svg` | Projede yazılmış basit su damlası işareti | Tarayıcı sekmesi simgesi. Sağlanan DSN marka logosunun yerine kullanılmaz. |
+
+Sağlanan logo 1774×887 piksel ve yaklaşık 54 KB'dir. Logo resmi yeniden çizilmedi, içindeki yazı değiştirilmedi ve dosya dönüştürülmedi. `DSN AKVARYUM İMALATI` ifadesi okunabilirlik, erişilebilirlik ve arama görünürlüğü için ayrıca gerçek HTML metni olarak gösterilir.
 
 Üretilen PNG çıktıları WebP biçimine dönüştürüldü, görüntü içeriği değiştirilmedi. Hero 1536×1024 / yaklaşık 298 KB, ürün görseli 1536×1024 / yaklaşık 83 KB. Kart görselleri aynı dosyadan CSS ile altı bölge halinde gösterilir; dosya bir kez önbelleğe alınır. Gerçek ürün fotoğrafları `images` alanına girildiğinde `next/image`, responsive boyutlar ve `object-fit: contain` kullanılır.
 

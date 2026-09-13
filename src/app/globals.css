@@ -297,28 +297,41 @@ dialog::backdrop {
   gap: 48px;
   height: 92px;
 }
+.brand-logo {
+  position: relative;
+  display: block;
+  aspect-ratio: 4.2 / 1;
+  overflow: hidden;
+  background: #000;
+  isolation: isolate;
+}
+.brand-logo img {
+  object-fit: cover;
+  object-position: 50% 43%;
+}
 .wordmark {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
   flex-shrink: 0;
+  min-width: 0;
   line-height: 1;
 }
-.wordmark strong {
-  font-size: 36px;
-  font-weight: 800;
-  letter-spacing: 0.035em;
+.wordmark-logo {
+  width: 238px;
+  border: 1px solid #0b485d;
+  border-radius: 7px;
+  box-shadow: 0 6px 18px rgba(4, 54, 72, 0.16);
 }
-.wordmark small {
+.wordmark-label {
   display: block;
-  font-size: 10px;
-  letter-spacing: 0.29em;
-  margin-top: 7px;
-}
-.brand-mark {
-  color: var(--reef);
-  border-left: 2px solid var(--ocean);
-  padding-left: 3px;
+  padding-inline: 3px;
+  color: #07596d;
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: 0.18em;
+  white-space: nowrap;
 }
 .search {
   flex: 1;
@@ -497,16 +510,39 @@ dialog::backdrop {
   padding-block: 103px 70px;
 }
 .hero h1 {
-  font-size: clamp(38px, 4.3vw, 62px);
-  font-weight: 500;
-  letter-spacing: -0.04em;
-  line-height: 1.12;
+  max-width: 760px;
+  font-size: clamp(44px, 5.15vw, 74px);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1;
   margin-bottom: 25px;
+}
+.hero h1 span {
+  display: block;
+  margin-top: 10px;
+  color: #9ff3d1;
+  font-size: 0.8em;
+  letter-spacing: 0.12em;
 }
 .hero p {
   color: #e2f8f3;
   line-height: 1.8;
   font-size: 16px;
+}
+.hero-intro {
+  max-width: 670px;
+}
+.hero-intro strong,
+.hero-intro span {
+  display: block;
+}
+.hero-intro strong {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 650;
+}
+.hero-intro span {
+  margin-top: 3px;
 }
 .actions {
   display: flex;
@@ -968,14 +1004,23 @@ dialog::backdrop {
   margin-top: 20px;
 }
 .footer-brand {
-  font-size: 30px;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-}
-.footer-brand span {
-  font-size: 10px;
-  letter-spacing: 0.2em;
   display: block;
+  width: min(100%, 260px);
+}
+.footer-brand-logo {
+  width: 100%;
+  border: 1px solid #277284;
+  border-radius: 8px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+}
+.footer-brand-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  display: block;
+  margin-top: 8px;
+  padding-inline: 3px;
+  color: #b9f8e7;
 }
 .footer-grid .footer-cta {
   color: #fff !important;
@@ -1619,6 +1664,12 @@ footer {
   .header-main {
     gap: 25px;
   }
+  .wordmark-logo {
+    width: 210px;
+  }
+  .wordmark-label {
+    font-size: 8px;
+  }
   .saved-nav {
     gap: 18px;
   }
@@ -1694,7 +1745,7 @@ footer {
   .header-main {
     height: auto;
     display: grid;
-    grid-template-columns: 44px 1fr auto;
+    grid-template-columns: 44px minmax(0, 1fr) auto;
     gap: 10px;
     padding-block: 12px;
   }
@@ -1703,18 +1754,17 @@ footer {
     border: 0;
   }
   .wordmark {
-    gap: 7px;
-    width: max-content;
+    gap: 3px;
+    width: min(100%, 174px);
   }
-  .wordmark strong {
-    font-size: 27px;
+  .wordmark-logo {
+    width: 100%;
+    border-radius: 5px;
   }
-  .wordmark small {
-    font-size: 8px;
-    margin-top: 4px;
-  }
-  .brand-mark svg {
-    width: 27px;
+  .wordmark-label {
+    padding-inline: 2px;
+    font-size: 7px;
+    letter-spacing: 0.1em;
   }
   .saved-nav {
     gap: 16px;
@@ -1759,8 +1809,16 @@ footer {
   .hero h1 {
     font-size: 42px;
   }
+  .hero h1 span {
+    margin-top: 8px;
+    font-size: 0.86em;
+    letter-spacing: 0.08em;
+  }
   .hero p {
     font-size: 15px;
+  }
+  .hero-intro strong {
+    font-size: 17px;
   }
   .hero .eyebrow {
     font-size: 10px;
@@ -1925,6 +1983,9 @@ footer {
   }
   .footer-grid > div:first-child {
     grid-column: 1/-1;
+  }
+  .footer-brand {
+    width: min(100%, 230px);
   }
   .footer-grid > div:last-child {
     grid-column: 1/-1;

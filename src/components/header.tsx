@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Icon } from "./icon";
 import { SavedNav } from "./saved";
+import { BrandLogo } from "./brand-logo";
+import { siteConfig } from "@/lib/config";
 type Suggestion = { name: string; href: string; type: string };
 const groups = [
   {
@@ -100,7 +102,7 @@ export function Header({
       </a>
       {demo && (
         <div className="demo-bar">
-          <span>DSN AKVARYUM · TASARIM ÖNİZLEMESİ</span>
+          <span>{siteConfig.brandLabel} · TASARIM ÖNİZLEMESİ</span>
           <span>Örnek ürünler ve fiyatlar · Satışa açık değildir</span>
         </div>
       )}
@@ -121,14 +123,13 @@ export function Header({
           <Link
             className="wordmark"
             href="/"
-            aria-label="DSN AKVARYUM ana sayfa"
+            aria-label={`${siteConfig.fullName} ana sayfa`}
           >
-            <span className="brand-mark">
-              <Icon name="water" size={32} />
-            </span>
-            <span>
-              <strong>DSN</strong> <small>AKVARYUM</small>
-            </span>
+            <BrandLogo
+              className="wordmark-logo"
+              sizes="(max-width: 767px) 174px, (max-width: 1100px) 210px, 238px"
+            />
+            <span className="wordmark-label">{siteConfig.brandLabel}</span>
           </Link>
           <form
             className="search"

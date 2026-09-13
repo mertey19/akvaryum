@@ -6,10 +6,11 @@ import { siteConfig } from "@/lib/config";
 import "./globals.css";
 import { getProducts } from "@/lib/repository";
 import { StructuredData } from "@/components/structured-data";
+import { BrandLogo } from "@/components/brand-logo";
 export const metadata: Metadata = {
   title: {
-    default: "DSN Akvaryum — Su altı dünyanıza doğru başlangıç",
-    template: "%s | DSN Akvaryum",
+    default: `${siteConfig.fullName} — Su altı dünyanıza doğru başlangıç`,
+    template: `%s | ${siteConfig.fullName}`,
   },
   description:
     "Akvaryum ve ekipman seçeneklerini keşfedin, karşılaştırın ve kurulumunuzu planlayın.",
@@ -26,7 +27,7 @@ export default function RootLayout({
         <StructuredData
           data={{
             "@type": "Organization",
-            name: siteConfig.name,
+            name: siteConfig.fullName,
             url: siteConfig.url,
             ...(siteConfig.phone
               ? { telephone: siteConfig.phoneHref.replace("tel:", "") }
@@ -46,8 +47,18 @@ export default function RootLayout({
           <footer>
             <div className="container footer-grid">
               <div>
-                <Link className="footer-brand" href="/">
-                  DSN <span>AKVARYUM</span>
+                <Link
+                  className="footer-brand"
+                  href="/"
+                  aria-label={`${siteConfig.fullName} ana sayfa`}
+                >
+                  <BrandLogo
+                    className="footer-brand-logo"
+                    sizes="(max-width: 767px) 230px, 260px"
+                  />
+                  <span className="footer-brand-label">
+                    {siteConfig.brandLabel}
+                  </span>
                 </Link>
                 <p>
                   Su altı dünyanıza
@@ -62,7 +73,7 @@ export default function RootLayout({
                 <Link href="/karsilastir">Ürün karşılaştırma</Link>
               </div>
               <div>
-                <h2>DSN Akvaryum</h2>
+                <h2>{siteConfig.fullName}</h2>
                 <Link href="/hakkimizda">Hakkımızda</Link>
                 <Link href="/iletisim">İletişim</Link>
                 {(siteConfig.demo || siteConfig.customProductionVerified) && (
@@ -86,7 +97,7 @@ export default function RootLayout({
               </div>
             </div>
             <div className="container footer-bottom">
-              <span>DSN Akvaryum</span>
+              <span>{siteConfig.fullName}</span>
               <span>
                 {siteConfig.demo
                   ? "Yerel demo · Görseller temsilidir · Online satış kapalıdır"

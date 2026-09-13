@@ -2,7 +2,7 @@
 
 ## İşletme bilgileri
 
-`src/lib/config.ts` tek işletme ayarı kaynağıdır. Telefon, e-posta, adres, saat ve `customProductionVerified` alanlarını yalnızca işletme tarafından doğrulanınca doldurun. `.env.example` dosyasını `.env.local` olarak kopyalayın. `SITE_URL` gerçek HTTPS adresi, `WHATSAPP_NUMBER` uluslararası biçimde ülke koduyla doğrulanmış WhatsApp numarasıdır. Boş numara WhatsApp düğmesi oluşturmaz. Değişiklikten sonra yeniden derleyin.
+`src/lib/config.ts` tek işletme ayarı kaynağıdır. Görünür tam marka adı `fullName: "DSN Akvaryum İmalatı"`, büyük harfli marka satırı `brandLabel: "DSN AKVARYUM İMALATI"` ve sağlanan logo yolu `logoPath: "/images/dsn-logo.jpeg"` alanlarında tutulur. Telefon, e-posta, adres, saat ve `customProductionVerified` alanlarını yalnızca işletme tarafından doğrulanınca doldurun. `.env.example` dosyasını `.env.local` olarak kopyalayın. `SITE_URL` gerçek HTTPS adresi, `WHATSAPP_NUMBER` uluslararası biçimde ülke koduyla doğrulanmış WhatsApp numarasıdır. Boş numara WhatsApp düğmesi oluşturmaz. Değişiklikten sonra yeniden derleyin.
 
 Doğrulanmış iletişim değerleri `phone: "0545 389 71 47"`, `phoneHref: "tel:+905453897147"`, `address: "Mamak Hüseyin Gazi, Ekin, Su Sk. No:17, 06160 Mamak/Ankara"` ve `socialHandle: "Dursun_belgic"` olarak tutulur. Ekranda yerel telefon biçimi gösterilir; arama bağlantısı ve Organization yapılandırılmış verisindeki `telephone`, `+905453897147` E.164 değerini kullanır. `whatsapp` boş bırakılır; doğrulanmış telefonun WhatsApp hattı olduğu varsayılmaz. E-posta, alan adı ile sosyal hesabın platformu ve profil URL'si de henüz doğrulanmamıştır.
 

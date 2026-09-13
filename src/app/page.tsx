@@ -29,14 +29,15 @@ export default function Home() {
         <div className="container hero-content">
           <span className="eyebrow light">BİR AKVARYUMDAN DAHA FAZLASI</span>
           <h1>
-            Su altı dünyanıza
-            <br />
-            doğru başlangıç.
+            DSN AKVARYUM
+            <span>İMALATI</span>
           </h1>
-          <p>
-            İlk kurulumdan yeni bir dünyaya.
-            <br />
-            Akvaryumunuzu, ekipmanınızı ve ilhamınızı keşfedin.
+          <p className="hero-intro">
+            <strong>Su altı dünyanıza doğru başlangıç.</strong>
+            <span>
+              İlk kurulumdan yeni bir dünyaya; akvaryumunuzu, ekipmanınızı ve
+              ilhamınızı keşfedin.
+            </span>
           </p>
           <div className="actions">
             <Link className="button" href="/urunler">

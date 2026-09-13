@@ -1,6 +1,6 @@
-# DSN Akvaryum
+# DSN Akvaryum İmalatı
 
-Türkçe, mobil uyumlu ürün kataloğu ve teklif hazırlama uygulaması. Kullanıcının sağladığı inceleme/geliştirme belgesinin varsayılan katalog kapsamı uygulandı. Bu sürüm **yerel demo önizlemesidir**; gerçek satış, ödeme veya form teslimi yapılmaz.
+DSN Akvaryum İmalatı için Türkçe, mobil uyumlu ürün kataloğu ve teklif hazırlama uygulaması. Kullanıcının sağladığı inceleme/geliştirme belgesinin varsayılan katalog kapsamı uygulandı. Bu sürüm **yerel demo önizlemesidir**; gerçek satış, ödeme veya form teslimi yapılmaz.
 
 ## Çalıştırma
 
@@ -33,7 +33,7 @@ npm run audit
 
 ## Uygulanan sayfalar ve akışlar
 
-- Ana sayfa: özgün akvaryum hero görseli, altı kategori, sekiz öne çıkan ürün, kurulum/ekipman girişleri, ölçü aracı bağlantısı, üç rehber ve SSS.
+- Ana sayfa: kullanıcı tarafından sağlanan DSN logosu, belirgin `DSN AKVARYUM İMALATI` marka başlığı, özgün akvaryum hero görseli, altı kategori, sekiz öne çıkan ürün, kurulum/ekipman girişleri, ölçü aracı bağlantısı, üç rehber ve SSS.
 - `/urunler`: 18 demo ürün; Türkçe/aksansız arama, fiyat/marka/stok/kategori/teknik özellik filtreleri, sıralama, seçili etiketler ve sayfalama. URL, yenileme ve geçmiş gezinmesi aynı sonucu korur.
 - `/urun/[slug]`: teknik tablo, SKU/fiyat/stok/varyant seçimi, görsel büyütme ve çoklu görsel desteği, teslimat ayrımı, ürün ve varyantı koruyan bilgi talebi.
 - `/favoriler`, `/karsilastir`: tarayıcıda yalnızca anonim ürün/varyant kimliği saklanır; aynı kategoriden en fazla üç ürün karşılaştırılır. Ekleme, kaldırma ve yenileme çalışır.
@@ -47,7 +47,7 @@ Demo açıkken `noindex,nofollow`, robots engeli ve boş sitemap uygulanır. Ala
 ## Güncelleme ve teslim belgeleri
 
 - [Veri ve işletme bilgileri](docs/DATA.md): ürün JSON dosyası, model ve varyant alanları, fotoğraf ekleme, demo/yayın geçişi.
-- [Görseller ve tam üretim promptları](docs/ASSETS.md): iki özgün üretilmiş görselin kaynakları, yerel dosyaları ve kullanım sınırları.
+- [Görseller ve tam üretim promptları](docs/ASSETS.md): sağlanan marka logosu ile iki özgün üretilmiş görselin kaynakları, yerel dosyaları ve kullanım sınırları.
 - [Test ve teslim raporu](docs/DELIVERY.md): gerçek komut sonuçları, görsel kontroller, Lighthouse ölçümleri ve eksik girdiler.
 
 İşletme ayarı: `src/lib/config.ts`. Onaylı ürün verisi: `src/data/products.json`. Demo veri/repository: `src/lib/repository.ts`. Veri şeması/arama: `src/lib/catalog.ts`. Tasarım token’ları: `src/app/globals.css`.

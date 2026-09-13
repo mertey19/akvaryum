@@ -1,6 +1,35 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
+test("supplied logo and manufacturing brand are prominent", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const headerBrand = page.locator("header .wordmark");
+  await expect(headerBrand.locator("img")).toHaveCount(1);
+  await expect(headerBrand).toHaveAccessibleName(
+    "DSN Akvaryum İmalatı ana sayfa",
+  );
+  await expect(headerBrand.locator("img")).toHaveAttribute(
+    "src",
+    /dsn-logo\.jpeg/,
+  );
+  await expect(
+    page.getByRole("heading", { level: 1, name: "DSN AKVARYUM İMALATI" }),
+  ).toBeVisible();
+  await expect(page.locator(".hero-intro")).toContainText(
+    "Su altı dünyanıza doğru başlangıç.",
+  );
+  const footerBrand = page.locator("footer .footer-brand");
+  await expect(footerBrand).toHaveAccessibleName(
+    "DSN Akvaryum İmalatı ana sayfa",
+  );
+  await expect(footerBrand.locator("img")).toHaveAttribute(
+    "src",
+    /dsn-logo\.jpeg/,
+  );
+});
+
 test("desktop menu focuses links and returns to the opener", async ({
   page,
 }) => {

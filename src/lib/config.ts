@@ -1,5 +1,8 @@
 export const siteConfig = {
   name: "DSN Akvaryum",
+  fullName: "DSN Akvaryum İmalatı",
+  brandLabel: "DSN AKVARYUM İMALATI",
+  logoPath: "/images/dsn-logo.jpeg",
   demo: process.env.NEXT_PUBLIC_DEMO_MODE !== "false",
   url: process.env.SITE_URL || "",
   whatsapp: process.env.WHATSAPP_NUMBER || "",
