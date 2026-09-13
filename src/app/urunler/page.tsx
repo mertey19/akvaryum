@@ -34,6 +34,10 @@ export default async function Catalog({
   const data = queryProducts(q, getProducts());
   const all = getProducts();
   const cat = categories.find((c) => c.id === q.kategori);
+  const isAquariumCatalog = cat?.id === "akvaryumlar";
+  const priceListDate = all.find(
+    (product) => product.categoryId === "akvaryumlar" && product.priceListDate,
+  )?.priceListDate;
   const technical = q.kategori
     ? [
         ...new Set(
@@ -56,21 +60,54 @@ export default async function Catalog({
     return `/urunler?${params}`;
   }
   return (
-    <div className="container catalog-page">
+    <div
+      className={`container catalog-page${isAquariumCatalog ? " aquarium-catalog" : ""}`}
+    >
       <nav className="breadcrumb" aria-label="İçerik yolu">
         <Link href="/">Ana sayfa</Link>
         <span>/</span>
         <span>{cat?.name || "Ürünler"}</span>
       </nav>
-      <div className="page-heading">
-        <span className="eyebrow">DÜNYANIZI TAMAMLAYIN</span>
-        <h1>{q.q ? `“${q.q}” için sonuçlar` : cat?.name || "Ürün kataloğu"}</h1>
-        <p>
-          {cat?.id === "akvaryumlar"
-            ? `DSN Akvaryum’un ürettiği akvaryumlarda ${siteConfig.aquariumGlass} kullanılır. Ölçü ve diğer ürün değerlerini detay sayfasında inceleyin.`
-            : "İhtiyacınıza uygun seçenekleri keşfedin, detayları birlikte değerlendirin."}
-        </p>
-      </div>
+      {isAquariumCatalog ? (
+        <section className="aquarium-catalog-intro">
+          <div>
+            <span className="eyebrow light">DSN AKVARYUM KOLEKSİYONU</span>
+            <h1>{q.q ? `“${q.q}” için sonuçlar` : "Akvaryumlar"}</h1>
+            <p>
+              {`${siteConfig.aquariumGlass} ile üretilen akvaryumları ölçülerine göre inceleyin. 90° ve 45° seçenek fiyatları${priceListDate ? `, sağlanan ${priceListDate} tarihli listeden aktarılmıştır` : " birlikte gösterilir"}.`}
+            </p>
+            <small>
+              Güncel tutar, stok ve üretim ayrıntıları teklif öncesinde teyit
+              edilir.
+            </small>
+          </div>
+          <dl aria-label="Akvaryum koleksiyonu özeti">
+            <div>
+              <dt>Ölçü</dt>
+              <dd>14 seçenek</dd>
+            </div>
+            <div>
+              <dt>Fiyat seçeneği</dt>
+              <dd>90° / 45°</dd>
+            </div>
+            <div>
+              <dt>Cam</dt>
+              <dd>{siteConfig.aquariumGlass}</dd>
+            </div>
+          </dl>
+        </section>
+      ) : (
+        <div className="page-heading">
+          <span className="eyebrow">DÜNYANIZI TAMAMLAYIN</span>
+          <h1>
+            {q.q ? `“${q.q}” için sonuçlar` : cat?.name || "Ürün kataloğu"}
+          </h1>
+          <p>
+            İhtiyacınıza uygun seçenekleri keşfedin, detayları birlikte
+            değerlendirin.
+          </p>
+        </div>
+      )}
       <div className="catalog-layout">
         <aside>
           <Filters

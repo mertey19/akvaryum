@@ -16,7 +16,7 @@ export default async function Page({
   const p = q.urun ? getProduct(q.urun) : null;
   const v = p?.variants.find((v) => v.id === q.varyant);
   const context = p
-    ? `${p.name}${v ? ` · ${v.name}` : ""}\nSKU: ${v?.sku || p.sku}\n${Object.entries(
+    ? `${p.name}${v ? ` · ${v.name}` : ""}\n${p.isDemo ? "Demo referansı" : "SKU"}: ${v?.sku || p.sku}\n${Object.entries(
         v?.specifications || p.specifications,
       )
         .map(([k, v]) => `${k}: ${v}`)

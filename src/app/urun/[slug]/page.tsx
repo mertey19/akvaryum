@@ -36,7 +36,9 @@ export default async function ProductPage({
   if (!p) notFound();
   const category = categories.find((c) => c.id === p.categoryId);
   return (
-    <div className="container product-page">
+    <div
+      className={`container product-page${p.categoryId === "akvaryumlar" ? " aquarium-product-page" : ""}`}
+    >
       <BreadcrumbData
         items={[
           { name: "Ana sayfa", path: "/" },
@@ -73,8 +75,16 @@ export default async function ProductPage({
         initialVariant={varyant}
       />
       <div className="related-category">
-        <h2>Seçenekleri birlikte değerlendirin.</h2>
-        <p>Aynı kategorideki diğer ürünleri teknik bilgilerle karşılaştırın.</p>
+        <h2>
+          {p.categoryId === "akvaryumlar"
+            ? "Diğer ölçüleri de inceleyin."
+            : "Seçenekleri birlikte değerlendirin."}
+        </h2>
+        <p>
+          {p.categoryId === "akvaryumlar"
+            ? "14 ölçüyü 90° ve 45° fiyat seçenekleriyle karşılaştırın."
+            : "Aynı kategorideki diğer ürünleri teknik bilgilerle karşılaştırın."}
+        </p>
         <Link className="text-link" href={`/urunler?kategori=${p.categoryId}`}>
           {category?.name} kategorisini inceleyin →
         </Link>

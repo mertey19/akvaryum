@@ -217,7 +217,10 @@ dialog::backdrop {
   font-weight: 600;
   line-height: 1.4;
   box-shadow: 0 8px 22px rgba(0, 143, 163, 0.16);
-  transition: transform 0.16s, box-shadow 0.16s, background 0.16s;
+  transition:
+    transform 0.16s,
+    box-shadow 0.16s,
+    background 0.16s;
 }
 .button:hover {
   background: linear-gradient(135deg, var(--brand-dark), var(--reef-dark));
@@ -282,8 +285,9 @@ dialog::backdrop {
 .demo-bar {
   display: flex;
   justify-content: space-between;
-  background: linear-gradient(90deg, #063044 0%, #087ca7 52%, #087a59 100%);
-  color: #edfffb;
+  background: #020f16;
+  color: #d9f8f3;
+  border-bottom: 1px solid #17343e;
   padding: 7px max(32px, calc((100% - 1320px) / 2));
   font-size: 11px;
   letter-spacing: 0.045em;
@@ -292,9 +296,16 @@ dialog::backdrop {
   position: sticky;
   top: 0;
   z-index: 30;
-  background: rgba(255, 255, 255, 0.96);
+  color: #efffff;
+  background:
+    radial-gradient(
+      circle at 13% -80%,
+      rgba(8, 124, 167, 0.35),
+      transparent 48%
+    ),
+    linear-gradient(135deg, rgba(2, 14, 20, 0.98), rgba(3, 40, 50, 0.98));
   backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid #21434f;
 }
 .header-main {
   display: flex;
@@ -325,14 +336,14 @@ dialog::backdrop {
 }
 .wordmark-logo {
   width: 238px;
-  border: 1px solid #0b485d;
+  border: 1px solid #225766;
   border-radius: 7px;
-  box-shadow: 0 6px 18px rgba(4, 54, 72, 0.16);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
 }
 .wordmark-label {
   display: block;
   padding-inline: 3px;
-  color: #07596d;
+  color: #b9eaf2;
   font-size: 9px;
   font-weight: 750;
   letter-spacing: 0.18em;
@@ -345,26 +356,31 @@ dialog::backdrop {
   align-items: center;
   gap: 12px;
   max-width: 570px;
-  background: linear-gradient(90deg, var(--surface-blue), var(--surface));
-  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.075);
+  border: 1px solid #42636d;
   border-radius: 6px;
   padding: 0 12px;
 }
 .search > svg {
-  color: var(--muted);
+  color: #b6d9df;
 }
 .search input {
   border: 0;
   background: transparent;
+  color: #f5ffff;
   width: 100%;
   padding: 14px 0;
   font-size: 14px;
+}
+.search input::placeholder {
+  color: #bfd3d8;
 }
 .search > button {
   min-width: 40px;
   min-height: 44px;
   display: grid;
   place-items: center;
+  color: #84e7ce;
 }
 .suggestions {
   position: absolute;
@@ -376,6 +392,7 @@ dialog::backdrop {
   border: 1px solid var(--line);
   border-radius: 8px;
   z-index: 60;
+  color: var(--ink);
 }
 .suggestions a {
   display: flex;
@@ -399,6 +416,7 @@ dialog::backdrop {
   display: flex;
   gap: 25px;
   margin-left: auto;
+  color: #efffff;
 }
 .saved-nav a {
   position: relative;
@@ -426,6 +444,8 @@ dialog::backdrop {
   gap: 34px;
   height: 52px;
   font-size: 14px;
+  color: #d6eaed;
+  border-top: 1px solid #ffffff14;
 }
 .desktop-nav > div > button,
 .desktop-nav > a {
@@ -436,11 +456,11 @@ dialog::backdrop {
 }
 .desktop-nav > div > button:hover,
 .desktop-nav > a:hover {
-  color: var(--brand);
+  color: #80e9cf;
 }
 .nav-quote {
   margin-left: auto;
-  color: var(--brand-dark);
+  color: #a2f0d8;
 }
 .mega {
   position: absolute;
@@ -452,6 +472,7 @@ dialog::backdrop {
   border: 1px solid var(--line);
   box-shadow: 0 12px 30px #102a3610;
   border-radius: 0 0 12px 12px;
+  color: var(--ink);
 }
 .mega > a {
   display: flex;
@@ -461,6 +482,10 @@ dialog::backdrop {
 .mobile-toggle,
 .mobile-filter {
   display: none;
+}
+.mobile-toggle {
+  color: #efffff;
+  background: transparent;
 }
 .drawer {
   position: fixed;
@@ -680,6 +705,14 @@ dialog::backdrop {
   border-color: #99d5d8;
   box-shadow: 0 14px 36px rgba(0, 109, 131, 0.11);
 }
+.aquarium-card {
+  border-color: #b8dfe2;
+  box-shadow: 0 8px 28px rgba(2, 74, 91, 0.07);
+}
+.aquarium-card .product-visual {
+  background: linear-gradient(160deg, #f6fbfc 0%, #e8f5f7 100%);
+  border-bottom: 1px solid #d3e9eb;
+}
 .product-visual {
   position: relative;
 }
@@ -805,6 +838,59 @@ dialog::backdrop {
   font-size: 17px;
   font-weight: 600;
 }
+.aquarium-card-pricing {
+  margin-top: auto;
+  padding-top: 18px;
+}
+.aquarium-price-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  overflow: hidden;
+  border: 1px solid #b9dfe5;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #f0fbfd 0%, #effaf6 100%);
+}
+.aquarium-price-option {
+  min-width: 0;
+  padding: 10px 9px;
+}
+.aquarium-price-option + .aquarium-price-option {
+  border-left: 1px solid #b9dfe5;
+}
+.aquarium-price-option small,
+.aquarium-price-option strong {
+  display: block;
+}
+.aquarium-price-option small {
+  color: #285d68;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+}
+.aquarium-price-option strong {
+  margin-top: 2px;
+  color: #006d9b;
+  font-size: 15px;
+  font-weight: 750;
+  letter-spacing: -0.025em;
+  white-space: nowrap;
+}
+.aquarium-price-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 48px;
+  color: var(--muted);
+}
+.aquarium-price-meta small {
+  font-size: 9px;
+  line-height: 1.45;
+}
+.aquarium-price-meta .icon-button {
+  min-width: 38px;
+  min-height: 38px;
+}
 .product-link {
   border-top: 1px solid var(--line);
   padding: 12px 0;
@@ -886,7 +972,11 @@ dialog::backdrop {
   align-items: center;
   padding: 48px 56px;
   background:
-    radial-gradient(circle at 92% 16%, rgba(25, 169, 116, 0.18), transparent 34%),
+    radial-gradient(
+      circle at 92% 16%,
+      rgba(25, 169, 116, 0.18),
+      transparent 34%
+    ),
     linear-gradient(135deg, #def6f5 0%, #e8f7ff 48%, #e7faef 100%);
   border: 1px solid #b9e5df;
   border-radius: var(--radius);
@@ -1034,7 +1124,11 @@ dialog::backdrop {
 }
 footer {
   background:
-    radial-gradient(circle at 82% 0%, rgba(25, 169, 116, 0.17), transparent 34%),
+    radial-gradient(
+      circle at 82% 0%,
+      rgba(25, 169, 116, 0.17),
+      transparent 34%
+    ),
     linear-gradient(135deg, #052d43 0%, #043f50 58%, #075445 100%);
   color: #fff;
 }
@@ -1069,6 +1163,95 @@ footer {
 .page-heading p {
   color: var(--muted);
   max-width: 680px;
+}
+.aquarium-catalog-intro {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.75fr);
+  align-items: end;
+  gap: 58px;
+  margin-bottom: 38px;
+  padding: 46px 50px;
+  border: 1px solid #155568;
+  border-radius: 18px;
+  background:
+    radial-gradient(
+      circle at 88% 15%,
+      rgba(25, 169, 116, 0.3),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 62% 115%,
+      rgba(8, 124, 167, 0.35),
+      transparent 38%
+    ),
+    linear-gradient(135deg, #020d13 0%, #043245 58%, #075749 100%);
+  color: #f2ffff;
+  box-shadow: 0 18px 48px rgba(3, 48, 68, 0.16);
+}
+.aquarium-catalog-intro::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 330px;
+  height: 330px;
+  right: -155px;
+  bottom: -220px;
+  border: 1px solid #8ff1d44a;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 38px #8ff1d40c,
+    0 0 0 82px #8ff1d408;
+}
+.aquarium-catalog-intro h1 {
+  color: #fff;
+  font-size: clamp(38px, 4.3vw, 58px);
+  letter-spacing: -0.045em;
+}
+.aquarium-catalog-intro p {
+  max-width: 710px;
+  margin-top: 18px;
+  color: #d6ecee;
+  font-size: 15px;
+  line-height: 1.75;
+}
+.aquarium-catalog-intro > div > small {
+  display: block;
+  margin-top: 16px;
+  color: #b7d2d6;
+  font-size: 11px;
+}
+.aquarium-catalog-intro dl {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+.aquarium-catalog-intro dl > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 13px 0;
+  border-bottom: 1px solid #ffffff24;
+}
+.aquarium-catalog-intro dt {
+  color: #a7cbd0;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.aquarium-catalog-intro dd {
+  margin: 0;
+  color: #fff;
+  font-size: 17px;
+  font-weight: 650;
+}
+.aquarium-catalog .catalog-layout .product-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
 }
 .catalog-page {
   padding-bottom: 76px;
@@ -1273,7 +1456,11 @@ footer {
   position: sticky;
   top: 165px;
   background:
-    radial-gradient(circle at 90% 5%, rgba(25, 169, 116, 0.12), transparent 30%),
+    radial-gradient(
+      circle at 90% 5%,
+      rgba(25, 169, 116, 0.12),
+      transparent 30%
+    ),
     linear-gradient(145deg, #eefaff 0%, #eefbf6 100%);
 }
 .summary-placeholder {
@@ -1378,6 +1565,73 @@ footer {
   font-size: 30px;
   line-height: 1.5;
   font-weight: 600;
+}
+.price-choice {
+  margin: 0 0 24px;
+  padding: 0;
+  border: 0;
+}
+.price-choice legend {
+  margin-bottom: 10px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.price-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.price-choice-grid button {
+  min-width: 0;
+  padding: 15px;
+  text-align: left;
+  border: 1px solid #b7d9de;
+  border-radius: 8px;
+  background: #f7fbfc;
+  transition:
+    border-color 0.16s,
+    background 0.16s,
+    box-shadow 0.16s;
+}
+.price-choice-grid button:hover {
+  border-color: #5bb4bd;
+  background: #effafb;
+}
+.price-choice-grid button[aria-pressed="true"] {
+  border-color: var(--brand);
+  background: linear-gradient(135deg, #e7f9fc, #eafaf2);
+  box-shadow: inset 0 0 0 1px var(--brand);
+}
+.price-choice-grid span,
+.price-choice-grid strong,
+.price-choice-grid small {
+  display: block;
+}
+.price-choice-grid span {
+  color: #285d68;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+}
+.price-choice-grid strong {
+  margin-top: 3px;
+  color: #006d9b;
+  font-size: 19px;
+}
+.price-choice-grid small {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 10px;
+}
+.price-choice > p {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.6;
+}
+.aquarium-product-page .gallery-open {
+  background: linear-gradient(155deg, #fff 0%, #edf8fa 100%);
+  border-color: #b9dde2;
 }
 .delivery-box {
   display: flex;
@@ -1710,6 +1964,23 @@ footer {
   .catalog-layout .product-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+  .aquarium-catalog .catalog-layout .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .aquarium-catalog-intro {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .aquarium-catalog-intro dl {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+  .aquarium-catalog-intro dl > div {
+    display: block;
+  }
+  .aquarium-catalog-intro dd {
+    margin-top: 5px;
+  }
   .home-products {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
@@ -1731,7 +2002,7 @@ footer {
 }
 @media (max-width: 767px) {
   html {
-    scroll-padding-top: 135px;
+    scroll-padding-top: 160px;
   }
   .container {
     width: calc(100% - 36px);
@@ -1910,6 +2181,22 @@ footer {
   .card-bottom strong {
     font-size: 14px;
   }
+  .aquarium-price-option {
+    padding: 8px 5px;
+  }
+  .aquarium-price-option small {
+    font-size: 9px;
+  }
+  .aquarium-price-option strong {
+    font-size: 12px;
+  }
+  .aquarium-price-meta {
+    min-height: 44px;
+  }
+  .aquarium-price-meta small {
+    max-width: 76px;
+    font-size: 8px;
+  }
   .card-bottom .icon-button {
     min-width: 36px;
     min-height: 44px;
@@ -2011,6 +2298,32 @@ footer {
   .page-heading p {
     font-size: 14px;
   }
+  .aquarium-catalog-intro {
+    gap: 22px;
+    margin-bottom: 28px;
+    padding: 30px 22px;
+    border-radius: 14px;
+  }
+  .aquarium-catalog-intro h1 {
+    font-size: 36px;
+  }
+  .aquarium-catalog-intro p {
+    margin-top: 14px;
+    font-size: 13px;
+  }
+  .aquarium-catalog-intro dl {
+    gap: 10px;
+  }
+  .aquarium-catalog-intro dl > div {
+    padding: 10px 0;
+  }
+  .aquarium-catalog-intro dt {
+    font-size: 8px;
+    letter-spacing: 0.08em;
+  }
+  .aquarium-catalog-intro dd {
+    font-size: 13px;
+  }
   .breadcrumb {
     font-size: 11px;
     margin-block: 24px;
@@ -2064,6 +2377,12 @@ footer {
   }
   .detail-price strong {
     font-size: 28px;
+  }
+  .price-choice-grid button {
+    padding: 13px 11px;
+  }
+  .price-choice-grid strong {
+    font-size: 17px;
   }
   .detail-sections td,
   .detail-sections th {
@@ -2141,6 +2460,9 @@ footer {
   }
   .card-bottom strong {
     font-size: 13px;
+  }
+  .aquarium-price-option strong {
+    font-size: 11px;
   }
   .product-info {
     padding-inline: 10px;

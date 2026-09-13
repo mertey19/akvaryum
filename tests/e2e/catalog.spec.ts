@@ -43,9 +43,19 @@ test("desktop menu focuses links and returns to the opener", async ({
 });
 test("verified DIAMOND glass information is consistent", async ({ page }) => {
   await page.goto("/urunler?kategori=akvaryumlar");
-  await expect(page.locator(".material-badge")).toHaveCount(4);
+  await expect(page.locator(".product-card")).toHaveCount(14);
+  await expect(page.locator(".material-badge")).toHaveCount(14);
   await expect(page.locator(".material-badge").first()).toHaveText(
     "DIAMOND cam",
+  );
+  await expect(page.locator(".aquarium-price-options").first()).toContainText(
+    "₺1.000,00",
+  );
+  await expect(page.locator(".aquarium-price-options").first()).toContainText(
+    "₺1.200,00",
+  );
+  await expect(page.locator(".aquarium-price-meta").first()).toContainText(
+    "18.04.2026",
   );
   await page
     .locator(".product-card")
@@ -61,8 +71,9 @@ test("verified DIAMOND glass information is consistent", async ({ page }) => {
   await page.goto("/urunler?kategori=filtreler");
   await expect(page.locator(".material-badge")).toHaveCount(0);
   await page.goto("/urunler?q=diamond");
-  await expect(page.locator(".product-card")).toHaveCount(4);
-  await expect(page.locator(".material-badge")).toHaveCount(4);
+  await expect(page.locator(".results-top")).toContainText("14 ürün");
+  await expect(page.locator(".product-card")).toHaveCount(12);
+  await expect(page.locator(".material-badge")).toHaveCount(12);
 });
 test("search request failure is visible and can recover", async ({ page }) => {
   await page.route("**/api/arama?**", (r) =>
@@ -78,21 +89,19 @@ test("search request failure is visible and can recover", async ({ page }) => {
 test("variant favorites retain identity and restore selected variant", async ({
   page,
 }) => {
-  await page.goto("/urun/clear-60?varyant=black");
+  await page.goto("/urun/clear-60?varyant=45");
   await page.getByRole("button", { name: /favori ekle/ }).click();
-  await page
-    .getByRole("combobox", { name: "Varyant", exact: true })
-    .selectOption("clear");
+  await page.getByRole("button", { name: /90° fiyat seçeneği/ }).click();
   await page.getByRole("button", { name: /favori ekle/ }).click();
   await page.goto("/favoriler");
   await expect(page.locator(".product-card")).toHaveCount(2);
   await page
     .getByRole("link", {
-      name: "Clear 60 Cam Akvaryum · Siyah silikon",
+      name: "DSN 60 × 40 × 40 Cam Akvaryum · 45°",
       exact: true,
     })
     .click();
-  await expect(page.getByTestId("sku")).toHaveText("DEMO-001-B");
+  await expect(page.getByTestId("sku")).toHaveText("DEMO-DSN-604040-45");
 });
 test("clipboard failure does not claim successful copy or delivery", async ({
   page,
@@ -189,7 +198,7 @@ test("search supports Turkish normalization, suggestions, keyboard and empty res
   await page
     .getByRole("link", { name: "Filtreleri temizle", exact: true })
     .click();
-  await expect(page.locator(".results-top")).toContainText("18");
+  await expect(page.locator(".results-top")).toContainText("28");
 });
 test("filter, sorting, reload and browser history preserve URL-backed state", async ({
   page,
@@ -209,7 +218,7 @@ test("filter, sorting, reload and browser history preserve URL-backed state", as
   await page.reload();
   await expect(page.locator("#desktop-category")).toHaveValue("filtreler");
   await page.getByRole("link", { name: "kategori filtresini kaldır" }).click();
-  await expect(page.locator(".results-top")).toContainText("18 ürün");
+  await expect(page.locator(".results-top")).toContainText("28 ürün");
   await page.goBack();
   await expect(page.locator("#desktop-category")).toHaveValue("filtreler");
   await page.goForward();
@@ -219,25 +228,27 @@ test("variant updates SKU, price, stock and preserves context in contact draft",
   page,
 }) => {
   await page.goto("/urun/clear-60");
-  await page.getByLabel("Varyant", { exact: true }).selectOption("black");
-  await expect(page.getByTestId("sku")).toHaveText("DEMO-001-B");
-  await expect(page.locator(".detail-price")).toContainText("3.450,00");
-  await expect(page.locator(".detail-meta")).toContainText("Sipariş üzerine");
+  await page.getByRole("button", { name: /45° fiyat seçeneği/ }).click();
+  await expect(page.getByTestId("sku")).toHaveText("DEMO-DSN-604040-45");
+  await expect(page.locator(".detail-price")).toContainText("4.200,00");
+  await expect(page.locator(".detail-meta")).toContainText(
+    "Stok bilgisi alınmalı",
+  );
   await page.getByRole("link", { name: "Bu Ürün İçin Bilgi Al" }).click();
-  await expect(page.locator(".context-box")).toContainText("Siyah silikon");
+  await expect(page.locator(".context-box")).toContainText("45°");
   await expect(page.locator(".context-box")).toContainText("Cam: DIAMOND cam");
   await page.getByLabel("Mesajınız").fill("Paket içeriği nedir?");
   await page.getByRole("button", { name: "Talep özetini oluştur" }).click();
   await expect(page.getByRole("textbox", { name: "Talep özeti" })).toHaveValue(
-    /DEMO-001-B/,
+    /DEMO-DSN-604040-45/,
   );
   expect(page.url()).not.toContain("Paket");
   await expect(page.locator('a[href*="wa.me"]')).toHaveCount(0);
   await expect(page.locator(".copy-status")).toContainText(
     "Bilgiler gönderilmedi",
   );
-  await page.goto("/urun/clear-60?varyant=black");
-  await expect(page.getByTestId("sku")).toHaveText("DEMO-001-B");
+  await page.goto("/urun/clear-60?varyant=45");
+  await expect(page.getByTestId("sku")).toHaveText("DEMO-DSN-604040-45");
 });
 test("favorites persist and comparison enforces category and maximum size", async ({
   page,
@@ -378,6 +389,7 @@ for (const width of [360, 390, 768, 1024, 1440]) {
     for (const route of [
       "/",
       "/urunler?kategori=filtreler",
+      "/urunler?kategori=akvaryumlar",
       "/urun/clear-60",
       "/teklif",
       "/iletisim",
@@ -405,7 +417,7 @@ for (const width of [360, 390, 768, 1024, 1440]) {
       );
       if ([390, 1440].includes(width))
         await page.screenshot({
-          path: `artifacts/screenshots/${width}-${route === "/" ? "home" : route.split(/[/?]/)[1]}.png`,
+          path: `artifacts/screenshots/${width}-${route === "/" ? "home" : route.includes("akvaryumlar") ? "akvaryumlar" : route.split(/[/?]/)[1]}.png`,
           fullPage: true,
         });
     }
@@ -414,6 +426,7 @@ for (const width of [360, 390, 768, 1024, 1440]) {
 for (const route of [
   "/",
   "/urunler?kategori=filtreler",
+  "/urunler?kategori=akvaryumlar",
   "/urun/clear-60",
   "/teklif",
   "/iletisim",

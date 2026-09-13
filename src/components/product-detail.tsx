@@ -1,7 +1,13 @@
 "use client";
 import { useRef, useState } from "react";
 import Link from "next/link";
-import { Product, money, stockLabels, deliveryLabels } from "@/lib/catalog";
+import {
+  aquariumPriceOptions,
+  Product,
+  money,
+  stockLabels,
+  deliveryLabels,
+} from "@/lib/catalog";
 import { ProductImage } from "./product-image";
 import { SaveButton } from "./saved";
 import { Icon } from "./icon";
@@ -12,7 +18,16 @@ export function ProductDetail({
   product: Product;
   initialVariant?: string;
 }) {
-  const [variant, setVariant] = useState(initialVariant);
+  const priceOptions = aquariumPriceOptions(p);
+  const hasListPrices = priceOptions.length === 2;
+  const initialSelection = p.variants.some(
+    (option) => option.id === initialVariant,
+  )
+    ? initialVariant
+    : hasListPrices
+      ? priceOptions[0].id
+      : "";
+  const [variant, setVariant] = useState(initialSelection);
   const [photo, setPhoto] = useState(0);
   const selected = p.variants.find((v) => v.id === variant);
   const current = selected ? { ...p, ...selected } : p;
@@ -59,8 +74,8 @@ export function ProductDetail({
           )}
           {p.isDemo && (
             <p className="muted">
-              Temsili kategori görseli · Varyant rengi ve detayları görselde
-              birebir gösterilmez.
+              Temsili ürün görseli · Ürün ölçüsü ve seçeneği görselde birebir
+              gösterilmez.
             </p>
           )}
         </div>
@@ -77,7 +92,8 @@ export function ProductDetail({
               {stockLabels[current.stockStatus]}
             </span>
             <span>
-              SKU: <b data-testid="sku">{current.sku}</b>
+              {p.isDemo ? "Demo referansı" : "SKU"}:{" "}
+              <b data-testid="sku">{current.sku}</b>
             </span>
           </div>
           <p className="detail-intro">
@@ -87,11 +103,42 @@ export function ProductDetail({
           </p>
           <div className="detail-price">
             <small>
-              {p.isDemo ? "Örnek fiyat · satış teklifi değildir" : "Fiyat"}
+              {hasListPrices
+                ? `${p.priceListDate} fiyat listesi · ${selected?.name || priceOptions[0].name} seçeneği`
+                : p.isDemo
+                  ? "Örnek fiyat · satış teklifi değildir"
+                  : "Fiyat"}
             </small>
             <strong>{money(current.price)}</strong>
           </div>
-          {p.variants.length > 0 && (
+          {hasListPrices ? (
+            <fieldset className="price-choice">
+              <legend>Fiyat seçeneği</legend>
+              <div className="price-choice-grid">
+                {priceOptions.map((option) => (
+                  <button
+                    type="button"
+                    key={option.id}
+                    aria-label={`${option.name} fiyat seçeneği, ${money(option.price)}`}
+                    aria-pressed={variant === option.id}
+                    onClick={() => {
+                      setVariant(option.id);
+                      setPhoto(0);
+                    }}
+                  >
+                    <span>{option.name}</span>
+                    <strong>{money(option.price)}</strong>
+                    <small>Liste fiyatı</small>
+                  </button>
+                ))}
+              </div>
+              <p>
+                90° ve 45° adları sağlanan listedeki seçenek başlıklarıdır.
+                Güncel tutar ve üretim ayrıntıları teklif öncesinde teyit
+                edilir.
+              </p>
+            </fieldset>
+          ) : p.variants.length > 0 ? (
             <label className="field">
               Varyant
               <select
@@ -110,7 +157,7 @@ export function ProductDetail({
                 ))}
               </select>
             </label>
-          )}
+          ) : null}
           <div className="delivery-box">
             <Icon name="box" />
             <div>
@@ -145,7 +192,7 @@ export function ProductDetail({
                 </tr>
               ))}
               <tr>
-                <th scope="row">SKU</th>
+                <th scope="row">{p.isDemo ? "Demo referansı" : "SKU"}</th>
                 <td>{current.sku}</td>
               </tr>
               {p.gtin && (

@@ -6,6 +6,7 @@ import { Icon } from "./icon";
 import { SavedNav } from "./saved";
 import { BrandLogo } from "./brand-logo";
 import { siteConfig } from "@/lib/config";
+import { aquariumPriceListDate } from "@/lib/catalog";
 type Suggestion = { name: string; href: string; type: string };
 const groups = [
   {
@@ -103,7 +104,10 @@ export function Header({
       {demo && (
         <div className="demo-bar">
           <span>{siteConfig.brandLabel} · TASARIM ÖNİZLEMESİ</span>
-          <span>Örnek ürünler ve fiyatlar · Satışa açık değildir</span>
+          <span>
+            Temsili ürün görselleri · Fiyat listesi {aquariumPriceListDate} ·
+            Online satışa açık değildir
+          </span>
         </div>
       )}
       <header className="site-header">

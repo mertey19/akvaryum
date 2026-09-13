@@ -96,9 +96,16 @@ export function SavedList({
         </thead>
         <tbody>
           <tr>
-            <th scope="row">Örnek fiyat</th>
+            <th scope="row">Gösterilen fiyat</th>
             {items.map((p) => (
-              <td key={p.id}>{money(p.price)}</td>
+              <td key={p.id}>
+                {money(p.price)}
+                {p.categoryId === "akvaryumlar" && (
+                  <small>
+                    {` (${p.specifications["Fiyat seçeneği"] || "90°"})`}
+                  </small>
+                )}
+              </td>
             ))}
           </tr>
           <tr>

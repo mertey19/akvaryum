@@ -15,6 +15,15 @@ export const metadata = meta(
 );
 export default function Home() {
   const products = getProducts();
+  const categoryLeads = categories.flatMap((category) => {
+    const product = products.find((item) => item.categoryId === category.id);
+    return product ? [product] : [];
+  });
+  const leadIds = new Set(categoryLeads.map((product) => product.id));
+  const featuredProducts = [
+    ...categoryLeads,
+    ...products.filter((product) => !leadIds.has(product.id)),
+  ].slice(0, 8);
   return (
     <>
       <section className="hero">
@@ -40,8 +49,8 @@ export default function Home() {
             </span>
           </p>
           <div className="actions">
-            <Link className="button" href="/urunler">
-              Ürünleri İncele <Icon name="arrow" size={19} />
+            <Link className="button" href="/urunler?kategori=akvaryumlar">
+              Akvaryum fiyatlarını incele <Icon name="arrow" size={19} />
             </Link>
             <Link className="button ghost" href="/iletisim">
               İletişime Geç
@@ -62,7 +71,7 @@ export default function Home() {
         </div>
         <div>
           <Icon name="compare" />
-          <span>Karşılaştırılabilir teknik detaylar</span>
+          <span>14 ölçüde 90° ve 45° fiyat seçeneği</span>
         </div>
         <div>
           <Icon name="box" />
@@ -111,7 +120,7 @@ export default function Home() {
           </div>
           {products.length ? (
             <div className="product-grid home-products">
-              {products.slice(0, 8).map((p) => (
+              {featuredProducts.map((p) => (
                 <ProductCard key={p.id} product={p} />
               ))}
             </div>

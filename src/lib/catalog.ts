@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+export const aquariumPriceListDate = "18.04.2026";
+
 export const categories = [
   {
     id: "akvaryumlar",
@@ -75,6 +77,7 @@ export const productSchema = z
     stockStatus: stockSchema,
     stockQuantity: z.number().int().nonnegative().nullable(),
     leadTime: z.string().nullable(),
+    priceListDate: z.string().nullable().default(null),
     deliveryType: z.enum(["standart", "ozel", "magaza"]),
     saleMode: z.literal("quote"),
     published: z.boolean(),
@@ -91,6 +94,11 @@ export const productSchema = z
   });
 export type Product = z.infer<typeof productSchema>;
 export type Variant = z.infer<typeof variantSchema>;
+export function aquariumPriceOptions(product: Product) {
+  return product.categoryId === "akvaryumlar" && product.priceListDate
+    ? product.variants.filter((variant) => ["90", "45"].includes(variant.id))
+    : [];
+}
 export const stockLabels = {
   stokta: "Stokta",
   siparis: "Sipariş üzerine",
@@ -159,10 +167,16 @@ export function queryProducts(query: Query, input: Product[]) {
           : relevance(b, query.q || "") - relevance(a, query.q || ""),
   );
   const total = items.length;
-  const pages = Math.max(1, Math.ceil(total / 12));
+  const pageSize = query.kategori === "akvaryumlar" ? 16 : 12;
+  const pages = Math.max(1, Math.ceil(total / pageSize));
   const page = Math.min(
     pages,
     Math.max(1, Number.parseInt(query.sayfa || "1") || 1),
   );
-  return { items: items.slice((page - 1) * 12, page * 12), total, pages, page };
+  return {
+    items: items.slice((page - 1) * pageSize, page * pageSize),
+    total,
+    pages,
+    page,
+  };
 }

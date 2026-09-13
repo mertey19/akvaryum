@@ -8,6 +8,29 @@ Doğrulanmış iletişim değerleri `phone: "0545 389 71 47"`, `phoneHref: "tel:
 
 Doğrulanmış işletme bilgisi: DSN Akvaryum, akvaryumlarını üretirken DIAMOND cam kullanır. Bu bilgi tek kaynak olarak `aquariumGlass` ayarında tutulur. Mevcut DSN akvaryum demo kayıtlarında `Cam` alanına uygulanır. Gelecekte eklenen gerçek veya üçüncü taraf ürünlerde bu alan ürün bazında ayrıca doğrulanmalıdır. Özel ölçü üretimi ayrıca doğrulanmadığı için `customProductionVerified` bağımsız olarak `false` kalır.
 
+## Akvaryum fiyat listesi
+
+Kullanıcının sağladığı 18.04.2026 tarihli fiyat listesindeki 14 ölçü, `src/lib/repository.ts` içindeki DSN akvaryum kayıtlarına aktarılmıştır. Tutarlar TL olarak yorumlanıp uygulamada tam sayı kuruş saklanır. Kaynaktaki `90` ve `45` sütun başlıkları arayüzde `90°` ve `45°` olarak korunur; teknik karşılıkları doğrulanmış bir üretim iddiasına dönüştürülmez. Görünen brüt hacim, dış ölçülerin geometrik çarpımıdır. Stok, hazırlık süresi, cam kalınlığı, paket içeriği ve gerçek ürün fotoğrafları sağlanmadığı için bu alanlar bilgi alınmalı veya temsili olarak işaretlenir.
+
+| Ölçü (cm)     |       90° |       45° |
+| ------------- | --------: | --------: |
+| 30 × 20 × 15  |  1.000 TL |  1.200 TL |
+| 30 × 30 × 30  |  1.600 TL |  2.200 TL |
+| 35 × 35 × 35  |  1.900 TL |  2.400 TL |
+| 40 × 40 × 40  |  2.400 TL |  3.050 TL |
+| 50 × 30 × 30  |  2.400 TL |  3.050 TL |
+| 60 × 40 × 40  |  3.700 TL |  4.200 TL |
+| 40 × 40 × 30  |  2.250 TL |  2.600 TL |
+| 40 × 30 × 20  |  1.650 TL |  2.100 TL |
+| 70 × 40 × 40  |  5.000 TL |  6.150 TL |
+| 80 × 40 × 40  |  5.200 TL |  6.300 TL |
+| 90 × 45 × 45  |  7.950 TL |  9.900 TL |
+| 100 × 50 × 45 |  8.400 TL | 10.500 TL |
+| 120 × 50 × 45 |  9.100 TL | 10.800 TL |
+| 150 × 50 × 40 | 12.000 TL | 13.100 TL |
+
+Bu kayıtlar, fiyat ve ölçü kaynağı verilmiş olsa da ürün kimliği, fotoğraf, stok ve üretim ayrıntıları tamamlanmadığı için `isDemo: true` kalır. Fiyat listesinin güncelliği teklif öncesinde yeniden teyit edilmelidir.
+
 `NEXT_PUBLIC_DEMO_MODE=true` yerel önizlemedir. Kapatmak için değer tam olarak `false` olmalıdır. Örnek ürünler kapatıldığında gizlenir; gerçek kayıtlar `src/data/products.json` dosyasından okunur. Gerçek veri eksikken demo modunu kapatmak içerik oluşturmaz.
 
 ## Ürün kaydı
@@ -39,6 +62,7 @@ Doğrulanmış işletme bilgisi: DSN Akvaryum, akvaryumlarını üretirken DIAMO
   "stockStatus": "bilgi",
   "stockQuantity": null,
   "leadTime": null,
+  "priceListDate": null,
   "deliveryType": "ozel",
   "saleMode": "quote",
   "published": false,
@@ -53,6 +77,7 @@ Alan kuralları:
 - Gerçek ürünlerde örnek metinleri, SKU ve görselleri değiştirin. İçerik onayından sonra `isDemo: false`, yayına alma kararıyla `published: true` kullanın. Demo kayıtlarını yalnızca işareti değiştirerek gerçek stoğa dönüştürmeyin.
 - Fiyat **tam sayı kuruştur**: `325000` = 3.250 TL. Bilinmiyorsa `null`; sıfır ücretsiz demektir.
 - Stok: `stokta`, `siparis`, `tukendi`, `bilgi`. Tükendi için adet `0` olmalıdır. Hazırlık süresi ayrı `leadTime` alanıdır.
+- `priceListDate`, yalnızca kaynağı ve tarihi sağlanmış liste fiyatlarında `GG.AA.YYYY` olarak kullanılır; diğer ürünlerde `null` kalır. Akvaryum kartlarının iki fiyatlı görünümü bu açık kaynak alanına bağlıdır.
 - Teslimat: `standart`, `ozel`, `magaza`. Bilinmeyen bedel ücretsiz yazılmaz.
 - Kategoriler `catalog.ts` içinde tanımlıdır. Aynı kategoriden en fazla üç ürün karşılaştırılır.
 - Varyant alanları: `id`, `name`, `sku`, `price`, `stockStatus`, `image`, `specifications`; isteğe bağlı `images` dizisi ana görsellerin yerine geçer. `image` alanı yalnızca demo kategori görselindeki 0–5 bölge indeksidir. Gerçek fotoğraflarda `images` dosya yolları kullanılır.
