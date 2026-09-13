@@ -10,7 +10,7 @@ Tarih: 13 Eylül 2026. Yerel uygulama: `http://localhost:3000`. Kapsam: kullanı
 | `npm run lint` | Başarılı; sıfır hata/uyarı. Üretilmiş Playwright/Lighthouse raporları lint kapsamı dışında. |
 | `npm run typecheck` | Başarılı; route tip üretimi ve `tsc --noEmit`. |
 | `npm run test` | 9/9 geçti. |
-| `npm run test:e2e` | 25/25 geçti, son tur 30,9 saniye. Üretim sunucusunda Chromium. |
+| `npm run test:e2e` | 25/25 geçti, son tam tur 32,4 saniye. Üretim sunucusunda Chromium. |
 | Axe erişilebilirlik | Ana sayfa, filtre kataloğu, ürün, teklif ve iletişimde WCAG 2 A/AA ve 2.1 AA etiketli otomatik denetimde ihlal yok. |
 | Responsive | 360, 390, 768, 1024, 1440 px genişliklerde beş ana akış; 25 sayfa/genişlik kontrolünde yatay taşma yok. |
 | `npm run release:check` | Beklenen ret: demo modu açık; gerçek alan adı ve onaylı ürünler eksik. |
@@ -37,7 +37,7 @@ Online ödeme ve kalıcı form teslimi mevcut olmadığından bu sistemlerin ba�
 
 ## Görsel kontrol
 
-Ana sayfa, kategori, ürün, teklif ve iletişim sayfalarının 390 px mobil ve 1440 px masaüstü tam sayfa ekran görüntüleri açılıp incelendi. Sağlanan logo ile açılış marka başlığı iki boyutta da okunabilir; kartlar, görseller, fiyat alanı, ürün eylemi, filtre çekmecesi, navigasyon, iletişim bilgileri ve form düzeninde belirgin taşma/örtüşme veya kırık görsel görülmedi.
+Ana sayfa, kategori, ürün, teklif ve iletişim sayfalarının 390 px mobil ve 1440 px masaüstü tam sayfa ekran görüntüleri açılıp incelendi. Sağlanan logo ile açılış marka başlığı iki boyutta da okunabilir; açık zeminlerdeki bilgilendirme metinleri ve form yer tutucuları daha koyu ikincil tonla belirginleştirildi. Kartlar, görseller, fiyat alanı, ürün eylemi, filtre çekmecesi, navigasyon, iletişim bilgileri ve form düzeninde belirgin taşma/örtüşme veya kırık görsel görülmedi.
 
 Dosyalar `artifacts/screenshots/` klasöründedir: `390-home.png`, `390-urunler.png`, `390-urun.png`, `390-teklif.png`, `390-iletisim.png` ve karşılık gelen `1440-…` dosyaları. Ekran altındaki görseller için test, görünür alana kaydırıp gerçek yüklemeyi bekler. İlk test turunda erken yapılan görsel kontrolü bu şekilde düzeltildi.
 

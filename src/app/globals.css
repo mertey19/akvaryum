@@ -15,7 +15,7 @@
   --surface: #edf9f8;
   --surface-blue: #eef8fc;
   --line: #c6e3e5;
-  --muted: #486b76;
+  --muted: #345966;
   --radius: 14px;
   --space: 24px;
 }
@@ -82,6 +82,11 @@ select,
 textarea {
   min-width: 0;
   color: var(--ink);
+}
+input::placeholder,
+textarea::placeholder {
+  color: #4e6872;
+  opacity: 1;
 }
 input,
 select,
@@ -706,7 +711,7 @@ dialog::backdrop {
   bottom: 8px;
   left: 18px;
   font-size: 9px;
-  color: #657379;
+  color: #405b64;
   letter-spacing: 0.12em;
 }
 .product-info {
@@ -1512,7 +1517,7 @@ footer {
 }
 .prose p {
   margin: 20px 0;
-  color: #435b65;
+  color: #304f5a;
   line-height: 1.9;
 }
 .prose section {
