@@ -516,28 +516,38 @@ dialog::backdrop {
 .hero {
   position: relative;
   min-height: 590px;
-  background: #022c3d;
+  background: #011e28;
   color: #fff;
   overflow: hidden;
 }
 .hero > img {
   object-fit: cover;
   object-position: 68% 53%;
+  filter: saturate(1.28) contrast(1.12) brightness(1.04);
 }
 .hero-shade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    90deg,
-    #022d42f7 0%,
-    #034f5fdc 24%,
-    #087c776b 53%,
-    #0aa47810 78%
-  );
+  background:
+    linear-gradient(
+      90deg,
+      rgba(1, 22, 32, 0.9) 0%,
+      rgba(2, 47, 60, 0.68) 28%,
+      rgba(0, 107, 87, 0.25) 55%,
+      rgba(0, 39, 45, 0) 80%
+    ),
+    linear-gradient(0deg, rgba(0, 22, 27, 0.28), transparent 55%);
 }
 .hero-content {
   position: relative;
   padding-block: 103px 70px;
+}
+.hero-content,
+.hero-index {
+  text-shadow: 0 1px 3px rgba(0, 12, 18, 0.82);
+}
+.hero .button {
+  text-shadow: none;
 }
 .hero h1 {
   max-width: 760px;
@@ -2071,12 +2081,15 @@ footer {
     object-fit: cover;
   }
   .hero-shade {
-    background: linear-gradient(
-      180deg,
-      #022d42f2 0%,
-      #04566fd0 43%,
-      #07967a4d 100%
-    );
+    background:
+      linear-gradient(
+        180deg,
+        rgba(1, 27, 38, 0.86) 0%,
+        rgba(2, 55, 67, 0.66) 40%,
+        rgba(0, 92, 73, 0.22) 72%,
+        rgba(0, 28, 34, 0.36) 100%
+      ),
+      linear-gradient(90deg, rgba(0, 18, 27, 0.25), transparent 74%);
   }
   .hero-content {
     padding-top: 53px;

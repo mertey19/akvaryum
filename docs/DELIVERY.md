@@ -38,7 +38,7 @@ Online ödeme ve kalıcı form teslimi mevcut olmadığından bu sistemlerin ba�
 
 ## Görsel kontrol
 
-Ana sayfa, filtre kataloğu, 14 ürünlü akvaryum kataloğu, ürün, teklif ve iletişim sayfalarının 390 px mobil ve 1440 px masaüstü tam sayfa ekran görüntüleri açılıp incelendi. Sağlanan logo ile açılış marka başlığı iki boyutta da okunabilir; açık zeminlerdeki bilgilendirme metinleri ve form yer tutucuları daha koyu ikincil tonla belirginleştirildi. Koyu marka başlığı, akvaryum koleksiyon bandı, iki sütunlu mobil fiyat kartları, fiyat seçenekleri, ürün eylemleri ve filtre düzeninde belirgin taşma/örtüşme veya kırık görsel görülmedi.
+Ana sayfa, filtre kataloğu, 14 ürünlü akvaryum kataloğu, ürün, teklif ve iletişim sayfalarının 390 px mobil ve 1440 px masaüstü tam sayfa ekran görüntüleri açılıp incelendi. Sağlanan logo ile açılış marka başlığı iki boyutta da okunabilir; açık zeminlerdeki bilgilendirme metinleri ve form yer tutucuları daha koyu ikincil tonla belirginleştirildi. Hero görselindeki puslu renk katmanı azaltılıp doygunluk ve kontrast artırıldı; metin alanlarında okunabilirlik korundu. Koyu marka başlığı, akvaryum koleksiyon bandı, iki sütunlu mobil fiyat kartları, fiyat seçenekleri, ürün eylemleri ve filtre düzeninde belirgin taşma/örtüşme veya kırık görsel görülmedi.
 
 Creaqua’nın ana sayfa, akvaryum kategori ve iki seri detay sayfası genel görünüm ile bilgi hiyerarşisi için salt okunur incelendi. DSN uyarlamasında koyu marka alanı, ferah ürün zemini, görsel/ölçü/seçenek/fiyat sırası ve responsive detay yapısı kullanıldı; Creaqua metni, görseli, logosu veya sayfa düzeni birebir alınmadı.
 
