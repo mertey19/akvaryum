@@ -1,8 +1,9 @@
 import { getProducts } from "@/lib/repository";
 import { SavedList } from "@/components/saved-list";
+import { siteConfig } from "@/lib/config";
 export const metadata = {
   title: "Ürün karşılaştırma",
-  robots: { index: false, follow: false },
+  robots: { index: siteConfig.indexable, follow: siteConfig.indexable },
 };
 export default function Page() {
   return (

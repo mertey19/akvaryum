@@ -20,20 +20,21 @@ export async function generateMetadata({
   searchParams: Promise<Query>;
 }) {
   const q = await searchParams;
-  const option = aquariumOptions.find((o) => o === q.secenek);
-  return {
-    ...meta(
-      q.q
-        ? `${q.q} araması`
-        : (q.kategori === "akvaryumlar" && option
-            ? aquariumOptionName(option)
-            : categories.find((c) => c.id === q.kategori)?.name) ||
-            "Ürün kataloğu",
-      "Akvaryum, teraryum, paludaryum ve ekipman seçeneklerini teknik özelliklere göre inceleyin.",
-      "/urunler",
-    ),
-    robots: { index: false, follow: false },
-  };
+  const category = categories.find((c) => c.id === q.kategori);
+  const option =
+    category?.id === "akvaryumlar"
+      ? aquariumOptions.find((o) => o === q.secenek)
+      : undefined;
+  return meta(
+    q.q
+      ? `${q.q} araması`
+      : (option ? aquariumOptionName(option) : category?.name) ||
+          "Ürün kataloğu",
+    "Akvaryum, teraryum, paludaryum ve ekipman seçeneklerini teknik özelliklere göre inceleyin.",
+    category
+      ? `/urunler?kategori=${category.id}${option ? `&secenek=${option}` : ""}`
+      : "/urunler",
+  );
 }
 export default async function Catalog({
   searchParams,

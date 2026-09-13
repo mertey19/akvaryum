@@ -4,19 +4,7 @@ export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: "*",
-      ...(siteConfig.indexable
-        ? {
-            allow: "/",
-            disallow: [
-              "/api/",
-              "/favoriler",
-              "/karsilastir",
-              "/projeler",
-              "/iletisim?",
-              "/urunler?",
-            ],
-          }
-        : { disallow: "/" }),
+      ...(siteConfig.indexable ? { allow: "/" } : { disallow: "/" }),
     },
     ...(siteConfig.indexable
       ? { sitemap: `${siteConfig.url}/sitemap.xml` }

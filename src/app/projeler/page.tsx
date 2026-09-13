@@ -3,7 +3,7 @@ import { siteConfig } from "@/lib/config";
 import { Projects } from "@/components/projects";
 export const metadata = {
   title: "Konsept galerisi",
-  robots: { index: false, follow: false },
+  robots: { index: siteConfig.indexable, follow: siteConfig.indexable },
 };
 export default function Page() {
   if (!siteConfig.demo) notFound();
