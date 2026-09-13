@@ -4,6 +4,7 @@ import { getProducts } from "@/lib/repository";
 import { ProductCard } from "@/components/product-card";
 import { Filters } from "@/components/filters";
 import { meta } from "@/lib/seo";
+import { siteConfig } from "@/lib/config";
 export async function generateMetadata({
   searchParams,
 }: {
@@ -65,8 +66,9 @@ export default async function Catalog({
         <span className="eyebrow">DÜNYANIZI TAMAMLAYIN</span>
         <h1>{q.q ? `“${q.q}” için sonuçlar` : cat?.name || "Ürün kataloğu"}</h1>
         <p>
-          İhtiyacınıza uygun seçenekleri keşfedin, detayları birlikte
-          değerlendirin.
+          {cat?.id === "akvaryumlar"
+            ? `DSN Akvaryum’un ürettiği akvaryumlarda ${siteConfig.aquariumGlass} kullanılır. Ölçü ve diğer ürün değerlerini detay sayfasında inceleyin.`
+            : "İhtiyacınıza uygun seçenekleri keşfedin, detayları birlikte değerlendirin."}
         </p>
       </div>
       <div className="catalog-layout">

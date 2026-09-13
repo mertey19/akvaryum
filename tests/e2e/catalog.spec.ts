@@ -12,6 +12,29 @@ test("desktop menu focuses links and returns to the opener", async ({
   await expect(button).toBeFocused();
   await expect(page.locator("#mega-1")).toHaveCount(0);
 });
+test("verified DIAMOND glass information is consistent", async ({ page }) => {
+  await page.goto("/urunler?kategori=akvaryumlar");
+  await expect(page.locator(".material-badge")).toHaveCount(4);
+  await expect(page.locator(".material-badge").first()).toHaveText(
+    "DIAMOND cam",
+  );
+  await page
+    .locator(".product-card")
+    .first()
+    .getByRole("link", { name: "Ürünü incele" })
+    .click();
+  await expect(page.locator(".detail-material")).toHaveText(
+    "DIAMOND cam ile üretilir",
+  );
+  await expect(
+    page.getByRole("row", { name: /Cam DIAMOND cam/ }),
+  ).toBeVisible();
+  await page.goto("/urunler?kategori=filtreler");
+  await expect(page.locator(".material-badge")).toHaveCount(0);
+  await page.goto("/urunler?q=diamond");
+  await expect(page.locator(".product-card")).toHaveCount(4);
+  await expect(page.locator(".material-badge")).toHaveCount(4);
+});
 test("search request failure is visible and can recover", async ({ page }) => {
   await page.route("**/api/arama?**", (r) =>
     r.fulfill({ status: 503, body: "unavailable" }),
@@ -141,6 +164,7 @@ test("variant updates SKU, price, stock and preserves context in contact draft",
   await expect(page.locator(".detail-meta")).toContainText("Sipariş üzerine");
   await page.getByRole("link", { name: "Bu Ürün İçin Bilgi Al" }).click();
   await expect(page.locator(".context-box")).toContainText("Siyah silikon");
+  await expect(page.locator(".context-box")).toContainText("Cam: DIAMOND cam");
   await page.getByLabel("Mesajınız").fill("Paket içeriği nedir?");
   await page.getByRole("button", { name: "Talep özetini oluştur" }).click();
   await expect(page.getByRole("textbox", { name: "Talep özeti" })).toHaveValue(

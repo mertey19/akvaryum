@@ -69,6 +69,22 @@ test("Demo catalog satisfies schema and inventory consistency", () => {
   assert.equal(money(null), "Fiyat için bilgi alın");
   assert.equal(money(325000), "₺3.250,00");
 });
+test("DIAMOND glass is applied only to aquarium products", () => {
+  const all = getProducts();
+  const aquariums = all.filter((p) => p.categoryId === "akvaryumlar");
+  assert.ok(aquariums.length > 0);
+  assert.ok(
+    aquariums.every((p) => p.specifications.Cam === siteConfig.aquariumGlass),
+  );
+  assert.ok(
+    all
+      .filter((p) => p.categoryId !== "akvaryumlar")
+      .every((p) => p.specifications.Cam === undefined),
+  );
+  const search = queryProducts({ q: "diamond" }, all);
+  assert.equal(search.total, aquariums.length);
+  assert.ok(search.items.every((p) => p.categoryId === "akvaryumlar"));
+});
 test("Volume rejects invalid dimensions and returns geometric gross liters", () => {
   assert.equal(grossVolume(60, 30, 36), 64.8);
   for (const value of [0, -1, NaN, Infinity, 301, 9])

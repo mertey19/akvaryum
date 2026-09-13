@@ -55,6 +55,7 @@ export default async function ProductPage({
             description: p.description,
             sku: p.sku,
             image: p.images.map((image) => `${siteConfig.url}${image}`),
+            ...(p.specifications.Cam ? { material: p.specifications.Cam } : {}),
             ...(p.gtin ? { gtin: p.gtin } : {}),
           }}
         />

@@ -16,6 +16,11 @@ export function ProductCard({ product: p }: { product: Product }) {
         {p.isDemo && <span className="image-caption">ÖRNEK ÜRÜN</span>}
       </div>
       <div className="product-info">
+        <div className="product-flags">
+          {p.specifications.Cam && (
+            <span className="material-badge">{p.specifications.Cam}</span>
+          )}
+        </div>
         <span className={`stock stock-${p.stockStatus}`}>
           {stockLabels[p.stockStatus]}
         </span>
@@ -23,7 +28,11 @@ export function ProductCard({ product: p }: { product: Product }) {
           <Link href={`/urun/${p.slug}`}>{p.name}</Link>
         </h3>
         <p className="spec-preview">
-          {Object.values(p.specifications).slice(0, 2).join(" · ")}
+          {Object.entries(p.specifications)
+            .filter(([key]) => key !== "Cam")
+            .slice(0, 2)
+            .map(([, value]) => value)
+            .join(" · ")}
         </p>
         <div className="card-bottom">
           <div>

@@ -7,6 +7,7 @@ export const siteConfig = {
   address: "",
   email: "",
   hours: "",
+  aquariumGlass: "DIAMOND cam",
   customProductionVerified: false,
   dimensionLimits: { min: 10, max: 300 },
 };

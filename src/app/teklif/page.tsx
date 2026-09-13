@@ -18,7 +18,7 @@ export default function Page() {
       </div>
       {siteConfig.demo && (
         <p className="notice">
-          Örnek planlama akışı. DSN Akvaryum’un özel üretim hizmeti henüz
+          Örnek planlama akışı. DSN Akvaryum’un özel ölçü üretim hizmeti henüz
           doğrulanmamıştır.
         </p>
       )}

@@ -54,11 +54,10 @@ Demo açıkken `noindex,nofollow`, robots engeli ve boş sitemap uygulanır. Ala
 
 ## Canlı yayın için beklenen girdiler
 
-Gerçek telefon/WhatsApp/e-posta ve alan adı; gerekiyorsa adres/saatler; onaylı ürün, fiyat, SKU, stok, teslimat bilgileri; izinli ürün/varyant/proje fotoğrafları; özel üretim kapsamının teyidi; ilgili onaylı politika metinleri. Bu bilgiler olmadan site gerçek işletme kataloğu gibi yayımlanmadı.
+DIAMOND cam kullanımı işletme tarafından doğrulanmış ve sisteme işlenmiştir. Canlı yayın için hâlâ gerçek telefon/WhatsApp/e-posta ve alan adı; gerekiyorsa adres/saatler; onaylı ürün, fiyat, SKU, stok, diğer teknik ve teslimat bilgileri; izinli ürün/varyant/proje fotoğrafları; özel ölçü üretim kapsamının ayrıca teyidi ve ilgili onaylı politika metinleri gerekir. Bu bilgiler olmadan site gerçek işletme kataloğu gibi yayımlanmadı.
 
 Online ödeme, üyelik, sepet, sipariş takibi ve yönetim paneli belgedeki koşullu kapsamdır; varsayılan kataloğa eklenmedi. Sunucuya form kaydı veya mesaj gönderme entegrasyonu yoktur; kopyalama/WhatsApp taslağı akışı tamamlanmıştır. Gerçek e-posta/WhatsApp teslimi, gerçek müşteri siparişi ve ödeme test edilmedi.
 
 ## Teknik kaynaklar
 
 Kurulum yaklaşımı [Next.js resmî kurulum belgeleri](https://nextjs.org/docs/app/getting-started/installation) ve [Tailwind CSS Next.js rehberi](https://tailwindcss.com/docs/installation/framework-guides/nextjs) ile kontrol edildi. Projenin `AGENTS.md` dosyasına uygun olarak kurulu Next.js paketindeki güncel sayfa/istemci belgeleri okundu. Yapılandırılmış veri yaklaşımı [Google Search Central](https://developers.google.com/search/docs/appearance/structured-data/product), saha ölçümlerinin ayrımı [Web Vitals](https://web.dev/articles/vitals) belgeleriyle doğrulandı. Kullanıcının referans incelemesi gereksinim olarak kullanıldı; rakibin görselleri ve tasarımı kopyalanmadı.
-

@@ -148,8 +148,12 @@ const seeds: [string, string, string, number | null, Record<string, string>][] =
     ],
   ];
 const demoProducts = seeds.map(
-  ([slug, name, categoryId, price, specifications], i) =>
-    productSchema.parse({
+  ([slug, name, categoryId, price, specifications], i) => {
+    const verifiedSpecifications =
+      categoryId === "akvaryumlar"
+        ? { Cam: siteConfig.aquariumGlass, ...specifications }
+        : specifications;
+    return productSchema.parse({
       id: slug,
       slug,
       name,
@@ -157,11 +161,11 @@ const demoProducts = seeds.map(
       brand: i % 3 === 0 ? "Atölye · demo" : "Studio · demo",
       sku: `DEMO-${String(i + 1).padStart(3, "0")}`,
       gtin: null,
-      description: `${name}, katalog deneyimini göstermek için hazırlanmış örnek bir üründür. ${categoryId === "mobilyalar" ? "Dış filtre yerleşimi kurulum planında ayrıca değerlendirilmelidir. " : ""}Teknik değerler, fiyat ve stok gerçek bir satış teklifi değildir. Ürün seçerken üreticinin doğrulanmış bilgilerini esas alın.`,
+      description: `${name}, katalog deneyimini göstermek için hazırlanmış örnek bir üründür. ${categoryId === "akvaryumlar" ? `DSN Akvaryum, ürettiği akvaryumlarda ${siteConfig.aquariumGlass} kullanır. Bu ürüne ait ölçü, cam kalınlığı, fiyat ve stok değerleri demo verisidir. ` : `${categoryId === "mobilyalar" ? "Dış filtre yerleşimi kurulum planında ayrıca değerlendirilmelidir. " : ""}Teknik değerler, fiyat ve stok gerçek bir satış teklifi değildir. `}Ürün seçerken doğrulanmış ürün bilgilerini esas alın.`,
       images: ["/images/products.webp"],
       imageAlt: `${name} için temsili ürün görseli`,
       image: categories.find((c) => c.id === categoryId)!.image,
-      specifications,
+      specifications: verifiedSpecifications,
       variants:
         slug === "clear-60"
           ? [
@@ -172,7 +176,10 @@ const demoProducts = seeds.map(
                 price: 325000,
                 stockStatus: "stokta",
                 image: 0,
-                specifications: { ...specifications, Silikon: "Şeffaf" },
+                specifications: {
+                  ...verifiedSpecifications,
+                  Silikon: "Şeffaf",
+                },
               },
               {
                 id: "black",
@@ -181,7 +188,10 @@ const demoProducts = seeds.map(
                 price: 345000,
                 stockStatus: "siparis",
                 image: 0,
-                specifications: { ...specifications, Silikon: "Siyah" },
+                specifications: {
+                  ...verifiedSpecifications,
+                  Silikon: "Siyah",
+                },
               },
             ]
           : [],
@@ -207,7 +217,8 @@ const demoProducts = seeds.map(
       addedAt: i,
       packageContents:
         "Paket içeriği bu demo için doğrulanmamıştır; teklif aşamasında netleştirilmelidir.",
-    }),
+    });
+  },
 );
 // Replace with validated, approved data from a repository or CMS. Demo data is excluded in live mode.
 export function getProducts() {

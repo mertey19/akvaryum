@@ -67,6 +67,11 @@ export function ProductDetail({
         <div className="detail-info">
           <span className="eyebrow">{p.brand}</span>
           <h1>{p.name}</h1>
+          {current.specifications.Cam && (
+            <span className="material-badge detail-material">
+              {current.specifications.Cam} ile üretilir
+            </span>
+          )}
           <div className="detail-meta">
             <span className={`stock stock-${current.stockStatus}`}>
               {stockLabels[current.stockStatus]}

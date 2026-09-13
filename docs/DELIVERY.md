@@ -9,8 +9,8 @@ Tarih: 13 Eylül 2026. Yerel uygulama: `http://localhost:3000`. Kapsam: kullanı
 | `npm run build` | Başarılı; Next.js üretim derlemesi ve tip denetimi tamamlandı. |
 | `npm run lint` | Başarılı; sıfır hata/uyarı. Üretilmiş Playwright/Lighthouse raporları lint kapsamı dışında. |
 | `npm run typecheck` | Başarılı; route tip üretimi ve `tsc --noEmit`. |
-| `npm run test` | 7/7 geçti. |
-| `npm run test:e2e` | 22/22 geçti, son tur 23,3 saniye. Üretim sunucusunda Chromium. |
+| `npm run test` | 8/8 geçti. |
+| `npm run test:e2e` | 23/23 geçti, son tur 26,0 saniye. Üretim sunucusunda Chromium. |
 | Axe erişilebilirlik | Ana sayfa, filtre kataloğu, ürün, teklif ve iletişimde WCAG 2 A/AA ve 2.1 AA etiketli otomatik denetimde ihlal yok. |
 | Responsive | 360, 390, 768, 1024, 1440 px genişliklerde beş ana akış; 25 sayfa/genişlik kontrolünde yatay taşma yok. |
 | `npm run release:check` | Beklenen ret: demo modu açık; gerçek alan adı, iletişim kanalı ve onaylı ürünler eksik. |
@@ -61,7 +61,7 @@ Katalog ve ürünün bu koşudaki laboratuvar LCP değeri 2,9 sn’dir. Gerçek 
 
 Yerel demo ve belgelenmiş katalog akışları hazır. Varsayılan veri 18 görünür demo üründür; sekizi ana sayfada. Ürünlerin örnek fiyat/stok/markaları açıkça demo olarak gösterilir. İki özgün üretilmiş görsel proje içine kaydedildi; ayrıntılı kaynak ve promptlar [ASSETS.md](ASSETS.md) dosyasındadır.
 
-Gerçek işletme kataloğu için hâlâ gerekenler: doğrulanmış iletişim ve alan adı; ürünlerin onaylı kimlikleri, fiyatları, stokları, üretici teknik değerleri ve teslimat kapsamı; gerçek ürün/varyant fotoğrafları ve yayın izinleri; özel üretim hizmetinin teyidi; gerekiyorsa adres/saatler ve onaylı politika metinleri. Gerçek varyant fotoğrafları verilmediği için demo aynı kategori temsili görselini kullanır; gerçek `images` verisi için varyant ve çoklu galeri desteği kodda mevcuttur.
+Doğrulanmış yeni işletme bilgisi ürün verisine ve arayüze işlendi: DSN Akvaryum, akvaryumlarını üretirken DIAMOND cam kullanır. Gerçek işletme kataloğu için hâlâ gerekenler: doğrulanmış iletişim ve alan adı; ürünlerin onaylı kimlikleri, fiyatları, stokları, diğer teknik değerleri ve teslimat kapsamı; gerçek ürün/varyant fotoğrafları ve yayın izinleri; özel ölçü hizmetinin ayrıca teyidi; gerekiyorsa adres/saatler ve onaylı politika metinleri. Gerçek varyant fotoğrafları verilmediği için demo aynı kategori temsili görselini kullanır; gerçek `images` verisi için varyant ve çoklu galeri desteği kodda mevcuttur.
 
 Gerçek proje görseli olmadığı için müşteri işi uydurulmadı; yalnızca demo konsept galerisi var. Özel üretim işletmece doğrulanmadığından ölçü aracı örnek olarak işaretlendi ve hizmet taahhüdü oluşturmaz. Gerçek numara olmadan WhatsApp taslağının servis üzerinden açılması/teslimi sınanmadı.
 

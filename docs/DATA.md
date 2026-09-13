@@ -4,6 +4,8 @@
 
 `src/lib/config.ts` tek işletme ayarı kaynağıdır. Telefon, e-posta, adres, saat ve `customProductionVerified` alanlarını yalnızca işletme tarafından doğrulanınca doldurun. `.env.example` dosyasını `.env.local` olarak kopyalayın. `SITE_URL` gerçek HTTPS adresi, `WHATSAPP_NUMBER` uluslararası biçimde ülke koduyla gerçek numaradır. Boş numara WhatsApp düğmesi oluşturmaz. Değişiklikten sonra yeniden derleyin.
 
+Doğrulanmış işletme bilgisi: DSN Akvaryum, akvaryumlarını üretirken DIAMOND cam kullanır. Bu bilgi tek kaynak olarak `aquariumGlass` ayarında tutulur. Mevcut DSN akvaryum demo kayıtlarında `Cam` alanına uygulanır. Gelecekte eklenen gerçek veya üçüncü taraf ürünlerde bu alan ürün bazında ayrıca doğrulanmalıdır. Özel ölçü üretimi ayrıca doğrulanmadığı için `customProductionVerified` bağımsız olarak `false` kalır.
+
 `NEXT_PUBLIC_DEMO_MODE=true` yerel önizlemedir. Kapatmak için değer tam olarak `false` olmalıdır. Örnek ürünler kapatıldığında gizlenir; gerçek kayıtlar `src/data/products.json` dosyasından okunur. Gerçek veri eksikken demo modunu kapatmak içerik oluşturmaz.
 
 ## Ürün kaydı
@@ -25,7 +27,10 @@
   "images": ["/images/products.webp"],
   "imageAlt": "Temsili akvaryum görseli",
   "image": 0,
-  "specifications": {"Ölçü": "60 × 30 × 36 cm"},
+  "specifications": {
+    "Cam": "DIAMOND cam",
+    "Ölçü": "60 × 30 × 36 cm"
+  },
   "variants": [],
   "price": null,
   "currency": "TRY",

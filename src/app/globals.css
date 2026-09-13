@@ -687,6 +687,34 @@ dialog::backdrop {
   color: var(--reef-dark);
   line-height: 1.4;
 }
+.material-badge {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  width: max-content;
+  max-width: 100%;
+  margin-bottom: 9px;
+  padding: 5px 9px;
+  border: 1px solid #8bd4c0;
+  border-radius: 4px;
+  background: #e9fbf3;
+  color: #066c50;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.35;
+}
+.product-flags {
+  display: flex;
+  align-items: flex-start;
+  min-height: 29px;
+}
+.detail-material {
+  margin-top: 14px;
+  margin-bottom: 18px;
+  padding: 7px 11px;
+  font-size: 11px;
+}
 .stock::before {
   content: "";
   width: 5px;
@@ -779,6 +807,14 @@ dialog::backdrop {
   color: var(--muted);
   margin: 24px 0;
   max-width: 450px;
+}
+.intent-copy .verified-material {
+  margin-top: -10px;
+  padding-left: 14px;
+  border-left: 3px solid var(--reef);
+  color: var(--reef-dark);
+  font-size: 14px;
+  font-weight: 600;
 }
 .intent-copy > a {
   display: flex;
@@ -1419,6 +1455,15 @@ footer {
   font-size: 21px;
   color: var(--muted);
   margin: 24px 0 35px;
+}
+.prose .verified-fact {
+  padding: 22px 24px;
+  border-left: 4px solid var(--reef);
+  border-radius: 0 8px 8px 0;
+  background: linear-gradient(90deg, #e5f9f1, #eefaff);
+  color: var(--ink);
+  font-size: 20px;
+  font-weight: 600;
 }
 .prose p {
   margin: 20px 0;

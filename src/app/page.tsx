@@ -57,7 +57,7 @@ export default function Home() {
       <div className="value-strip container">
         <div>
           <Icon name="water" />
-          <span>Yaşam alanınıza uygun seçenekler</span>
+          <span>{siteConfig.aquariumGlass} ile üretilen akvaryumlar</span>
         </div>
         <div>
           <Icon name="compare" />
@@ -143,6 +143,9 @@ export default function Home() {
             Yeni bir akvaryum mu kuruyorsunuz, mevcut sisteminizi mi
             tamamlıyorsunuz? İhtiyacınız olan yerden başlayın.
           </p>
+          <p className="verified-material">
+            {`DSN Akvaryum, ürettiği akvaryumlarda ${siteConfig.aquariumGlass} kullanır.`}
+          </p>
           <Link href="/urunler?kategori=akvaryumlar">
             <span>
               <strong>Yeni bir dünya kuruyorum</strong>
@@ -177,7 +180,8 @@ export default function Home() {
               Ölçülerinizi planlayın <Icon name="arrow" size={18} />
             </Link>
             <small>
-              Örnek planlama aracı · Üretim hizmeti henüz doğrulanmamıştır.
+              Örnek planlama aracı · Özel ölçü üretim hizmeti henüz
+              doğrulanmamıştır.
             </small>
           </div>
           <div className="measure-type">
