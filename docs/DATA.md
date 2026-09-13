@@ -8,6 +8,8 @@ Doğrulanmış iletişim değerleri `phone: "0545 389 71 47"`, `phoneHref: "tel:
 
 Doğrulanmış işletme bilgisi: DSN Akvaryum, akvaryumlarını üretirken DIAMOND cam kullanır. Bu bilgi tek kaynak olarak `aquariumGlass` ayarında tutulur. Fiyat listesiyle sağlanan DSN akvaryum kayıtlarında `Cam` alanına uygulanır. Gelecekte eklenen gerçek veya üçüncü taraf ürünlerde bu alan ürün bazında ayrıca doğrulanmalıdır. Özel ölçü üretimi ayrıca doğrulanmadığı için `customProductionVerified` bağımsız olarak `false` kalır.
 
+Akvaryum fiyatlarına arka fon ve zemin matının dahil olduğu bilgisi kullanıcı tarafından 13 Eylül 2026 tarihinde iletildi. Metin tek kaynak olarak `aquariumPriceIncludes` ayarında tutulur; akvaryum kartlarında, ürün detayındaki fiyat seçeneklerinde, akvaryum kataloğu girişinde ve akvaryum kayıtlarının açıklama ile paket içeriği alanlarında gösterilir.
+
 Hazır ölçü akvaryumların mevcut olduğu kullanıcı tarafından 13 Eylül 2026 tarihinde doğrulandı. Arayüz bu bilgiyi ana sayfa, üst duyuru alanı ve akvaryum kataloğunda gösterir; güncel ölçü ve stok doğrulaması WhatsApp görüşmesinde yapılır.
 
 ## Akvaryum fiyat listesi

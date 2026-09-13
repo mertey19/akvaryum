@@ -205,6 +205,11 @@ test("DIAMOND glass is applied only to aquarium products", () => {
       .filter((p) => p.categoryId !== "akvaryumlar")
       .every((p) => p.specifications.Cam === undefined),
   );
+  assert.ok(
+    aquariums.every((p) =>
+      p.packageContents.startsWith(siteConfig.aquariumPriceIncludes),
+    ),
+  );
   const search = queryProducts({ q: "diamond" }, all);
   assert.equal(search.total, aquariums.length);
   assert.ok(search.items.every((p) => p.categoryId === "akvaryumlar"));

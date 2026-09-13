@@ -13,6 +13,7 @@ export const siteConfig = {
   email: "",
   hours: "",
   aquariumGlass: "DIAMOND cam",
+  aquariumPriceIncludes: "Arka fon ve zemin matı fiyata dahildir.",
   customProductionVerified: false,
   dimensionLimits: { min: 10, max: 300 },
 };

@@ -12,6 +12,7 @@ import { ProductImage } from "./product-image";
 import { SaveButton } from "./saved";
 import { Icon } from "./icon";
 import { whatsappLink } from "@/lib/quote";
+import { siteConfig } from "@/lib/config";
 export function ProductDetail({
   product: p,
   initialVariant = "",
@@ -140,6 +141,9 @@ export function ProductDetail({
                   </button>
                 ))}
               </div>
+              <p className="price-includes">
+                {siteConfig.aquariumPriceIncludes}
+              </p>
               <p>
                 90° ve 45° adları sağlanan listedeki seçenek başlıklarıdır.
                 Güncel tutar ve üretim ayrıntıları teklif öncesinde teyit

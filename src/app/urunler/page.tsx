@@ -83,8 +83,7 @@ export default async function Catalog({
               {`${siteConfig.aquariumGlass} ile üretilen akvaryumları ölçülerine göre inceleyin. 90° ve 45° seçenek fiyatları${priceListDate ? `, sağlanan ${priceListDate} tarihli listeden aktarılmıştır` : " birlikte gösterilir"}.`}
             </p>
             <small>
-              Hazır ölçü akvaryumlar mevcuttur. Güncel tutar ve stok WhatsApp
-              üzerinden teyit edilir.
+              {`Hazır ölçü akvaryumlar mevcuttur. ${siteConfig.aquariumPriceIncludes} Güncel tutar ve stok WhatsApp üzerinden teyit edilir.`}
             </small>
             {readyWhatsApp && (
               <a

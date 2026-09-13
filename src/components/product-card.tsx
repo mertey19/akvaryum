@@ -5,6 +5,7 @@ import {
   money,
   stockLabels,
 } from "@/lib/catalog";
+import { siteConfig } from "@/lib/config";
 import { ProductImage } from "./product-image";
 import { SaveButton } from "./saved";
 import { Icon } from "./icon";
@@ -53,6 +54,9 @@ export function ProductCard({ product: p }: { product: Product }) {
                 </div>
               ))}
             </div>
+            <p className="aquarium-price-includes">
+              {siteConfig.aquariumPriceIncludes}
+            </p>
             <div className="aquarium-price-meta">
               <small>{p.priceListDate} fiyat listesi</small>
               <SaveButton product={p} kind="compare" />

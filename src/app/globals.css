@@ -959,6 +959,13 @@ dialog::backdrop {
   min-width: 38px;
   min-height: 38px;
 }
+.aquarium-price-includes {
+  margin: 8px 0 0;
+  color: var(--brand-dark);
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.4;
+}
 .product-link {
   border-top: 1px solid var(--line);
   padding: 12px 0;
@@ -1699,6 +1706,11 @@ footer {
   color: var(--muted);
   font-size: 11px;
   line-height: 1.6;
+}
+.price-choice > .price-includes {
+  color: var(--brand-dark);
+  font-size: 13px;
+  font-weight: 700;
 }
 .aquarium-product-page .gallery-open {
   background: linear-gradient(155deg, #fff 0%, #edf8fa 100%);

@@ -264,7 +264,7 @@ const aquariumProducts = aquariumPriceRows.map((row, index) => {
     brand: siteConfig.fullName,
     sku: baseSku,
     gtin: null,
-    description: `${dimensions} cm ölçüsündeki DSN akvaryumun 90° ve 45° fiyat seçenekleri sağlanan fiyat listesindeki tutarlardan aktarılmıştır. DSN Akvaryum üretiminde ${siteConfig.aquariumGlass} kullanır. Cam kalınlığı, stok, hazırlık süresi ve paket içeriği teklif aşamasında netleştirilir.`,
+    description: `${dimensions} cm ölçüsündeki DSN akvaryumun 90° ve 45° fiyat seçenekleri sağlanan fiyat listesindeki tutarlardan aktarılmıştır. DSN Akvaryum üretiminde ${siteConfig.aquariumGlass} kullanır. ${siteConfig.aquariumPriceIncludes} Cam kalınlığı, stok, hazırlık süresi ve diğer paket içeriği teklif aşamasında netleştirilir.`,
     images: ["/images/products.webp"],
     imageAlt: "Boş cam akvaryum kategori görseli",
     image: categories.find((category) => category.id === "akvaryumlar")!.image,
@@ -300,7 +300,7 @@ const aquariumProducts = aquariumPriceRows.map((row, index) => {
     published: true,
     isDemo: true,
     addedAt: 100 + index,
-    packageContents: "Paket içeriği WhatsApp görüşmesinde netleştirilir.",
+    packageContents: `${siteConfig.aquariumPriceIncludes} Diğer paket içeriği WhatsApp görüşmesinde netleştirilir.`,
   });
 });
 
