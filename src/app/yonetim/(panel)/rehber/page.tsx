@@ -33,8 +33,8 @@ export default async function AdminGuides() {
                   <br />
                   <small>/rehber/{g.slug}</small>
                 </td>
-                <td>{g.tag}</td>
-                <td>{g.sections.length}</td>
+                <td data-label="Etiket">{g.tag}</td>
+                <td data-label="Bölüm">{g.sections.length}</td>
                 <td>
                   <Link
                     className="text-link"

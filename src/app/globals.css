@@ -2940,15 +2940,112 @@ footer {
 .admin-login h1 {
   margin: 6px 0 18px;
 }
+.admin-nav a[aria-current="page"] {
+  background: #ffffff26;
+  font-weight: 700;
+}
 @media (max-width: 800px) {
+  /* minmax(0, 1fr) stops wide tables and form rows from widening the page. */
   .admin-shell {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
   }
   .admin-nav {
-    position: static;
+    z-index: 10;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 14px;
     height: auto;
+    padding: 10px 14px 8px;
+    font-size: 14px;
+  }
+  .admin-nav > strong {
+    flex: 1;
+  }
+  .admin-nav > a,
+  .admin-nav .admin-link {
+    padding: 6px 2px;
   }
   .admin-nav nav {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    order: 1;
+    display: flex;
+    flex-basis: 100%;
+    gap: 6px;
+    margin: 0 -14px;
+    padding: 2px 14px 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
   }
+  .admin-nav nav::-webkit-scrollbar {
+    display: none;
+  }
+  .admin-nav nav a {
+    flex: none;
+    padding: 7px 12px;
+    border-radius: 999px;
+    background: #ffffff14;
+    white-space: nowrap;
+  }
+  .admin-main {
+    padding: 20px 14px 24px;
+  }
+  .admin h1 {
+    font-size: 24px;
+  }
+  .admin-card {
+    padding: 16px;
+  }
+  /* iOS zooms into inputs smaller than 16px. */
+  .admin input:not([type="checkbox"]):not([type="hidden"]),
+  .admin select,
+  .admin textarea {
+    font-size: 16px;
+  }
+  .admin-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .admin-stats .admin-card {
+    margin-bottom: 10px;
+  }
+  .admin-stats strong {
+    font-size: 26px;
+  }
+  .admin-savebar .button {
+    flex: 1 1 auto;
+  }
+  .admin-inline {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .admin-row > .button {
+    flex: 1 1 auto;
+  }
+  /* Rows become cards on phones instead of a cramped five-column table. */
+  .admin-table thead {
+    display: none;
+  }
+  .admin-table,
+  .admin-table tbody,
+  .admin-table tr,
+  .admin-table td {
+    display: block;
+  }
+  .admin-table tr {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  .admin-table td {
+    padding: 2px 0;
+    border: 0;
+  }
+  .admin-table td[data-label]::before {
+    content: attr(data-label) ": ";
+    color: var(--muted);
+    font-size: 13px;
+  }
+}
+/* Contains visually hidden header text so it cannot widen the page. */
+.admin-table-wrap {
+  position: relative;
 }

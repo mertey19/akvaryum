@@ -66,15 +66,15 @@ export default async function AdminProducts({
                   <br />
                   <small>{p.sku}</small>
                 </td>
-                <td>{categoryName(p.categoryId)}</td>
-                <td>
+                <td data-label="Kategori">{categoryName(p.categoryId)}</td>
+                <td data-label="Fiyat">
                   {p.variants.length
                     ? p.variants
                         .map((v) => `${v.name}: ${money(v.price)}`)
                         .join(" · ")
                     : money(p.price)}
                 </td>
-                <td>
+                <td data-label="Durum">
                   <span
                     className={`admin-badge${p.published ? "" : " muted"}`}
                   >
