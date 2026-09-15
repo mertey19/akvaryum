@@ -9,9 +9,10 @@ import { Icon } from "@/components/icon";
 import { guides } from "@/lib/guides";
 import { meta } from "@/lib/seo";
 import { whatsappLink } from "@/lib/quote";
+import { StructuredData } from "@/components/structured-data";
 export const metadata = meta(
-  "Su altı dünyanıza doğru başlangıç",
-  "Akvaryum, teraryum, paludaryum ve ekipman seçeneklerini keşfedin. Ürünleri karşılaştırın, kendi kurulumunuz için bir talep hazırlayın.",
+  siteConfig.name,
+  `${siteConfig.fullName}: Ankara Mamak'ta ${siteConfig.aquariumGlass} ile Ultra Clear akvaryum üretimi. Hazır ölçü akvaryumlar, 90° ve 45° fiyatları, teraryum ve paludaryum; WhatsApp üzerinden sipariş.`,
   "/",
 );
 export default function Home() {
@@ -31,6 +32,14 @@ export default function Home() {
   ].slice(0, 8);
   return (
     <>
+      <StructuredData
+        data={{
+          "@type": "WebSite",
+          name: siteConfig.name,
+          alternateName: [siteConfig.fullName, "DSNAkvaryum"],
+          url: `${siteConfig.url}/`,
+        }}
+      />
       <section className="hero">
         <Image
           src="/images/hero.webp"

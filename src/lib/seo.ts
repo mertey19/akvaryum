@@ -5,15 +5,18 @@ export function meta(
   description: string,
   path: string,
 ): Metadata {
+  const fullTitle =
+    title === siteConfig.name ? title : `${title} | ${siteConfig.name}`;
   return {
-    title: { absolute: `${title} | ${siteConfig.fullName}` },
+    title: { absolute: fullTitle },
     description,
     alternates: siteConfig.url
       ? { canonical: `${siteConfig.url}${path}` }
       : undefined,
     openGraph: {
-      title: `${title} | ${siteConfig.fullName}`,
+      title: fullTitle,
       description,
+      siteName: siteConfig.name,
       locale: "tr_TR",
       type: "website",
     },

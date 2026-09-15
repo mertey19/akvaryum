@@ -11,9 +11,10 @@ import { Icon } from "@/components/icon";
 import { whatsappLink } from "@/lib/quote";
 export const metadata: Metadata = {
   title: {
-    default: `${siteConfig.fullName} — Su altı dünyanıza doğru başlangıç`,
-    template: `%s | ${siteConfig.fullName}`,
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
   },
+  applicationName: siteConfig.name,
   description:
     "Akvaryum, teraryum, paludaryum ve ekipman seçeneklerini keşfedin, karşılaştırın ve kurulumunuzu planlayın.",
   robots: { index: siteConfig.indexable, follow: siteConfig.indexable },
@@ -34,6 +35,7 @@ export default function RootLayout({
           data={{
             "@type": "Organization",
             name: siteConfig.fullName,
+            alternateName: siteConfig.name,
             url: siteConfig.url,
             ...(siteConfig.phone
               ? { telephone: siteConfig.phoneHref.replace("tel:", "") }
