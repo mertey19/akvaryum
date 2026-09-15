@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Analytics } from "@vercel/analytics/next";
 import { Header } from "@/components/header";
 import { SavedProvider } from "@/components/saved";
 import { siteConfig } from "@/lib/config";
@@ -132,6 +133,7 @@ export default function RootLayout({
             </a>
           )}
         </SavedProvider>
+        <Analytics />
       </body>
     </html>
   );
