@@ -4,7 +4,11 @@ import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/admin/session";
-import { localUploadsDir, storeKind } from "@/lib/content/store";
+import {
+  blobConfigured,
+  localUploadsDir,
+  storeKind,
+} from "@/lib/content/store";
 
 const extensions: Record<string, string> = {
   "image/jpeg": "jpg",
@@ -33,12 +37,23 @@ export async function POST(request: Request) {
       { status: 413 },
     );
   const name = `${Date.now()}-${randomUUID().slice(0, 8)}.${extension}`;
-  if (process.env.BLOB_READ_WRITE_TOKEN) {
-    const blob = await put(`uploads/${name}`, file, {
-      access: "public",
-      contentType: file.type,
-    });
-    return NextResponse.json({ url: blob.url });
+  if (blobConfigured()) {
+    try {
+      const blob = await put(`uploads/${name}`, file, {
+        access: "public",
+        contentType: file.type,
+      });
+      return NextResponse.json({ url: blob.url });
+    } catch (error) {
+      console.error("Vercel Blob yüklemesi başarısız", error);
+      return NextResponse.json(
+        {
+          error:
+            "Görsel deposuna yüklenemedi. Vercel'de Blob deposunun projeye bağlı olduğunu kontrol edin.",
+        },
+        { status: 502 },
+      );
+    }
   }
   if (storeKind() === "file") {
     await mkdir(localUploadsDir(), { recursive: true });

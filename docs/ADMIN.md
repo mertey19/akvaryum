@@ -5,7 +5,7 @@ Panel `/yonetim` adresindedir. Ürünler ve fiyatlar, kategoriler ve üst menü,
 ## Vercel kurulumu
 
 1. Vercel projesinde **Storage → Create Database → Neon (Postgres)** ile veritabanı oluşturun ve projeye bağlayın (Production, Preview, Development). Vercel `DATABASE_URL` değişkenini kendisi ekler.
-2. **Storage → Create → Blob** ile görsel deposu oluşturun ve projeye bağlayın. Vercel `BLOB_READ_WRITE_TOKEN` değişkenini kendisi ekler.
+2. **Storage → Create → Blob** ile görsel deposu oluşturun ve projeye bağlayın. Vercel yeni depolarda `BLOB_STORE_ID`, eskilerde `BLOB_READ_WRITE_TOKEN` değişkenini kendisi ekler; panel ikisini de tanır.
 3. **Settings → Environment Variables** bölümüne `ADMIN_PASSWORD` ekleyin. Güçlü ve başka yerde kullanılmayan bir şifre seçin.
 4. İsteğe bağlı: oturum imzası için ayrı `ADMIN_SESSION_SECRET` ekleyin. Eklenmezse şifreden türetilir; şifre değişince tüm oturumlar kapanır.
 5. Değişkenler eklendikten sonra projeyi yeniden yayınlayın (Deployments → Redeploy).

@@ -1,12 +1,15 @@
 import Link from "next/link";
 import { requireAdmin } from "@/lib/admin/session";
-import { readSiteContent, storeKind } from "@/lib/content/store";
+import {
+  blobConfigured,
+  readSiteContent,
+  storeKind,
+} from "@/lib/content/store";
 
 export default async function AdminHome() {
   await requireAdmin();
   const { products, categories, guides, projects } = await readSiteContent();
   const kind = storeKind();
-  const blobReady = Boolean(process.env.BLOB_READ_WRITE_TOKEN);
   const stats = [
     [
       "/yonetim/urunler",
@@ -34,7 +37,7 @@ export default async function AdminHome() {
           .data/uploads klasörüne kaydediliyor.
         </p>
       )}
-      {kind === "database" && !blobReady && (
+      {kind === "database" && !blobConfigured() && (
         <p className="admin-banner admin-error">
           Görsel deposu bağlı değil; görsel yüklenemez. Vercel&apos;de Storage
           bölümünden Blob deposunu projeye bağlayın.
