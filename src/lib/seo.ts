@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { siteConfig } from "./config";
-export function meta(
-  title: string,
+import { getSettings } from "./repository";
+export async function meta(
+  title: string | null,
   description: string,
   path: string,
-): Metadata {
-  const fullTitle =
-    title === siteConfig.name ? title : `${title} | ${siteConfig.name}`;
+): Promise<Metadata> {
+  const { name } = await getSettings();
+  const fullTitle = title ? `${title} | ${name}` : name;
   return {
     title: { absolute: fullTitle },
     description,
@@ -16,7 +17,7 @@ export function meta(
     openGraph: {
       title: fullTitle,
       description,
-      siteName: siteConfig.name,
+      siteName: name,
       locale: "tr_TR",
       type: "website",
     },

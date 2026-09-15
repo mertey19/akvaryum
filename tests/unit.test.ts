@@ -1,21 +1,40 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { getProducts } from "../src/lib/repository";
+import { mkdtemp, rm } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import path from "node:path";
 import {
   aquariumOptions,
-  categories,
-  normalize,
-  queryProducts,
-  productSchema,
   money,
+  normalize,
+  productSchema,
+  publishedProducts,
+  queryProducts,
   relevance,
 } from "../src/lib/catalog";
 import { grossVolume, whatsappLink } from "../src/lib/quote";
+import { allowsIndexing, productionSiteUrl } from "../src/lib/config";
 import {
-  allowsIndexing,
-  productionSiteUrl,
-  siteConfig,
-} from "../src/lib/config";
+  findContentIssues,
+  phoneHref,
+  slugify,
+} from "../src/lib/content/schema";
+import { seedContent } from "../src/lib/content/seed";
+import {
+  readSiteContent,
+  storeKind,
+  writeSiteContent,
+} from "../src/lib/content/store";
+import {
+  createSessionToken,
+  passwordMatches,
+  sessionKey,
+  verifySessionToken,
+} from "../src/lib/admin/token";
+
+const content = seedContent();
+const { categories, settings } = content;
+const getProducts = () => publishedProducts(content.products, true);
 
 test("Turkish normalized search prioritizes external filters over cabinet descriptions", () => {
   assert.equal(normalize("I ı İ i Ş Ğ Ü Ö Ç"), "i i i i s g u o c");
@@ -24,7 +43,7 @@ test("Turkish normalized search prioritizes external filters over cabinet descri
   assert.equal(normalize("paladaryum"), "paludaryum");
   assert.equal(normalize("paludarium"), "paludaryum");
   for (const q of ["dış filtre", "dis filtre", "DIŞ FİLTRE"]) {
-    const data = queryProducts({ q }, getProducts());
+    const data = queryProducts({ q }, getProducts(), categories);
     assert.match(data.items[0].name, /Dış Filtre/);
     const cabinet = data.items.findIndex((p) => p.categoryId === "mobilyalar");
     assert.ok(cabinet > 0);
@@ -34,10 +53,10 @@ test("SKU and category rank before long description matches", () => {
   const p = getProducts().find(
     (product) => product.slug === "akvaryum-60x40x40",
   )!;
-  assert.equal(relevance(p, "AKV-60X40X40"), 100);
-  assert.equal(relevance(p, "AKV-60X40X40-45"), 80);
+  assert.equal(relevance(p, "AKV-60X40X40", categories), 100);
+  assert.equal(relevance(p, "AKV-60X40X40-45", categories), 80);
   assert.ok(
-    queryProducts({ q: "akvaryumlar" }, getProducts()).items.every(
+    queryProducts({ q: "akvaryumlar" }, getProducts(), categories).items.every(
       (p) => p.categoryId === "akvaryumlar",
     ),
   );
@@ -51,6 +70,7 @@ test("Filtering, totals, ordering and page bounds use the same result set", () =
       sayfa: "999",
     },
     getProducts(),
+    categories,
   );
   assert.equal(result.total, 2);
   assert.equal(result.page, 1);
@@ -59,20 +79,16 @@ test("Filtering, totals, ordering and page bounds use the same result set", () =
     ["İç Filtre Seçimi", "Dış Filtre Seçimi"],
   );
   assert.equal(
-    queryProducts(
-      { kategori: "akvaryumlar", sirala: "fiyat-artan" },
-      getProducts(),
-    ).items[0].price,
+    queryProducts({ kategori: "akvaryumlar", sirala: "fiyat-artan" }, getProducts())
+      .items[0].price,
     100000,
   );
   assert.equal(queryProducts({ min: "999999" }, getProducts()).total, 0);
   assert.equal(queryProducts({ sayfa: "2" }, getProducts()).items.length, 10);
   assert.equal(queryProducts({ sayfa: "3" }, getProducts()).items.length, 10);
   assert.equal(
-    queryProducts(
-      { kategori: "filtreler", teknik: "Dış filtre" },
-      getProducts(),
-    ).total,
+    queryProducts({ kategori: "filtreler", teknik: "Dış filtre" }, getProducts())
+      .total,
     1,
   );
 });
@@ -80,12 +96,7 @@ test("Demo catalog satisfies schema and inventory consistency", () => {
   const all = getProducts();
   assert.equal(all.length, 22);
   all.forEach((p) => assert.ok(productSchema.safeParse(p).success));
-  for (const key of ["id", "slug", "sku"] as const)
-    assert.equal(
-      new Set(all.map((product) => product[key])).size,
-      all.length,
-      `${key} değerleri benzersiz olmalı`,
-    );
+  assert.deepEqual(findContentIssues(content), []);
   assert.equal(
     productSchema.safeParse({
       ...all[0],
@@ -96,6 +107,26 @@ test("Demo catalog satisfies schema and inventory consistency", () => {
   );
   assert.equal(money(null), "Fiyat için bilgi alın");
   assert.equal(money(325000), "₺3.250,00");
+});
+test("Content validation catches duplicate codes and unknown categories", () => {
+  const [first, second] = content.products;
+  const issues = findContentIssues({
+    ...content,
+    products: [
+      first,
+      { ...second, slug: first.slug, categoryId: "tanimsiz-kategori" },
+    ],
+    menu: [
+      { name: "Menü", links: [{ label: "Yok", category: "tanimsiz-kategori" }] },
+    ],
+  });
+  assert.ok(issues.some((issue) => issue.includes("Ürün adresi tekrar ediyor")));
+  assert.ok(issues.some((issue) => issue.includes("tanımsız kategori")));
+  assert.ok(issues.some((issue) => issue.startsWith("Menü / Yok")));
+  assert.equal(
+    productSchema.safeParse({ ...first, images: [] }).success,
+    false,
+  );
 });
 test("Terrarium and paludarium concepts are searchable, honest demo records", () => {
   const all = getProducts();
@@ -123,22 +154,12 @@ test("Terrarium and paludarium concepts are searchable, honest demo records", ()
           product.images[0] === image,
       ),
     );
-    const search = queryProducts({ q: alias }, all);
+    const search = queryProducts({ q: alias }, all, categories);
     assert.equal(search.total, 1);
     assert.ok(
       search.items.every((product) => product.categoryId === categoryId),
     );
   }
-
-  assert.equal(
-    productSchema.safeParse({ ...all[0], categoryId: "tanimsiz-kategori" })
-      .success,
-    false,
-  );
-  assert.equal(
-    productSchema.safeParse({ ...all[0], images: [] }).success,
-    false,
-  );
 });
 test("Aquarium price list exposes all supplied dimensions and option prices", () => {
   const expected = [
@@ -203,7 +224,7 @@ test("DIAMOND glass is applied only to aquarium products", () => {
   const aquariums = all.filter((p) => p.categoryId === "akvaryumlar");
   assert.ok(aquariums.length > 0);
   assert.ok(
-    aquariums.every((p) => p.specifications.Cam === siteConfig.aquariumGlass),
+    aquariums.every((p) => p.specifications.Cam === settings.aquariumGlass),
   );
   assert.ok(
     all
@@ -212,10 +233,10 @@ test("DIAMOND glass is applied only to aquarium products", () => {
   );
   assert.ok(
     aquariums.every((p) =>
-      p.packageContents.startsWith(siteConfig.aquariumPriceIncludes),
+      p.packageContents.startsWith(settings.aquariumPriceIncludes),
     ),
   );
-  const search = queryProducts({ q: "diamond" }, all);
+  const search = queryProducts({ q: "diamond" }, all, categories);
   assert.equal(search.total, aquariums.length);
   assert.ok(search.items.every((p) => p.categoryId === "akvaryumlar"));
 });
@@ -283,29 +304,87 @@ test("WhatsApp only uses configured valid number and preserves Turkish text", ()
   assert.equal(url.pathname, "/905551234567");
 });
 test("Verified contact settings use the selected phone as the WhatsApp line", () => {
-  assert.equal(siteConfig.fullName, "DSN Akvaryum İmalatı");
-  assert.equal(siteConfig.brandLabel, "DSN AKVARYUM İMALATI");
-  assert.equal(siteConfig.logoPath, "/images/dsn-logo.jpeg");
-  assert.equal(siteConfig.phone, "0545 389 71 47");
-  assert.equal(siteConfig.phoneHref, "tel:+905453897147");
+  assert.equal(settings.name, "DSN Akvaryum");
+  assert.equal(settings.fullName, "DSN Akvaryum İmalatı");
+  assert.equal(settings.brandLabel, "DSN AKVARYUM İMALATI");
+  assert.equal(settings.logoPath, "/images/dsn-logo.jpeg");
+  assert.equal(settings.phone, "0545 389 71 47");
+  assert.equal(phoneHref(settings.phone), "tel:+905453897147");
+  assert.equal(phoneHref("+90 545 389 71 47"), "tel:+905453897147");
+  assert.equal(phoneHref(""), "");
   assert.equal(
-    siteConfig.address,
+    settings.address,
     "Mamak Hüseyin Gazi, Ekin, Su Sk. No:17, 06160 Mamak/Ankara",
   );
-  assert.equal(siteConfig.socialHandle, "Dursun.belgic");
-  assert.equal(siteConfig.whatsapp, "+905453897147");
+  assert.equal(settings.socialHandle, "Dursun.belgic");
+  assert.equal(settings.whatsapp, "+905453897147");
   assert.equal(
-    new URL(whatsappLink(siteConfig.whatsapp, "Sipariş bilgisi")!).pathname,
+    new URL(whatsappLink(settings.whatsapp, "Sipariş bilgisi")!).pathname,
     "/905453897147",
   );
-  assert.ok(!siteConfig.phoneHref.includes("wa.me"));
 });
 test("Disabling demo prevents every demo product from entering production", () => {
-  const old = siteConfig.demo;
+  assert.equal(publishedProducts(content.products, false).length, 0);
+  assert.equal(
+    publishedProducts(
+      content.products.map((p) => ({ ...p, isDemo: false })),
+      false,
+    ).length,
+    22,
+  );
+});
+test("Slugs are URL-safe for Turkish product names", () => {
+  assert.equal(
+    slugify("DSN 60 × 40 × 40 Cam Akvaryum"),
+    "dsn-60-x-40-x-40-cam-akvaryum",
+  );
+  assert.equal(slugify("  Işıklı Ünite Çözümü! "), "isikli-unite-cozumu");
+});
+test("Admin session tokens expire and reject tampering", () => {
+  const key = sessionKey("gizli-sifre");
+  const now = 1_000_000;
+  const token = createSessionToken(now + 60_000, key);
+  assert.equal(verifySessionToken(token, key, now), true);
+  assert.equal(verifySessionToken(token, key, now + 60_001), false);
+  assert.equal(verifySessionToken(token, sessionKey("baska"), now), false);
+  const [, signature] = token.split(".");
+  assert.equal(
+    verifySessionToken(`${now + 999_999}.${signature}`, key, now),
+    false,
+  );
+  for (const bad of [undefined, "", "abc", "1.2.3", `x.${signature}`])
+    assert.equal(verifySessionToken(bad, key, now), false);
+  assert.equal(passwordMatches("dogru", "dogru"), true);
+  assert.equal(passwordMatches("yanlis", "dogru"), false);
+  assert.equal(passwordMatches("", ""), false);
+});
+test("Local file store saves validated content and falls back to seeds", async () => {
+  const dir = await mkdtemp(path.join(tmpdir(), "dsn-content-"));
+  const previous = {
+    store: process.env.CONTENT_STORE,
+    dir: process.env.CONTENT_DATA_DIR,
+  };
+  process.env.CONTENT_STORE = "file";
+  process.env.CONTENT_DATA_DIR = dir;
   try {
-    siteConfig.demo = false;
-    assert.equal(getProducts().length, 0);
+    assert.equal(storeKind(), "file");
+    assert.equal((await readSiteContent()).settings.announcement, settings.announcement);
+    await writeSiteContent("settings", {
+      ...settings,
+      announcement: "Yeni duyuru",
+    });
+    const saved = await readSiteContent();
+    assert.equal(saved.settings.announcement, "Yeni duyuru");
+    assert.equal(saved.products.length, content.products.length);
+    await assert.rejects(
+      writeSiteContent("settings", { ...settings, name: "" }),
+    );
+    assert.equal((await readSiteContent()).settings.name, "DSN Akvaryum");
   } finally {
-    siteConfig.demo = old;
+    process.env.CONTENT_STORE = previous.store;
+    process.env.CONTENT_DATA_DIR = previous.dir;
+    if (previous.store === undefined) delete process.env.CONTENT_STORE;
+    if (previous.dir === undefined) delete process.env.CONTENT_DATA_DIR;
+    await rm(dir, { recursive: true, force: true });
   }
 });

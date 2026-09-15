@@ -5,16 +5,17 @@ import {
   money,
   stockLabels,
 } from "@/lib/catalog";
-import { siteConfig } from "@/lib/config";
 import { ProductImage } from "./product-image";
 import { SaveButton } from "./saved";
 import { Icon } from "./icon";
 export function ProductCard({
   product: p,
   option,
+  priceIncludes,
 }: {
   product: Product;
   option?: string;
+  priceIncludes?: string;
 }) {
   const listOptions = aquariumPriceOptions(p);
   const hasListPrices = listOptions.length === 2;
@@ -67,9 +68,9 @@ export function ProductCard({
                 </div>
               ))}
             </div>
-            <p className="aquarium-price-includes">
-              {siteConfig.aquariumPriceIncludes}
-            </p>
+            {priceIncludes && (
+              <p className="aquarium-price-includes">{priceIncludes}</p>
+            )}
             <div className="aquarium-price-meta">
               <small>{p.priceListDate} fiyat listesi</small>
               <SaveButton product={p} kind="compare" />

@@ -1,14 +1,17 @@
 "use client";
+import Link from "next/link";
 import { useRef, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Icon } from "./icon";
-import { categories, stockLabels, Query } from "@/lib/catalog";
+import { stockLabels, type Category, type Query } from "@/lib/catalog";
 export function Filters({
   query,
+  categories,
   brands,
   technical,
 }: {
   query: Query;
+  categories: Category[];
   brands: string[];
   technical: string[];
 }) {
@@ -123,9 +126,9 @@ export function Filters({
         <button className="button" disabled={pending}>
           {pending ? "Uygulanıyor…" : "Filtreleri uygula"}
         </button>
-        <a href="/urunler" className="clear-link">
+        <Link href="/urunler" className="clear-link" onClick={close}>
           Tümünü temizle
-        </a>
+        </Link>
       </form>
     );
   }

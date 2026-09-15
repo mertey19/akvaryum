@@ -12,15 +12,16 @@ import { ProductImage } from "./product-image";
 import { SaveButton } from "./saved";
 import { Icon } from "./icon";
 import { whatsappLink } from "@/lib/quote";
-import { siteConfig } from "@/lib/config";
 export function ProductDetail({
   product: p,
   initialVariant = "",
   whatsapp,
+  priceIncludes,
 }: {
   product: Product;
   initialVariant?: string;
   whatsapp: string;
+  priceIncludes: string;
 }) {
   const priceOptions = aquariumPriceOptions(p);
   const hasListPrices = priceOptions.length === 2;
@@ -141,9 +142,9 @@ export function ProductDetail({
                   </button>
                 ))}
               </div>
-              <p className="price-includes">
-                {siteConfig.aquariumPriceIncludes}
-              </p>
+              {priceIncludes && (
+                <p className="price-includes">{priceIncludes}</p>
+              )}
               <p>
                 90° ve 45° adları sağlanan listedeki seçenek başlıklarıdır.
                 Güncel tutar ve üretim ayrıntıları teklif öncesinde teyit

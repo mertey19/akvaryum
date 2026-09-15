@@ -1,0 +1,240 @@
+import Link from "next/link";
+import {
+  aquariumOptionName,
+  aquariumOptions,
+  publishedProducts,
+  queryProducts,
+  Query,
+  stockLabels,
+} from "@/lib/catalog";
+import { getContent } from "@/lib/repository";
+import { ProductCard } from "@/components/product-card";
+import { Filters } from "@/components/filters";
+import { meta } from "@/lib/seo";
+import { siteConfig } from "@/lib/config";
+import { Icon } from "@/components/icon";
+import { whatsappLink } from "@/lib/quote";
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<Query>;
+}) {
+  const q = await searchParams;
+  const { categories } = await getContent();
+  const category = categories.find((c) => c.id === q.kategori);
+  const option =
+    category?.id === "akvaryumlar"
+      ? aquariumOptions.find((o) => o === q.secenek)
+      : undefined;
+  return meta(
+    q.q
+      ? `${q.q} araması`
+      : (option ? aquariumOptionName(option) : category?.name) ||
+          "Ürün kataloğu",
+    "Akvaryum, teraryum, paludaryum ve ekipman seçeneklerini teknik özelliklere göre inceleyin.",
+    category
+      ? `/urunler?kategori=${category.id}${option ? `&secenek=${option}` : ""}`
+      : "/urunler",
+  );
+}
+export default async function Catalog({
+  searchParams,
+}: {
+  searchParams: Promise<Query>;
+}) {
+  const incoming = await searchParams;
+  const q: Query = Object.fromEntries(
+    Object.entries(incoming).map(([k, v]) => [k, Array.isArray(v) ? v[0] : v]),
+  );
+  const { settings, categories, products } = await getContent();
+  const all = publishedProducts(products, siteConfig.demo);
+  const data = queryProducts(q, all, categories);
+  const cat = categories.find((c) => c.id === q.kategori);
+  const isAquariumCatalog = cat?.id === "akvaryumlar";
+  const option = isAquariumCatalog
+    ? aquariumOptions.find((o) => o === q.secenek)
+    : undefined;
+  const optionName = option && aquariumOptionName(option);
+  const aquariums = all.filter((product) => product.categoryId === "akvaryumlar");
+  const priceListDate = aquariums.find(
+    (product) => product.priceListDate,
+  )?.priceListDate;
+  const readyWhatsApp = whatsappLink(
+    settings.whatsapp,
+    "Merhaba, hazır ölçü akvaryumlar hakkında güncel ölçü, fiyat ve stok bilgisi almak istiyorum.",
+  );
+  const technical = q.kategori
+    ? [
+        ...new Set(
+          all
+            .filter((p) => p.categoryId === q.kategori)
+            .flatMap((p) => Object.values(p.specifications)),
+        ),
+      ]
+    : [];
+  function href(key: string, value?: string) {
+    const params = new URLSearchParams(
+      Object.entries(q).filter(([, v]) => v !== undefined) as [
+        string,
+        string,
+      ][],
+    );
+    params.delete("sayfa");
+    if (value) params.set(key, value);
+    else params.delete(key);
+    return `/urunler?${params}`;
+  }
+  function chipLabel(key: string, value: string) {
+    if (key === "kategori") return cat?.name || value;
+    if (key === "stok")
+      return stockLabels[value as keyof typeof stockLabels] || value;
+    if (key === "secenek") return aquariumOptionName(value);
+    return value;
+  }
+  return (
+    <div
+      className={`container catalog-page${isAquariumCatalog ? " aquarium-catalog" : ""}`}
+    >
+      <nav className="breadcrumb" aria-label="İçerik yolu">
+        <Link href="/">Ana sayfa</Link>
+        <span>/</span>
+        {optionName ? (
+          <>
+            <Link href="/urunler?kategori=akvaryumlar">{cat?.name}</Link>
+            <span>/</span>
+            <span>{optionName}</span>
+          </>
+        ) : (
+          <span>{cat?.name || "Ürünler"}</span>
+        )}
+      </nav>
+      {isAquariumCatalog ? (
+        <section className="aquarium-catalog-intro">
+          <div>
+            <span className="eyebrow light">DSN AKVARYUM KOLEKSİYONU</span>
+            <h1>
+              {q.q ? `“${q.q}” için sonuçlar` : optionName || cat?.name}
+            </h1>
+            <p>
+              {`${settings.aquariumGlass} ile üretilen ${option ? `${option}° ` : ""}akvaryumları ölçülerine göre inceleyin. ${option ? `${option}° seçenek fiyatları` : "90° ve 45° seçenek fiyatları"}${priceListDate ? `, sağlanan ${priceListDate} tarihli listeden aktarılmıştır` : " birlikte gösterilir"}.`}
+            </p>
+            <small>
+              {`Hazır ölçü akvaryumlar mevcuttur. ${settings.aquariumPriceIncludes} Güncel tutar ve stok WhatsApp üzerinden teyit edilir.`}
+            </small>
+            {readyWhatsApp && (
+              <a
+                className="button whatsapp catalog-whatsapp"
+                href={readyWhatsApp}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Icon name="whatsapp" size={18} /> Hazır ölçüler için yazın
+              </a>
+            )}
+          </div>
+          <dl aria-label="Akvaryum koleksiyonu özeti">
+            <div>
+              <dt>Ölçü</dt>
+              <dd>{aquariums.length} seçenek</dd>
+            </div>
+            <div>
+              <dt>Fiyat seçeneği</dt>
+              <dd>{option ? `${option}°` : "90° / 45°"}</dd>
+            </div>
+            <div>
+              <dt>Cam</dt>
+              <dd>{settings.aquariumGlass}</dd>
+            </div>
+          </dl>
+        </section>
+      ) : (
+        <div className="page-heading">
+          <span className="eyebrow">YAŞAM ALANINIZI TAMAMLAYIN</span>
+          <h1>
+            {q.q ? `“${q.q}” için sonuçlar` : cat?.name || "Ürün kataloğu"}
+          </h1>
+          <p>
+            İhtiyacınıza uygun seçenekleri keşfedin, detayları birlikte
+            değerlendirin.
+          </p>
+        </div>
+      )}
+      <div className="catalog-layout">
+        <aside>
+          <Filters
+            query={q}
+            categories={categories}
+            brands={[...new Set(all.map((p) => p.brand))]}
+            technical={technical}
+          />
+        </aside>
+        <div>
+          <div className="results-top">
+            <p>
+              <strong>{data.total}</strong> ürün bulundu
+            </p>
+            <span>
+              {optionName || cat?.name || "Tüm kategoriler"} · {data.page} /{" "}
+              {data.pages}
+            </span>
+          </div>
+          <div className="chips">
+            {Object.entries(q)
+              .filter(([k, v]) => v && k !== "sayfa")
+              .map(([k, v]) => (
+                <Link
+                  className="chip"
+                  href={href(k)}
+                  key={k}
+                  aria-label={`${chipLabel(k, String(v))} ${k} filtresini kaldır`}
+                >
+                  {chipLabel(k, String(v))} <span aria-hidden="true">×</span>
+                </Link>
+              ))}
+            {Object.values(q).some(Boolean) && (
+              <Link className="clear-link" href="/urunler">
+                Tümünü temizle
+              </Link>
+            )}
+          </div>
+          <h2 className="sr-only">Ürün sonuçları</h2>
+          {data.items.length ? (
+            <div className="product-grid">
+              {data.items.map((p) => (
+                <ProductCard
+                  key={p.id}
+                  product={p}
+                  option={option}
+                  priceIncludes={settings.aquariumPriceIncludes}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="empty-state">
+              <h2>Bu seçimle ürün bulunamadı.</h2>
+              <p>
+                Filtreleri kaldırabilir veya farklı bir arama deneyebilirsiniz.
+              </p>
+              <Link href="/urunler" className="button">
+                Filtreleri temizle
+              </Link>
+            </div>
+          )}
+          {data.pages > 1 && (
+            <nav className="pagination" aria-label="Sayfalama">
+              {Array.from({ length: data.pages }, (_, i) => (
+                <Link
+                  aria-current={data.page === i + 1 ? "page" : undefined}
+                  key={i}
+                  href={href("sayfa", String(i + 1))}
+                >
+                  {i + 1}
+                </Link>
+              ))}
+            </nav>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}

@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { categories, normalize, relevance } from "@/lib/catalog";
-import { getProducts } from "@/lib/repository";
-export function GET(request: NextRequest) {
+import { normalize, relevance } from "@/lib/catalog";
+import { getContent, getProducts } from "@/lib/repository";
+export async function GET(request: NextRequest) {
   const q = (request.nextUrl.searchParams.get("q") || "").trim().slice(0, 100);
   if (!q) return NextResponse.json([]);
-  const products = getProducts()
-    .filter((p) => relevance(p, q) > 0)
-    .toSorted((a, b) => relevance(b, q) - relevance(a, q))
+  const [{ categories }, all] = await Promise.all([getContent(), getProducts()]);
+  const products = all
+    .filter((p) => relevance(p, q, categories) > 0)
+    .toSorted((a, b) => relevance(b, q, categories) - relevance(a, q, categories))
     .slice(0, 5)
     .map((p) => ({ name: p.name, href: `/urun/${p.slug}`, type: "Ürün" }));
   const matches = categories

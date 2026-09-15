@@ -1,22 +1,14 @@
 "use client";
 import Image from "next/image";
 import { useRef, useState } from "react";
+import type { Project } from "@/lib/content/schema";
 import { Icon } from "./icon";
-const projects = [
-  {
-    id: "bitkili",
-    name: "Yeşilin içinde bir dünya",
-    type: "Bitkili konsept",
-    image: "/images/hero.webp",
-    description:
-      "Bitki, kaya ve doğal kök dokularını dengeli bir kompozisyonda buluşturan kurulum ilhamı.",
-    permission: "generated-demo",
-  },
-];
-export function Projects() {
+export function Projects({ projects }: { projects: Project[] }) {
   const [filter, setFilter] = useState("all");
+  const [active, setActive] = useState<Project | null>(null);
   const dialog = useRef<HTMLDialogElement>(null);
-  const opener = useRef<HTMLButtonElement>(null);
+  const opener = useRef<HTMLButtonElement | null>(null);
+  const types = [...new Set(projects.map((p) => p.type))];
   function close() {
     dialog.current?.close();
     opener.current?.focus();
@@ -31,26 +23,32 @@ export function Projects() {
         >
           Tümü
         </button>
-        <button
-          className="chip"
-          aria-pressed={filter === "bitkili"}
-          onClick={() => setFilter("bitkili")}
-        >
-          Bitkili konsept
-        </button>
+        {types.map((type) => (
+          <button
+            key={type}
+            className="chip"
+            aria-pressed={filter === type}
+            onClick={() => setFilter(type)}
+          >
+            {type}
+          </button>
+        ))}
       </div>
       {projects
-        .filter((p) => filter === "all" || p.id === filter)
+        .filter((p) => filter === "all" || p.type === filter)
         .map((p) => (
           <article key={p.id} className="project-showcase">
             <button
-              ref={opener}
-              onClick={() => dialog.current?.showModal()}
+              onClick={(e) => {
+                opener.current = e.currentTarget;
+                setActive(p);
+                dialog.current?.showModal();
+              }}
               aria-label={`${p.name} görselini aç`}
             >
               <Image
                 src={p.image}
-                alt="Bitkiler ve doğal kökle düzenlenmiş akvaryum"
+                alt={p.imageAlt}
                 width={1536}
                 height={1024}
                 sizes="(max-width: 768px) 100vw, 70vw"
@@ -71,13 +69,17 @@ export function Projects() {
         >
           <Icon name="close" />
         </button>
-        <Image
-          src="/images/hero.webp"
-          alt="Bitkiler ve doğal kökle düzenlenmiş akvaryum"
-          width={1536}
-          height={1024}
-        />
-        <p>Bitkili akvaryum kurulum ilhamı</p>
+        {active && (
+          <>
+            <Image
+              src={active.image}
+              alt={active.imageAlt}
+              width={1536}
+              height={1024}
+            />
+            <p>{active.name}</p>
+          </>
+        )}
       </dialog>
     </>
   );

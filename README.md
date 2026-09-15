@@ -46,6 +46,7 @@ Arama motoru erişimi demo modundan ayrıdır: site adresi bilinmiyorsa (`SITE_U
 
 ## Güncelleme ve teslim belgeleri
 
+- [Yönetim paneli](docs/ADMIN.md): `/yonetim` kurulumu (Neon, Vercel Blob, `ADMIN_PASSWORD`), içerik saklama, güvenlik ve yerel çalışma.
 - [Veri ve işletme bilgileri](docs/DATA.md): ürün JSON dosyası, model ve varyant alanları, fotoğraf ekleme, demo/yayın geçişi.
 - [Görseller ve tam üretim promptları](docs/ASSETS.md): sağlanan marka logosu ile dört özgün üretilmiş görselin kaynakları, yerel dosyaları ve kullanım sınırları.
 - [Test ve teslim raporu](docs/DELIVERY.md): gerçek komut sonuçları, görsel kontroller, Lighthouse ölçümleri ve eksik girdiler.

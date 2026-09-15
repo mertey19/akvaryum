@@ -7,9 +7,11 @@ import { ProductImage } from "./product-image";
 export function SavedList({
   products,
   kind,
+  priceIncludes,
 }: {
   products: Product[];
   kind: "favorites" | "compare";
+  priceIncludes?: string;
 }) {
   const { state, toggle } = useSaved();
   const items = state[kind].flatMap((item) => {
@@ -51,7 +53,7 @@ export function SavedList({
       <div className="product-grid home-products">
         {items.map((p) => (
           <div key={p.id}>
-            <ProductCard product={p} />
+            <ProductCard product={p} priceIncludes={priceIncludes} />
             <button
               className="clear-link"
               onClick={() => toggle(kind, p.saved)}

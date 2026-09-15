@@ -1,11 +1,13 @@
 import type { MetadataRoute } from "next";
 import { siteConfig } from "@/lib/config";
-import { aquariumOptions, categories } from "@/lib/catalog";
-import { getProducts } from "@/lib/repository";
-import { guides } from "@/lib/guides";
-export default function sitemap(): MetadataRoute.Sitemap {
+import { aquariumOptions } from "@/lib/catalog";
+import { getContent, getProducts } from "@/lib/repository";
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   if (!siteConfig.indexable) return [];
-  const products = getProducts();
+  const [{ categories, guides }, products] = await Promise.all([
+    getContent(),
+    getProducts(),
+  ]);
   const activeCategories = categories.filter((c) =>
     products.some((p) => p.categoryId === c.id),
   );

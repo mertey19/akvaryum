@@ -5,51 +5,33 @@ import { useRouter } from "next/navigation";
 import { Icon } from "./icon";
 import { SavedNav } from "./saved";
 import { BrandLogo } from "./brand-logo";
-import { siteConfig } from "@/lib/config";
+import type { MenuGroup, MenuLink } from "@/lib/content/schema";
 import { whatsappLink } from "@/lib/quote";
 type Suggestion = { name: string; href: string; type: string };
-type NavLink = { label: string; category: string; option?: string };
-const groups: { name: string; links: NavLink[] }[] = [
-  {
-    name: "Ultra Clear Akvaryumlar",
-    links: [
-      { label: "Tüm Ultra Clear akvaryumlar", category: "akvaryumlar" },
-      { label: "45° Akvaryumlar", category: "akvaryumlar", option: "45" },
-      { label: "90° Akvaryumlar", category: "akvaryumlar", option: "90" },
-    ],
-  },
-  {
-    name: "Teraryumlar",
-    links: [
-      { label: "Tüm teraryumlar", category: "teraryumlar" },
-      { label: "Paludaryumlar", category: "paludaryumlar" },
-    ],
-  },
-  {
-    name: "Ekipmanlar",
-    links: [
-      { label: "Filtreler", category: "filtreler" },
-      { label: "Aydınlatma", category: "aydinlatma" },
-      { label: "Isıtma ve soğutma", category: "isitma" },
-      { label: "Akvaryum mobilyaları", category: "mobilyalar" },
-    ],
-  },
-  {
-    name: "Bakım ve Besleme",
-    links: [{ label: "Bakım ve dekor", category: "bakim-dekor" }],
-  },
-];
-function navHref({ category, option }: NavLink) {
+export type HeaderBrand = {
+  name: string;
+  fullName: string;
+  brandLabel: string;
+  logoPath: string;
+  phone: string;
+  whatsapp: string;
+  announcement: string;
+};
+function navHref({ category, option }: MenuLink) {
   return `/urunler?kategori=${category}${option ? `&secenek=${option}` : ""}`;
 }
 export function Header({
   demo,
   canPlan,
   activeCategories,
+  menu,
+  brand,
 }: {
   demo: boolean;
   canPlan: boolean;
   activeCategories: string[];
+  menu: MenuGroup[];
+  brand: HeaderBrand;
 }) {
   const [q, setQ] = useState("");
   const [results, setResults] = useState<Suggestion[]>([]);
@@ -57,7 +39,7 @@ export function Header({
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchError, setSearchError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [menu, setMenu] = useState<number | null>(null);
+  const [menuOpen, setMenuOpen] = useState<number | null>(null);
   const [mobile, setMobile] = useState(false);
   const router = useRouter();
   const dialog = useRef<HTMLDialogElement>(null);
@@ -95,7 +77,8 @@ export function Header({
   }, [q]);
   useEffect(() => {
     function close(e: MouseEvent) {
-      if (nav.current && !nav.current.contains(e.target as Node)) setMenu(null);
+      if (nav.current && !nav.current.contains(e.target as Node))
+        setMenuOpen(null);
     }
     document.addEventListener("click", close);
     return () => document.removeEventListener("click", close);
@@ -105,15 +88,15 @@ export function Header({
     setMobile(false);
     opener.current?.focus();
   }
-  const visibleGroups = groups
+  const visibleGroups = menu
     .map((g) => ({
       ...g,
       links: g.links.filter((link) => activeCategories.includes(link.category)),
     }))
     .filter((g) => g.links.length);
   const salesWhatsApp = whatsappLink(
-    siteConfig.whatsapp,
-    "Merhaba, DSN Akvaryum ürünleri hakkında bilgi ve sipariş vermek istiyorum.",
+    brand.whatsapp,
+    `Merhaba, ${brand.name} ürünleri hakkında bilgi ve sipariş vermek istiyorum.`,
   );
   const showResults = searchOpen && q.trim().length > 0;
   return (
@@ -123,10 +106,10 @@ export function Header({
       </a>
       {salesWhatsApp && (
         <div className="sales-bar">
-          <span>Hazır ölçü akvaryumlar mevcut</span>
+          <span>{brand.announcement}</span>
           <a href={salesWhatsApp} target="_blank" rel="noopener noreferrer">
             <Icon name="whatsapp" size={15} /> WhatsApp üzerinden bilgi ve
-            sipariş · {siteConfig.phone}
+            sipariş · {brand.phone}
           </a>
         </div>
       )}
@@ -147,13 +130,14 @@ export function Header({
           <Link
             className="wordmark"
             href="/"
-            aria-label={`${siteConfig.fullName} ana sayfa`}
+            aria-label={`${brand.fullName} ana sayfa`}
           >
             <BrandLogo
+              src={brand.logoPath}
               className="wordmark-logo"
               sizes="(max-width: 767px) 72px, (max-width: 1100px) 84px, 96px"
             />
-            <span className="wordmark-label">{siteConfig.brandLabel}</span>
+            <span className="wordmark-label">{brand.brandLabel}</span>
           </Link>
           <form
             className="search"
@@ -246,8 +230,8 @@ export function Header({
           ref={nav}
           onKeyDown={(e) => {
             if (e.key === "Escape") {
-              const current = menu;
-              setMenu(null);
+              const current = menuOpen;
+              setMenuOpen(null);
               if (current !== null)
                 nav.current?.querySelectorAll("button")[current]?.focus();
             }
@@ -256,11 +240,11 @@ export function Header({
           {visibleGroups.map((g, i) => (
             <div key={g.name}>
               <button
-                aria-expanded={menu === i}
+                aria-expanded={menuOpen === i}
                 aria-controls={`mega-${i}`}
                 onClick={() => {
-                  const opening = menu !== i;
-                  setMenu(opening ? i : null);
+                  const opening = menuOpen !== i;
+                  setMenuOpen(opening ? i : null);
                   if (opening)
                     setTimeout(
                       () =>
@@ -274,12 +258,12 @@ export function Header({
                 {g.name}
                 <Icon name="chevron" size={15} />
               </button>
-              {menu === i && (
+              {menuOpen === i && (
                 <div className="mega" id={`mega-${i}`}>
                   <p className="eyebrow">{g.name}</p>
                   {g.links.map((link) => (
                     <Link
-                      onClick={() => setMenu(null)}
+                      onClick={() => setMenuOpen(null)}
                       key={navHref(link)}
                       href={navHref(link)}
                     >

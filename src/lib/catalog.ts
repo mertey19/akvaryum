@@ -2,86 +2,34 @@ import { z } from "zod";
 
 export const aquariumPriceListDate = "18.04.2026";
 
-export type Category = {
-  id: string;
-  name: string;
-  subtitle: string;
-  image: number;
-  imageSrc?: string;
-  family: "akvaryum" | "habitat" | "ekipman" | "bakim";
-};
-
-export const categories: readonly Category[] = [
-  {
-    id: "akvaryumlar",
-    name: "Ultra Clear Akvaryumlar",
-    subtitle: "Her dünyaya bir başlangıç",
-    image: 0,
-    family: "akvaryum",
-  },
-  {
-    id: "teraryumlar",
-    name: "Teraryumlar",
-    subtitle: "Karasal yaşam için doğal ortam",
-    image: 0,
-    imageSrc: "/images/terrarium.webp",
-    family: "habitat",
-  },
-  {
-    id: "paludaryumlar",
-    name: "Paludaryumlar",
-    subtitle: "Su ve karanın buluştuğu dünya",
-    image: 0,
-    imageSrc: "/images/paludarium.webp",
-    family: "habitat",
-  },
-  {
-    id: "filtreler",
-    name: "Filtreler",
-    subtitle: "Suyun dengesi için",
-    image: 1,
-    family: "ekipman",
-  },
-  {
-    id: "aydinlatma",
-    name: "Aydınlatma",
-    subtitle: "Doğru ışığı keşfedin",
-    image: 2,
-    family: "ekipman",
-  },
-  {
-    id: "mobilyalar",
-    name: "Mobilyalar",
-    subtitle: "Kurulumunuzu tamamlayın",
-    image: 3,
-    family: "akvaryum",
-  },
-  {
-    id: "isitma",
-    name: "Isıtma ve Soğutma",
-    subtitle: "Kontrollü bir ortam",
-    image: 4,
-    family: "ekipman",
-  },
-  {
-    id: "bakim-dekor",
-    name: "Bakım ve Dekor",
-    subtitle: "Küçük dokunuşlar, yeni yaşam",
-    image: 5,
-    family: "bakim",
-  },
+export const categoryFamilies = [
+  "akvaryum",
+  "habitat",
+  "ekipman",
+  "bakim",
 ] as const;
-const stockSchema = z.enum(["stokta", "siparis", "tukendi", "bilgi"]);
-const categoryIdSchema = z
-  .string()
-  .refine(
-    (categoryId) => categories.some((category) => category.id === categoryId),
-    "Tanımlı bir kategori kullanılmalı",
-  );
+export const categorySchema = z.object({
+  id: z
+    .string()
+    .regex(
+      /^[a-z0-9-]+$/,
+      "Kategori kodu küçük harf, rakam ve tire içermeli",
+    ),
+  name: z.string().trim().min(1, "Kategori adı gerekli"),
+  subtitle: z.string().trim(),
+  image: z.number().int().min(0).max(5),
+  imageSrc: z.string().min(1).optional(),
+  family: z.enum(categoryFamilies),
+});
+export type Category = z.infer<typeof categorySchema>;
+
+export const stockStatuses = ["stokta", "siparis", "tukendi", "bilgi"] as const;
+export const deliveryTypes = ["standart", "ozel", "magaza", "bilgi"] as const;
+const stockSchema = z.enum(stockStatuses);
 const variantSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  sku: z.string(),
+  id: z.string().min(1),
+  name: z.string().min(1),
+  sku: z.string().min(1),
   price: z.number().int().nonnegative().nullable(),
   stockStatus: stockSchema,
   image: z.number().int(),
@@ -90,15 +38,17 @@ const variantSchema = z.object({
 });
 export const productSchema = z
   .object({
-    id: z.string(),
-    slug: z.string(),
-    name: z.string(),
-    categoryId: categoryIdSchema,
+    id: z.string().min(1),
+    slug: z
+      .string()
+      .regex(/^[a-z0-9-]+$/, "Adres küçük harf, rakam ve tire içermeli"),
+    name: z.string().trim().min(1, "Ürün adı gerekli"),
+    categoryId: z.string().min(1, "Kategori seçilmeli"),
     brand: z.string(),
-    sku: z.string(),
+    sku: z.string().trim().min(1, "Ürün kodu gerekli"),
     gtin: z.string().nullable(),
     description: z.string(),
-    images: z.array(z.string()).min(1),
+    images: z.array(z.string()).min(1, "En az bir görsel gerekli"),
     imageAlt: z.string(),
     image: z.number().int(),
     specifications: z.record(z.string(), z.string()),
@@ -109,7 +59,7 @@ export const productSchema = z
     stockQuantity: z.number().int().nonnegative().nullable(),
     leadTime: z.string().nullable(),
     priceListDate: z.string().nullable().default(null),
-    deliveryType: z.enum(["standart", "ozel", "magaza", "bilgi"]),
+    deliveryType: z.enum(deliveryTypes),
     saleMode: z.literal("quote"),
     published: z.boolean(),
     isDemo: z.boolean(),
@@ -125,6 +75,11 @@ export const productSchema = z
   });
 export type Product = z.infer<typeof productSchema>;
 export type Variant = z.infer<typeof variantSchema>;
+export function publishedProducts(products: Product[], demo: boolean) {
+  return products.filter(
+    (product) => product.published && (demo || !product.isDemo),
+  );
+}
 export function aquariumPriceOptions(product: Product) {
   return product.categoryId === "akvaryumlar" && product.priceListDate
     ? product.variants.filter((variant) => ["90", "45"].includes(variant.id))
@@ -160,11 +115,15 @@ export function normalize(value: string) {
     .toLocaleLowerCase("tr-TR")
     .replace(/ı/g, "i")
     .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[̀-ͯ]/g, "")
     .replace(/\b(?:paladaryum|paludarium)\b/g, "paludaryum")
     .replace(/\b(?:terrarium|terraryum)\b/g, "teraryum");
 }
-export function relevance(p: Product, q: string) {
+export function relevance(
+  p: Product,
+  q: string,
+  categories: readonly Category[] = [],
+) {
   const term = normalize(q.trim());
   if (!term) return 1;
   const tokens = term.split(/\s+/);
@@ -182,7 +141,12 @@ export function relevance(p: Product, q: string) {
   return matches(p.description) ? 10 : 0;
 }
 export type Query = Record<string, string | undefined>;
-export function queryProducts(query: Query, input: Product[]) {
+export function queryProducts(
+  query: Query,
+  input: Product[],
+  categories: readonly Category[] = [],
+) {
+  const score = (p: Product) => relevance(p, query.q || "", categories);
   const priceOf = (p: Product) =>
     query.secenek
       ? (aquariumPriceOptions(p).find((v) => v.id === query.secenek)?.price ??
@@ -194,7 +158,7 @@ export function queryProducts(query: Query, input: Product[]) {
       (!query.kategori || p.categoryId === query.kategori) &&
       (!query.secenek ||
         aquariumPriceOptions(p).some((v) => v.id === query.secenek)) &&
-      relevance(p, query.q || "") > 0 &&
+      score(p) > 0 &&
       (!query.marka || p.brand === query.marka) &&
       (!query.stok || p.stockStatus === query.stok) &&
       (!query.min || (price !== null && price >= Number(query.min) * 100)) &&
@@ -209,7 +173,7 @@ export function queryProducts(query: Query, input: Product[]) {
         ? (priceOf(b) ?? -Infinity) - (priceOf(a) ?? -Infinity)
         : query.sirala === "yeni"
           ? b.addedAt - a.addedAt
-          : relevance(b, query.q || "") - relevance(a, query.q || ""),
+          : score(b) - score(a),
   );
   const total = items.length;
   const pageSize = query.kategori === "akvaryumlar" ? 16 : 12;
