@@ -50,6 +50,32 @@ test("desktop menu focuses links and returns to the opener", async ({
   await expect(button).toBeFocused();
   await expect(page.locator("#mega-2")).toHaveCount(0);
 });
+
+test("Ankara district guides are listed and open as complete articles", async ({
+  page,
+}) => {
+  await page.goto("/rehber");
+  await expect(page.locator(".guide-card")).toHaveCount(9);
+  const guide = page.getByRole("link", {
+    name: /Ankara merkez ilçelerinde akvaryum planlama/,
+  });
+  await expect(guide).toContainText("Altındağ, Çankaya, Keçiören, Mamak");
+  await guide.click();
+
+  await expect(
+    page.getByRole("heading", {
+      level: 1,
+      name: "Ankara merkez ilçelerinde akvaryum planlama",
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("navigation", { name: "Yazı içindekiler" }),
+  ).toContainText("Yerleşim alanını üç yönde ölçün");
+  await expect(page.locator("article section")).toHaveCount(4);
+  await expect(
+    page.getByRole("link", { name: "İlgili kategoriye göz atın" }),
+  ).toHaveAttribute("href", "/urunler?kategori=akvaryumlar");
+});
 test("verified DIAMOND glass information is consistent", async ({ page }) => {
   await page.goto("/urunler?kategori=akvaryumlar");
   await expect(page.locator(".product-card")).toHaveCount(14);

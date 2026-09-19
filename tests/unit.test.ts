@@ -16,10 +16,12 @@ import { grossVolume, whatsappLink } from "../src/lib/quote";
 import { allowsIndexing, productionSiteUrl } from "../src/lib/config";
 import {
   findContentIssues,
+  guideSchema,
   phoneHref,
   slugify,
 } from "../src/lib/content/schema";
 import { seedContent } from "../src/lib/content/seed";
+import { ankaraDistrictGuides } from "../src/lib/district-guides";
 import {
   readSiteContent,
   storeKind,
@@ -79,16 +81,20 @@ test("Filtering, totals, ordering and page bounds use the same result set", () =
     ["İç Filtre Seçimi", "Dış Filtre Seçimi"],
   );
   assert.equal(
-    queryProducts({ kategori: "akvaryumlar", sirala: "fiyat-artan" }, getProducts())
-      .items[0].price,
+    queryProducts(
+      { kategori: "akvaryumlar", sirala: "fiyat-artan" },
+      getProducts(),
+    ).items[0].price,
     100000,
   );
   assert.equal(queryProducts({ min: "999999" }, getProducts()).total, 0);
   assert.equal(queryProducts({ sayfa: "2" }, getProducts()).items.length, 10);
   assert.equal(queryProducts({ sayfa: "3" }, getProducts()).items.length, 10);
   assert.equal(
-    queryProducts({ kategori: "filtreler", teknik: "Dış filtre" }, getProducts())
-      .total,
+    queryProducts(
+      { kategori: "filtreler", teknik: "Dış filtre" },
+      getProducts(),
+    ).total,
     1,
   );
 });
@@ -117,10 +123,15 @@ test("Content validation catches duplicate codes and unknown categories", () => 
       { ...second, slug: first.slug, categoryId: "tanimsiz-kategori" },
     ],
     menu: [
-      { name: "Menü", links: [{ label: "Yok", category: "tanimsiz-kategori" }] },
+      {
+        name: "Menü",
+        links: [{ label: "Yok", category: "tanimsiz-kategori" }],
+      },
     ],
   });
-  assert.ok(issues.some((issue) => issue.includes("Ürün adresi tekrar ediyor")));
+  assert.ok(
+    issues.some((issue) => issue.includes("Ürün adresi tekrar ediyor")),
+  );
   assert.ok(issues.some((issue) => issue.includes("tanımsız kategori")));
   assert.ok(issues.some((issue) => issue.startsWith("Menü / Yok")));
   assert.equal(
@@ -262,8 +273,10 @@ test("45° and 90° aquarium pages filter and price by the selected option", () 
     ),
   );
   const slugs = (secenek: string) =>
-    queryProducts({ kategori: "akvaryumlar", secenek, min: "13100" }, all)
-      .items.map((p) => p.slug);
+    queryProducts(
+      { kategori: "akvaryumlar", secenek, min: "13100" },
+      all,
+    ).items.map((p) => p.slug);
   assert.ok(slugs("45").includes("akvaryum-150x50x40"));
   assert.ok(!slugs("90").includes("akvaryum-150x50x40"));
   assert.equal(
@@ -340,6 +353,54 @@ test("Slugs are URL-safe for Turkish product names", () => {
   );
   assert.equal(slugify("  Işıklı Ünite Çözümü! "), "isikli-unite-cozumu");
 });
+test("Ankara district guides cover all 25 districts with valid unique entries", () => {
+  const districts = [
+    "Akyurt",
+    "Altındağ",
+    "Ayaş",
+    "Bala",
+    "Beypazarı",
+    "Çamlıdere",
+    "Çankaya",
+    "Çubuk",
+    "Elmadağ",
+    "Etimesgut",
+    "Evren",
+    "Gölbaşı",
+    "Güdül",
+    "Haymana",
+    "Kahramankazan",
+    "Kalecik",
+    "Keçiören",
+    "Kızılcahamam",
+    "Mamak",
+    "Nallıhan",
+    "Polatlı",
+    "Pursaklar",
+    "Sincan",
+    "Şereflikoçhisar",
+    "Yenimahalle",
+  ];
+  assert.equal(ankaraDistrictGuides.length, 6);
+  assert.equal(
+    new Set(ankaraDistrictGuides.map((guide) => guide.slug)).size,
+    ankaraDistrictGuides.length,
+  );
+  ankaraDistrictGuides.forEach((guide) =>
+    assert.ok(guideSchema.safeParse(guide).success),
+  );
+
+  const copy = ankaraDistrictGuides
+    .flatMap((guide) => [
+      guide.title,
+      guide.intro,
+      ...guide.sections.flatMap(([title, body]) => [title, body]),
+    ])
+    .join(" ");
+  districts.forEach((district) =>
+    assert.match(copy, new RegExp(district), `${district} içerikte bulunmalı`),
+  );
+});
 test("Admin session tokens expire and reject tampering", () => {
   const key = sessionKey("gizli-sifre");
   const now = 1_000_000;
@@ -368,7 +429,10 @@ test("Local file store saves validated content and falls back to seeds", async (
   process.env.CONTENT_DATA_DIR = dir;
   try {
     assert.equal(storeKind(), "file");
-    assert.equal((await readSiteContent()).settings.announcement, settings.announcement);
+    assert.equal(
+      (await readSiteContent()).settings.announcement,
+      settings.announcement,
+    );
     await writeSiteContent("settings", {
       ...settings,
       announcement: "Yeni duyuru",

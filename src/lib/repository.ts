@@ -3,6 +3,7 @@ import { cache } from "react";
 import { publishedProducts } from "./catalog";
 import { siteConfig } from "./config";
 import { readSiteContent } from "./content/store";
+import { ankaraDistrictGuides } from "./district-guides";
 
 export const CONTENT_TAG = "site-content";
 
@@ -25,7 +26,12 @@ export async function getProduct(slug: string) {
 }
 
 export async function getGuides() {
-  return (await getContent()).guides;
+  const guides = (await getContent()).guides;
+  const existing = new Set(guides.map((guide) => guide.slug));
+  return [
+    ...guides,
+    ...ankaraDistrictGuides.filter((guide) => !existing.has(guide.slug)),
+  ];
 }
 
 export async function getProjects() {

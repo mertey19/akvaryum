@@ -104,7 +104,7 @@ Alan kuralları:
 
 ## İçerik ve proje yönetimi
 
-Özgün rehberler `src/lib/guides.ts` dosyasındadır. Yazar veya tarih uydurulmaz. Galerideki tek kayıt `src/components/projects.tsx` içindeki açıkça işaretlenmiş konsept verisidir; gerçek projeler için başlık, tür, açıklama, görsel yolu ve yayın izni kaydı gereklidir. Mevcut konsept galerisini gerçek iş gibi yayımlamayın.
+Yönetilebilir rehberlerin başlangıç kayıtları `src/lib/content/seed.ts` dosyasındadır. Ankara'nın 25 ilçesini kapsayan altı yerel rehber `src/lib/district-guides.ts` içinde kalıcı başlangıç içeriği olarak tutulur ve yönetim panelinden eklenen aynı adresli bir yazı varsa paneldeki sürüm kullanılır. Yazar veya tarih uydurulmaz. Galerinin başlangıç kayıtları `src/lib/content/seed.ts` içindeki açıkça işaretlenmiş konsept verisidir; gerçek projeler için başlık, tür, açıklama, görsel yolu ve yayın izni kaydı gereklidir. Mevcut konsept galerisini gerçek iş gibi yayımlamayın.
 
 Teslimat/iade sözleşmesi ve başka hukuki politika metni üretilmedi. İşletmenin onaylı içerikleri gelmeden bu yollar menüye eklenmez.
 

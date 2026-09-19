@@ -1,6 +1,6 @@
 # Yönetim paneli
 
-Panel `/yonetim` adresindedir. Ürünler ve fiyatlar, kategoriler ve üst menü, işletme bilgileri ve site metinleri, rehber yazıları ve konsept galerisi buradan yönetilir. Kaydedilen her değişiklik sitede hemen görünür; yeniden yayın gerekmez.
+Panel `/yonetim` adresindedir. Ürünler ve fiyatlar, kategoriler ve üst menü, işletme bilgileri ve site metinleri, rehber yazıları ve konsept galerisi buradan yönetilir. Kaydedilen her değişiklik sitede hemen görünür; yeniden yayın gerekmez. Ankara'nın 25 ilçesini kapsayan altı yerel rehber kodda kalıcı başlangıç içeriğidir; aynı adresle panelden bir rehber kaydedildiğinde paneldeki sürüm onun yerini alır.
 
 ## Vercel kurulumu
 

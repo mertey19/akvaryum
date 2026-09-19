@@ -4,7 +4,7 @@ import { meta } from "@/lib/seo";
 export async function generateMetadata() {
   return meta(
     "Akvaryum rehberi",
-    "İlk kurulum, ekipman seçimi ve ölçü planlama üzerine özgün başlangıç notları.",
+    "İlk kurulum, ekipman seçimi, ölçü planlama ve Ankara ilçelerine yönelik akvaryum rehberleri.",
     "/rehber",
   );
 }
@@ -15,7 +15,10 @@ export default async function Page() {
       <div className="page-heading">
         <span className="eyebrow">BİLİNÇLİ BİR BAŞLANGIÇ</span>
         <h1>Akvaryum notları.</h1>
-        <p>Kurulumunuzu düşünürken elinizin altında olsun.</p>
+        <p>
+          Kurulumunuzu düşünürken ve Ankara ilçelerinden talep hazırlarken
+          elinizin altında olsun.
+        </p>
       </div>
       <div className="guide-grid">
         {guides.map((g, i) => (

@@ -7,7 +7,7 @@ import { StructuredData } from "@/components/structured-data";
 import { publishedProducts } from "@/lib/catalog";
 import { siteConfig } from "@/lib/config";
 import { whatsappLink } from "@/lib/quote";
-import { getContent, getSettings } from "@/lib/repository";
+import { getContent, getGuides, getSettings } from "@/lib/repository";
 import { meta } from "@/lib/seo";
 
 export async function generateMetadata() {
@@ -18,8 +18,8 @@ export async function generateMetadata() {
 const valueIcons = ["water", "compare", "box"] as const;
 
 export default async function Home() {
-  const content = await getContent();
-  const { settings, categories, guides } = content;
+  const [content, guides] = await Promise.all([getContent(), getGuides()]);
+  const { settings, categories } = content;
   const products = publishedProducts(content.products, siteConfig.demo);
   const salesWhatsApp = whatsappLink(
     settings.whatsapp,
@@ -251,7 +251,9 @@ export default async function Home() {
         <section className="section container">
           <div className="section-heading">
             <div>
-              <span className="eyebrow">BİRAZ BİLGİ, DAHA İYİ BİR BAŞLANGIÇ</span>
+              <span className="eyebrow">
+                BİRAZ BİLGİ, DAHA İYİ BİR BAŞLANGIÇ
+              </span>
               <h2>Akvaryum notları</h2>
             </div>
             <Link className="text-link" href="/rehber">
