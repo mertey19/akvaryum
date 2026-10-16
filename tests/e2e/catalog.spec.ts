@@ -55,23 +55,32 @@ test("Ankara district guides are listed and open as complete articles", async ({
   page,
 }) => {
   await page.goto("/rehber");
-  await expect(page.locator(".guide-card")).toHaveCount(9);
+  await expect(page.locator(".guide-card")).toHaveCount(36);
+  await expect(
+    page.getByRole("heading", { name: "Akvaryum rehberleri" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Ankara ilçe rehberleri" }),
+  ).toBeVisible();
   const guide = page.getByRole("link", {
-    name: /Ankara merkez ilçelerinde akvaryum planlama/,
+    name: /Mamak akvaryum rehberi/,
   });
-  await expect(guide).toContainText("Altındağ, Çankaya, Keçiören, Mamak");
+  await expect(guide).toContainText("DSN Akvaryum adresi");
   await guide.click();
 
   await expect(
     page.getByRole("heading", {
       level: 1,
-      name: "Ankara merkez ilçelerinde akvaryum planlama",
+      name: "Mamak akvaryum rehberi",
     }),
   ).toBeVisible();
   await expect(
     page.getByRole("navigation", { name: "Yazı içindekiler" }),
-  ).toContainText("Yerleşim alanını üç yönde ölçün");
-  await expect(page.locator("article section")).toHaveCount(4);
+  ).toContainText("Kurulum alanını doğru hazırlayın");
+  await expect(page.locator("article section")).toHaveCount(5);
+  await expect(
+    page.getByRole("navigation", { name: "İlgili rehberler" }),
+  ).toBeVisible();
   await expect(
     page.getByRole("link", { name: "İlgili kategoriye göz atın" }),
   ).toHaveAttribute("href", "/urunler?kategori=akvaryumlar");

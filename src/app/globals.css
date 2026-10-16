@@ -1152,6 +1152,23 @@ dialog::backdrop {
   font-size: 14px;
   margin: 18px 0 15px;
 }
+.guide-group {
+  margin-top: 72px;
+}
+.related-guides {
+  display: grid;
+  gap: 12px;
+  margin-top: 46px;
+  padding-top: 30px;
+  border-top: 1px solid var(--line);
+}
+.related-guides h2 {
+  margin-bottom: 4px;
+}
+.related-guides a {
+  color: var(--brand-dark);
+  text-decoration: underline;
+}
 .faq {
   display: grid;
   grid-template-columns: 1fr 1.5fr;

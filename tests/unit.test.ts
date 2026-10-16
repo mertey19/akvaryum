@@ -22,6 +22,7 @@ import {
 } from "../src/lib/content/schema";
 import { seedContent } from "../src/lib/content/seed";
 import { ankaraDistrictGuides } from "../src/lib/district-guides";
+import { aquariumGuides } from "../src/lib/aquarium-guides";
 import {
   readSiteContent,
   storeKind,
@@ -381,7 +382,7 @@ test("Ankara district guides cover all 25 districts with valid unique entries", 
     "Şereflikoçhisar",
     "Yenimahalle",
   ];
-  assert.equal(ankaraDistrictGuides.length, 6);
+  assert.equal(ankaraDistrictGuides.length, 25);
   assert.equal(
     new Set(ankaraDistrictGuides.map((guide) => guide.slug)).size,
     ankaraDistrictGuides.length,
@@ -400,6 +401,14 @@ test("Ankara district guides cover all 25 districts with valid unique entries", 
   districts.forEach((district) =>
     assert.match(copy, new RegExp(district), `${district} içerikte bulunmalı`),
   );
+});
+test("Aquarium buying guides are valid and cover distinct decisions", () => {
+  assert.equal(aquariumGuides.length, 8);
+  assert.equal(new Set(aquariumGuides.map((guide) => guide.slug)).size, 8);
+  aquariumGuides.forEach((guide) => {
+    assert.ok(guideSchema.safeParse(guide).success);
+    assert.ok(guide.sections.length >= 4);
+  });
 });
 test("Admin session tokens expire and reject tampering", () => {
   const key = sessionKey("gizli-sifre");

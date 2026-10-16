@@ -21,8 +21,12 @@ export default async function Page({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const g = (await getGuides()).find((g) => g.slug === slug);
+  const guides = await getGuides();
+  const g = guides.find((g) => g.slug === slug);
   if (!g) notFound();
+  const related = guides
+    .filter((item) => item.slug !== g.slug && item.tag === g.tag)
+    .slice(0, 3);
   return (
     <article className="container section prose">
       <BreadcrumbData
@@ -70,6 +74,16 @@ export default async function Page({
         )}
         <Link href="/teklif">Ölçü ve talep hazırlama aracını açın →</Link>
       </div>
+      {related.length > 0 && (
+        <nav className="related-guides" aria-label="İlgili rehberler">
+          <h2>İlgili rehberler</h2>
+          {related.map((item) => (
+            <Link key={item.slug} href={`/rehber/${item.slug}`}>
+              {item.title} →
+            </Link>
+          ))}
+        </nav>
+      )}
     </article>
   );
 }

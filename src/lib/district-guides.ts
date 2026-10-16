@@ -1,160 +1,309 @@
 import type { Guide } from "./content/schema";
 
-export const ankaraDistrictGuides: Guide[] = [
+type District = {
+  name: string;
+  slug: string;
+  focus: string;
+  placement: string;
+  access: string;
+  planning: string;
+};
+
+const districts: District[] = [
   {
-    slug: "ankara-merkez-ilcelerinde-akvaryum-planlama",
-    tag: "ANKARA REHBERİ",
-    title: "Ankara merkez ilçelerinde akvaryum planlama",
-    intro:
-      "Altındağ, Çankaya, Keçiören, Mamak ve Yenimahalle için ölçüden WhatsApp talebine uzanan pratik hazırlık adımları.",
-    category: "akvaryumlar",
-    sections: [
-      [
-        "İlçe ve bina erişimini birlikte yazın",
-        "Altındağ, Çankaya, Keçiören, Mamak veya Yenimahalle’de akvaryum düşünürken yalnız oda ölçüsünü değil, bina girişi, merdiven, asansör ve kapı genişliklerini de not edin. Bu bilgiler ürünün taşınma biçimi ve teslimat kapsamı görüşülürken doğru soruların sorulmasını sağlar.",
-      ],
-      [
-        "Yerleşim alanını üç yönde ölçün",
-        "Genişlik, derinlik ve yükseklik ölçülerine bakım için üst boşluğu, filtre hortumlarının geçeceği alanı ve elektrik prizlerine erişimi ekleyin. Akvaryum mobilyasının zemine tam oturacağı düz alanı ayrıca kontrol edin.",
-      ],
-      [
-        "Hazır ölçüleri aynı bilgilerle karşılaştırın",
-        "Katalogdaki 90° ve 45° seçeneklerini incelerken fiyatın yanında cam, paket içeriği, stok ve teslimat ayrıntılarını da sorun. Liste fiyatının nakliyeyi kapsadığı varsayılmamalıdır.",
-      ],
-      [
-        "WhatsApp talebini eksiksiz hazırlayın",
-        "İlçe, yaklaşık adres, seçtiğiniz ölçü, kat ve erişim bilgisi ile kurulum fikrinizi tek mesajda paylaşın. Böylece güncel fiyat, stok ve teslimat ayrıntıları aynı ürün bağlamında netleştirilebilir.",
-      ],
-    ],
+    name: "Akyurt",
+    slug: "akyurt-akvaryum-secimi",
+    focus: "kullanım alanı, taşıma yolu ve ekipman erişimi",
+    placement:
+      "Ev, ofis veya çalışma alanındaki kullanılabilir genişliği; filtre ve bakım payını ekleyerek ölçün.",
+    access:
+      "Bina girişi, kapı, koridor ve dönüş noktalarındaki en dar geçişi santimetre olarak kaydedin.",
+    planning:
+      "Mevcut ekipmanınız varsa marka-model bilgisini ve mobilya ihtiyacını aynı talebe ekleyin.",
   },
   {
-    slug: "etimesgut-sincan-kahramankazan-pursaklar-akvaryum-rehberi",
-    tag: "ANKARA REHBERİ",
-    title: "Etimesgut, Sincan, Kahramankazan ve Pursaklar akvaryum rehberi",
-    intro:
-      "Akvaryum ölçüsü, mobilya ihtiyacı ve teslimat sorularını görüşme öncesinde düzenleyin.",
-    category: "akvaryumlar",
-    sections: [
-      [
-        "Önce kullanılabilir alanı belirleyin",
-        "Etimesgut, Sincan, Kahramankazan veya Pursaklar için talep oluştururken akvaryumun yerleşeceği duvarın ölçüsünü alın. Kapak açılımı, aydınlatma yüksekliği ve bakım sırasında kullanılacak çalışma alanını ölçüye dahil edin.",
-      ],
-      [
-        "Mobilya ve ekipmanı birlikte düşünün",
-        "Akvaryum dolabı gerekiyorsa dış ölçüyle birlikte filtre yerleşimi, kablo geçişi ve depolama ihtiyacını belirtin. Mevcut ekipmanınız varsa marka ve model bilgisini talebe ekleyin.",
-      ],
-      [
-        "Taşıma yolunu kontrol edin",
-        "Bina girişinden kurulacağı noktaya kadar dar dönüşleri, merdiveni, asansörü ve kapıları ölçün. Büyük cam ürünlerde yalnız ürün ölçüsü değil, güvenli taşıma alanı da planlamanın parçasıdır.",
-      ],
-      [
-        "Güncel bilgiyi WhatsApp’tan alın",
-        "İlçe ve erişim ayrıntılarıyla birlikte istediğiniz hazır ölçüyü veya özel talebi paylaşın. Fiyat, stok, ödeme ve teslimat kapsamı WhatsApp görüşmesinde teyit edilir.",
-      ],
-    ],
+    name: "Altındağ",
+    slug: "altindag-akvaryum-fiyatlari-ve-olcu-rehberi",
+    focus: "hazır ölçü, cam seçeneği ve bina erişimi",
+    placement:
+      "Üstten bakım boşluğunu, arka hortum payını ve mobilya kapaklarının açılımını ölçüye ekleyin.",
+    access:
+      "Bina yaşı ne olursa olsun asansör kabini, merdiven dönüşü ve daire kapısını ayrı ayrı kontrol edin.",
+    planning:
+      "Aynı ölçünün 90° ve 45° seçeneklerini ürün kodu ve fiyatıyla birlikte karşılaştırın.",
   },
   {
-    slug: "akyurt-cubuk-kalecik-akvaryum-secimi",
-    tag: "ANKARA REHBERİ",
-    title: "Akyurt, Çubuk ve Kalecik için akvaryum seçimi",
-    intro:
-      "Kurulum alanı, ekipman ve nakliye bilgilerini tek bir ihtiyaç özetinde birleştirin.",
-    category: "akvaryumlar",
-    sections: [
-      [
-        "Kurulumun amacını netleştirin",
-        "Akyurt, Çubuk veya Kalecik’te kurulacak akvaryum için bitkili, sade dekorlu ya da farklı bir su türüne yönelik beklentinizi yazın. Canlı seçimi yapılacaksa türlerin yetişkin boyu ve bakım ihtiyaçları ayrıca araştırılmalıdır.",
-      ],
-      [
-        "Ölçü kadar ekipman alanını da hesaplayın",
-        "Filtre, aydınlatma, ısıtma ve kablo düzeni akvaryumun çevresinde ek alan ister. Mobilya içinde kullanılacak ekipmanların ölçülerini ve bakım sırasında çıkarılabilecekleri boşluğu önceden planlayın.",
-      ],
-      [
-        "Oda koşullarını not edin",
-        "Akvaryumu doğrudan güneş, ısı kaynağı ve yoğun geçiş alanından uzakta konumlandırın. Odanın sıcaklık düzeni ve prize erişim bilgisi ekipman seçimini değerlendirirken yararlıdır.",
-      ],
-      [
-        "İlçe bilgisini talebe ekleyin",
-        "Hazır ölçü seçiminizle birlikte ilçe, kat, bina erişimi ve mobilya ihtiyacını WhatsApp mesajına ekleyin. Nakliye yöntemi ve kapsamı bu bilgiler üzerinden görüşülür.",
-      ],
-    ],
+    name: "Ayaş",
+    slug: "ayas-akvaryum-siparisi-oncesi-rehber",
+    focus: "teslimat kapsamı, paket içeriği ve kurulum hazırlığı",
+    placement:
+      "Kurulum noktasını boşaltın; mobilya, priz ve bakım alanının hazır olduğunu kontrol edin.",
+    access:
+      "İlçe, mahalle, kat ve bina erişimini paylaşın; nakliye ile kata taşımanın dahil olduğunu varsaymayın.",
+    planning:
+      "Akvaryum, zemin matı, arka fon, mobilya ve ekipmanı ayrı kalemler halinde teyit edin.",
   },
   {
-    slug: "ayas-beypazari-gudul-nallihan-akvaryum-planlama",
-    tag: "ANKARA REHBERİ",
-    title: "Ayaş, Beypazarı, Güdül ve Nallıhan’da akvaryum planlama",
-    intro:
-      "Ürün ölçüsünden teslimat kapsamına kadar görüşmede netleşmesi gereken bilgileri hazırlayın.",
-    category: "akvaryumlar",
-    sections: [
-      [
-        "Doğru ölçüyü seçmekle başlayın",
-        "Ayaş, Beypazarı, Güdül veya Nallıhan için akvaryum talebinde kullanılabilir alanı santimetre olarak yazın. Hazır ölçülerden birini seçiyorsanız 90° ve 45° fiyat seçeneklerini ürün sayfasından karşılaştırın.",
-      ],
-      [
-        "Zemin ve mobilya uygunluğunu kontrol edin",
-        "Dolu bir akvaryumun toplam yükü cam hacminden daha fazladır. Zeminin ve mobilyanın taşıma uygunluğunu yetkin bir uzmana doğrulatın; mevcut mobilyayı yalnız dış ölçüsüne bakarak uygun kabul etmeyin.",
-      ],
-      [
-        "Teslimat sorularını baştan sorun",
-        "İlçe, mahalle, kat ve bina erişimi bilgileri nakliye kapsamının değerlendirilmesine yardımcı olur. Taşıma, kurulum veya ekipman hizmetlerinin fiyata dahil olduğu varsayılmamalıdır.",
-      ],
-      [
-        "Tek mesajda ihtiyaç özeti oluşturun",
-        "Ölçü, cam seçeneği, mobilya ihtiyacı, teslimat adresi ve varsa mevcut ekipmanları WhatsApp talebinde bir araya getirin. Güncel stok ve fiyat görüşme sırasında teyit edilir.",
-      ],
-    ],
+    name: "Bala",
+    slug: "bala-akvaryum-kurulum-planlama",
+    focus: "dış ölçü, taşıma bilgisi ve ilk bakım düzeni",
+    placement:
+      "Cam ölçüsüne ek olarak üst bakım ve arka ekipman boşluğu bırakın.",
+    access:
+      "Açık adres, kat, merdiven ve en dar kapı ölçüsünü teslimat görüşmesinde belirtin.",
+    planning:
+      "Su değişimi ve filtre bakımı için gereken araçlara erişilebilir bir saklama alanı ayırın.",
   },
   {
-    slug: "bala-evren-golbasi-haymana-polatli-sereflikochisar-akvaryum",
-    tag: "ANKARA REHBERİ",
-    title: "Ankara’nın güney ilçeleri için akvaryum rehberi",
-    intro:
-      "Bala, Evren, Gölbaşı, Haymana, Polatlı ve Şereflikoçhisar taleplerinde ölçü ve erişim bilgisini doğru aktarın.",
-    category: "akvaryumlar",
-    sections: [
-      [
-        "Talebi ilçe bilgisiyle başlatın",
-        "Bala, Evren, Gölbaşı, Haymana, Polatlı veya Şereflikoçhisar için bilgi alırken ilçeyi ve yaklaşık teslimat konumunu ilk mesajda belirtin. Böylece nakliye kapsamı ürün seçimiyle birlikte değerlendirilebilir.",
-      ],
-      [
-        "Akvaryum ve geçiş ölçülerini ayırın",
-        "Kurulum alanının genişlik, derinlik ve yüksekliğini; kapı, koridor, merdiven ve asansör ölçülerinden ayrı kaydedin. Taşıma yolundaki en dar nokta büyük ölçülü ürün seçimini etkileyebilir.",
-      ],
-      [
-        "Paket içeriğini teyit edin",
-        "Akvaryum fiyatıyla birlikte cam seçeneği, taban matı, arka fon, mobilya ve ekipman kapsamını sorun. Ürün sayfasında belirtilmeyen parçaların pakete dahil olduğu kabul edilmemelidir.",
-      ],
-      [
-        "Sipariş öncesi son kontrolü yapın",
-        "Seçim kodu, ölçü, ilçe, kat, erişim ve iletişim tercihinizi WhatsApp mesajında kontrol edin. Ödeme, teslimat zamanı ve taşıma ayrıntıları teyit edildikten sonra siparişi başlatın.",
-      ],
-    ],
+    name: "Beypazarı",
+    slug: "beypazari-akvaryum-alirken-nelere-bakilmali",
+    focus: "mekân ölçüsü, mobilya uygunluğu ve paket içeriği",
+    placement:
+      "Pencere, ısı kaynağı, kapı açılımı ve yoğun geçiş noktalarını işaretleyerek sakin bir konum seçin.",
+    access:
+      "Taşıma rotasındaki kapı ve dönüşleri ürün dış ölçüsünden ayrı kaydedin.",
+    planning:
+      "Mevcut bir dolabı yalnız dış ölçüsüne bakarak uygun kabul etmeyin; taşıma uygunluğunu doğrulatın.",
   },
   {
-    slug: "camlidere-elmadag-kizilcahamam-akvaryum-kurulumu",
-    tag: "ANKARA REHBERİ",
-    title: "Çamlıdere, Elmadağ ve Kızılcahamam’da akvaryum kurulumu",
-    intro:
-      "Yerleşim, oda sıcaklığı ve ekipman ihtiyacını kurulumdan önce birlikte değerlendirin.",
-    category: "akvaryumlar",
-    sections: [
-      [
-        "Oda koşullarını ölçüyle birlikte düşünün",
-        "Çamlıdere, Elmadağ veya Kızılcahamam’da akvaryum planlarken odanın gün içindeki sıcaklık değişimini, güneş alan noktaları ve ısı kaynaklarını not edin. Ekipman seçimi yalnız akvaryum litresine göre yapılmamalıdır.",
-      ],
-      [
-        "Bakım erişimini koruyun",
-        "Akvaryumun üstünde kapak ve aydınlatmayı kaldırmaya yetecek boşluk bırakın. Filtre, priz ve su değişimi sırasında kullanılacak alanların mobilya veya duvar tarafından kapanmadığını kontrol edin.",
-      ],
-      [
-        "Hazır ölçü ve özel talebi ayırın",
-        "Katalogdaki hazır ölçülerin güncel fiyat ve stok bilgisini ürün sayfasındaki WhatsApp düğmesiyle sorun. Farklı ölçü veya ekipman ihtiyacınız varsa bunu ayrı bir talep olarak açıkça yazın.",
-      ],
-      [
-        "Teslimat ayrıntılarını netleştirin",
-        "İlçe, açık adres, kat ve erişim bilgisi nakliye planının değerlendirilmesini sağlar. Teslimat yöntemi, ücret ve zamanlama sipariş öncesinde görüşülmelidir.",
-      ],
-    ],
+    name: "Çamlıdere",
+    slug: "camlidere-akvaryum-oda-sicakligi-ve-ekipman",
+    focus: "oda sıcaklığı, güvenli elektrik ve ekipman seçimi",
+    placement:
+      "Kurulum noktasını farklı saatlerde gözlemleyin; doğrudan güneş ve ısı kaynaklarından uzak tutun.",
+    access:
+      "Priz, filtre ve üst bakım alanının kolay erişilebilir kalmasını sağlayın.",
+    planning:
+      "Isıtma veya soğutmayı yalnız brüt litreye göre değil, hedef sistem ve üretici verileriyle değerlendirin.",
+  },
+  {
+    name: "Çankaya",
+    slug: "cankaya-akvaryum-secimi-apartman-ve-ofis",
+    focus: "ev veya ofiste sessiz kullanım, bakım ve erişim",
+    placement:
+      "Kablo güzergâhı, mobilya içi havalandırma ve çalışma alanındaki ses beklentisini birlikte düşünün.",
+    access:
+      "Otoparktan kurulum noktasına kadar asansör kapısı, kabin ve koridor dönüşlerini ölçün.",
+    planning:
+      "Akvaryumu kimin, hangi sıklıkta kontrol edeceğini kurulumdan önce belirleyin.",
+  },
+  {
+    name: "Çubuk",
+    slug: "cubuk-akvaryum-olcu-ve-tasima-rehberi",
+    focus: "büyük ölçü, güvenli taşıma ve bakım kolaylığı",
+    placement:
+      "Daha geniş ölçünün mobilya, ekipman, bakım alanı ve toplam yük üzerindeki etkisini değerlendirin.",
+    access:
+      "Taşıma rotasındaki en dar noktayı bulun ve güvenli tutuş için gereken payı hesaba katın.",
+    planning:
+      "Üst bölgeye rahatça ulaşamadığınız bir ölçüyü yalnız hacmi büyük diye seçmeyin.",
+  },
+  {
+    name: "Elmadağ",
+    slug: "elmadag-akvaryum-yerlesim-ve-isi-planlama",
+    focus: "ısı kaynakları, aydınlatma ve elektrik düzeni",
+    placement:
+      "Radyatör, soba, klima çıkışı ve doğrudan güneşten uzak, kararlı bir konum seçin.",
+    access:
+      "Kabloları su sıçramasından koruyan ve bakımda erişilebilen bir priz düzeni hazırlayın.",
+    planning:
+      "Aydınlatmayı pencere ışığına göre değil, kurulumun ihtiyacı ve üretici verileriyle seçin.",
+  },
+  {
+    name: "Etimesgut",
+    slug: "etimesgut-akvaryum-evde-guvenli-yerlesim",
+    focus: "yaşam alanında güvenli geçiş, kablo ve bakım",
+    placement:
+      "Kapı arkası ve dar koridor yerine çarpma riskini azaltan, sakin bir konum belirleyin.",
+    access:
+      "Kabloları yerde bırakmayın; filtreyi bakım sırasında çıkarabileceğiniz alanı ölçün.",
+    planning:
+      "Su değişiminin nerede yapılacağını ve bakım malzemelerinin nerede saklanacağını baştan kararlaştırın.",
+  },
+  {
+    name: "Evren",
+    slug: "evren-akvaryum-bakim-ve-yedek-planlama",
+    focus: "bakım takvimi, sarf ve yedek parça erişimi",
+    placement:
+      "Filtre ve diğer ekipmanların kolay temizlenebildiği, çevresi kullanılabilir bir konum seçin.",
+    access:
+      "Teslimat koşullarıyla birlikte uyumlu sarf ve yedek parçaların nasıl temin edileceğini sorun.",
+    planning:
+      "Tüm ekipmanların marka-model bilgisini saklayın; parça seçiminde görsel benzerliğe güvenmeyin.",
+  },
+  {
+    name: "Gölbaşı",
+    slug: "golbasi-akvaryum-gunes-ve-yerlesim-rehberi",
+    focus: "doğrudan güneş, görünürlük ve bakım erişimi",
+    placement:
+      "Aydınlık oda ile doğrudan güneşi ayırın; seçilen noktayı gün boyunca gözlemleyin.",
+    access:
+      "Dekoratif yerleşim yaparken filtre, priz ve üst bakım bölgesine ulaşımı kapatmayın.",
+    planning:
+      "Mobilyanın zemine tam oturuşunu ve dolu sistemin toplam yükünü yetkin kişiye doğrulatın.",
+  },
+  {
+    name: "Güdül",
+    slug: "gudul-akvaryum-bakim-kolayligi-rehberi",
+    focus: "bakım kolaylığı, ekipman kaydı ve düzenli tedarik",
+    placement:
+      "Su değişimi ve filtre temizliği sırasında rahat çalışabileceğiniz boşluk bırakın.",
+    access:
+      "Bakım araçlarını yalnız akvaryumda kullanılacak, erişilebilir bir yerde saklayın.",
+    planning:
+      "Filtre, aydınlatma ve diğer ekipmanların model bilgilerini tek kayıtta tutun.",
+  },
+  {
+    name: "Haymana",
+    slug: "haymana-akvaryum-oda-kosullari-rehberi",
+    focus: "oda koşulları, sıcaklık ve güvenli su değişimi",
+    placement:
+      "Kurulum noktasının farklı saatlerdeki güneş, ısı ve insan trafiğini gözlemleyin.",
+    access:
+      "Su kaynağı ile akvaryum arasındaki yolu ve zemini koruyacak bakım düzenini planlayın.",
+    planning:
+      "Isıtma, soğutma ve filtrasyonu hedef sistem netleşmeden yalnız litreye bakarak seçmeyin.",
+  },
+  {
+    name: "Kahramankazan",
+    slug: "kahramankazan-ofis-ve-is-yeri-akvaryumu",
+    focus: "iş yeri görünürlüğü, bakım sorumluluğu ve erişim",
+    placement:
+      "Müşteri veya çalışma alanında geçişi daraltmayan, kabloları açıkta bırakmayan bir konum seçin.",
+    access:
+      "Teslimat rotası ile bakım sırasında kullanılacak alanı ayrı ayrı kontrol edin.",
+    planning:
+      "Tatil günleri dahil akvaryumu kimin kontrol edeceğini ve ekipmanın nerede saklanacağını belirleyin.",
+  },
+  {
+    name: "Kalecik",
+    slug: "kalecik-akvaryum-zemin-ve-mobilya-secimi",
+    focus: "düz zemin, uygun mobilya ve ekipman alanı",
+    placement:
+      "Mobilyanın zemine dengeli oturduğunu ve üst ile arka bakım boşluklarının korunduğunu kontrol edin.",
+    access:
+      "Dış filtreyi dolaptan çıkaracak yükseklik ile hortum ve kablo geçişlerini ölçün.",
+    planning:
+      "Dolu sistemin taşıma uygunluğunu yalnız mobilya görünümüne göre değerlendirmeyin.",
+  },
+  {
+    name: "Keçiören",
+    slug: "kecioren-akvaryum-tasima-ve-apartman-rehberi",
+    focus: "apartman merdiveni, asansör ve daire içi geçiş",
+    placement:
+      "Son konumda üst bakım, arka bağlantı ve ön çalışma alanını açık bırakın.",
+    access:
+      "Bina kapısı, asansör, merdiven dönüşü, kat koridoru ve daire kapısını sırayla ölçün.",
+    planning:
+      "Talebe kat, asansör durumu ve dar geçişleri ekleyerek taşıma kapsamını açıkça sorun.",
+  },
+  {
+    name: "Kızılcahamam",
+    slug: "kizilcahamam-akvaryum-sicaklik-ve-bakim",
+    focus: "mevsimsel oda koşulları, sıcaklık ve bakım",
+    placement:
+      "Kış ve yaz dönemindeki ısı kaynaklarını, güneşi ve hava akımını birlikte düşünün.",
+    access:
+      "Filtreyi çıkarabileceğiniz ve su değişimini güvenle yapabileceğiniz boşluk bırakın.",
+    planning:
+      "Sıcaklık ekipmanını gerçek su miktarı, hedef değer ve üretici kullanım aralığıyla seçin.",
+  },
+  {
+    name: "Mamak",
+    slug: "mamak-akvaryum-imalati-ve-hazir-olculer",
+    focus: "DSN Akvaryum adresi, hazır ölçüler ve doğrulanmış ürün bilgileri",
+    placement:
+      "DSN’nin doğrulanmış adresi Hüseyin Gazi, Ekin, Su Sk. No:17, 06160 Mamak/Ankara’dır; gelmeden önce WhatsApp’tan teyit alın.",
+    access:
+      "Ziyaret, teslim alma veya teslimat ayrıntılarını çalışma saatleriyle birlikte önceden sorun.",
+    planning:
+      "Katalogdaki 14 hazır ölçüyü, 90° ve 45° fiyatlarını ürün koduyla karşılaştırın; akvaryumlarda DIAMOND cam kullanılır.",
+  },
+  {
+    name: "Nallıhan",
+    slug: "nallihan-akvaryum-teslimat-hazirligi",
+    focus: "teslimat teyidi, ürün kodu ve kurulum hazırlığı",
+    placement:
+      "Kurulum noktasını boşaltın; mobilyanın yerini, prizi ve bakım erişimini hazırlayın.",
+    access:
+      "İlçe, mahalle, kat ve bina geçişlerini paylaşarak teslimat olanağı ile ücretini ayrıca sorun.",
+    planning:
+      "Aynı ölçünün 90° ve 45° seçeneklerini karıştırmamak için ürün kodunu mesajınıza ekleyin.",
+  },
+  {
+    name: "Polatlı",
+    slug: "polatli-akvaryum-siparis-ve-tasima-kontrol-listesi",
+    focus: "sipariş özeti, taşıma kapsamı ve teslim kontrolü",
+    placement:
+      "Akvaryum ölçüsü, mobilya ihtiyacı ve bakım boşluğunu yerinde işaretleyerek kontrol edin.",
+    access:
+      "Ambalaj, araçtan indirme, kata taşıma ve kurulumun hangi tarafa ait olduğunu yazılı teyit edin.",
+    planning:
+      "Teslimde ürün kodu, ölçü ve cam seçeneğinin talebinizle aynı olduğunu kontrol edin.",
+  },
+  {
+    name: "Pursaklar",
+    slug: "pursaklar-yeni-ev-icin-akvaryum-planlama",
+    focus: "yeni evde mobilya, priz ve bakım boşluğu",
+    placement:
+      "Duvar ünitesine yalnız cam ölçüsü değil, arka hortum ve üst bakım payı da bırakın.",
+    access:
+      "Kablo güzergâhını ve su değişimi sırasında kullanılacak alanı mobilya yerleşiminden önce belirleyin.",
+    planning:
+      "Raf, panel veya kapakların filtre ve üst bölgeye erişimi engellemediğini prova edin.",
+  },
+  {
+    name: "Sincan",
+    slug: "sincan-akvaryum-mobilya-ve-filtre-planlama",
+    focus: "akvaryum, mobilya ve filtrenin birlikte ölçülmesi",
+    placement:
+      "Mobilya genişliği ile derinliğinin akvaryuma uyumunu ve zemine tam oturuşunu kontrol edin.",
+    access:
+      "Dış filtre yüksekliği, hortum bağlantıları ve bakım için yukarı kaldırma payını dolap içinde ölçün.",
+    planning:
+      "Duvar arkasında hortum ve kabloları sıkıştırmayacak doğal dönüş alanı bırakın.",
+  },
+  {
+    name: "Şereflikoçhisar",
+    slug: "sereflikochisar-akvaryum-ekipman-ve-sarf-rehberi",
+    focus: "ekipman modeli, sarf ihtiyacı ve teslimat kapsamı",
+    placement:
+      "Ekipmanların bakım için kolayca çıkarıldığı ve kabloların güvenle düzenlendiği bir yer seçin.",
+    access:
+      "Nakliye ücreti, teslim zamanı ve hasar bildirimi sürecini sipariş öncesinde sorun.",
+    planning:
+      "Filtre ve aydınlatmanın marka-model bilgisini saklayın; sarf seçiminde üretici uyumluluğunu esas alın.",
+  },
+  {
+    name: "Yenimahalle",
+    slug: "yenimahalle-ev-ve-ofis-akvaryumu-rehberi",
+    focus: "ev veya ofiste sessiz kullanım ve bakım sorumluluğu",
+    placement:
+      "Filtre konumu, mobilya içi düzen ve çalışma alanındaki ses beklentisini birlikte değerlendirin.",
+    access:
+      "Otopark veya girişten son konuma kadar asansör, kapı ve koridor ölçülerini kontrol edin.",
+    planning:
+      "Hafta sonu dahil akvaryumla kimin ilgileneceğini ve su değişiminin nerede yapılacağını belirleyin.",
   },
 ];
+
+export const ankaraDistrictGuides: Guide[] = districts.map((district) => ({
+  slug: district.slug,
+  tag: "ANKARA İLÇE REHBERİ",
+  title: `${district.name} akvaryum rehberi`,
+  intro: `${district.name} için akvaryum araştırırken ${district.focus} konularını birlikte değerlendirin.`,
+  category: "akvaryumlar",
+  sections: [
+    ["Kurulum alanını doğru hazırlayın", district.placement],
+    ["Taşıma ve erişim bilgisini netleştirin", district.access],
+    ["Ürün ve ekipman planını tamamlayın", district.planning],
+    [
+      `${district.name} için fiyat ve stok teyidi`,
+      `Katalog fiyatlarını karşılaştırın; güncel stok, teslimat olanağı, ücret, ödeme ve kurulum kapsamını WhatsApp görüşmesinde teyit edin. İlçe adının bu rehberde yer alması teslimat garantisi anlamına gelmez.`,
+    ],
+    [
+      "WhatsApp talebine eklenecekler",
+      `Mesajınıza “${district.name}” bilgisini, ürün kodunu, ölçüyü, 90° veya 45° seçeneğini, kat ve bina erişimini ekleyin. Mobilya veya ekipman gerekiyorsa bunları ayrı kalemler halinde yazın.`,
+    ],
+  ],
+}));

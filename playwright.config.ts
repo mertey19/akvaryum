@@ -1,4 +1,5 @@
 import { defineConfig } from "@playwright/test";
+const port = process.env.E2E_PORT || "3000";
 export default defineConfig({
   testDir: "tests/e2e",
   fullyParallel: false,
@@ -7,13 +8,13 @@ export default defineConfig({
   retries: 0,
   reporter: [["list"], ["html", { open: "never" }]],
   use: {
-    baseURL: "http://localhost:3000",
+    baseURL: `http://localhost:${port}`,
     headless: true,
     trace: "retain-on-failure",
   },
   webServer: {
-    command: "npm run start -- --port 3000",
-    url: "http://localhost:3000",
+    command: `npm run start -- --port ${port}`,
+    url: `http://localhost:${port}`,
     reuseExistingServer: true,
     timeout: 60000,
     env: {

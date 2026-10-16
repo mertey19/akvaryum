@@ -10,6 +10,20 @@ export async function generateMetadata() {
 }
 export default async function Page() {
   const guides = await getGuides();
+  const districtGuides = guides.filter((g) => g.tag === "ANKARA İLÇE REHBERİ");
+  const aquariumGuides = guides.filter((g) => g.tag !== "ANKARA İLÇE REHBERİ");
+  const cards = (items: typeof guides, offset = 0) =>
+    items.map((g, i) => (
+      <Link className="guide-card" href={`/rehber/${g.slug}`} key={g.slug}>
+        <span className="guide-number">
+          {String(i + 1 + offset).padStart(2, "0")}
+        </span>
+        <span className="eyebrow">{g.tag}</span>
+        <h2>{g.title}</h2>
+        <p>{g.intro}</p>
+        <span className="text-link">Yazıyı okuyun →</span>
+      </Link>
+    ));
   return (
     <div className="container section">
       <div className="page-heading">
@@ -20,19 +34,34 @@ export default async function Page() {
           elinizin altında olsun.
         </p>
       </div>
-      <div className="guide-grid">
-        {guides.map((g, i) => (
-          <Link className="guide-card" href={`/rehber/${g.slug}`} key={g.slug}>
-            <span className="guide-number">
-              {String(i + 1).padStart(2, "0")}
-            </span>
-            <span className="eyebrow">{g.tag}</span>
-            <h2>{g.title}</h2>
-            <p>{g.intro}</p>
-            <span className="text-link">Yazıyı okuyun →</span>
-          </Link>
-        ))}
-      </div>
+      <section aria-labelledby="akvaryum-rehberleri">
+        <div className="section-heading">
+          <div>
+            <span className="eyebrow">AKVARYUM BİLGİ BANKASI</span>
+            <h2 id="akvaryum-rehberleri">Akvaryum rehberleri</h2>
+          </div>
+        </div>
+        <div className="guide-grid">{cards(aquariumGuides)}</div>
+      </section>
+      <section
+        id="ankara-ilce-rehberleri"
+        aria-labelledby="ilce-rehberleri"
+        className="guide-group"
+      >
+        <div className="section-heading">
+          <div>
+            <span className="eyebrow">25 İLÇE, 25 AYRI REHBER</span>
+            <h2 id="ilce-rehberleri">Ankara ilçe rehberleri</h2>
+            <p>
+              İlçenizi seçin; yerleşim, erişim ve sipariş hazırlığını adım adım
+              inceleyin.
+            </p>
+          </div>
+        </div>
+        <div className="guide-grid">
+          {cards(districtGuides, aquariumGuides.length)}
+        </div>
+      </section>
     </div>
   );
 }
