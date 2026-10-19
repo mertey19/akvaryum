@@ -55,12 +55,15 @@ test("Ankara district guides are listed and open as complete articles", async ({
   page,
 }) => {
   await page.goto("/rehber");
-  await expect(page.locator(".guide-card")).toHaveCount(36);
+  await expect(page.locator(".guide-card")).toHaveCount(46);
   await expect(
     page.getByRole("heading", { name: "Akvaryum rehberleri" }),
   ).toBeVisible();
   await expect(
     page.getByRole("heading", { name: "Ankara ilçe rehberleri" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Ankara akvaryum imalatı rehberleri" }),
   ).toBeVisible();
   const guide = page.getByRole("link", {
     name: /Mamak akvaryum rehberi/,

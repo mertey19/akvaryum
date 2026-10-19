@@ -5,6 +5,7 @@ import { siteConfig } from "./config";
 import { readSiteContent } from "./content/store";
 import { ankaraDistrictGuides } from "./district-guides";
 import { aquariumGuides } from "./aquarium-guides";
+import { ankaraSearchGuides } from "./search-guides";
 
 export const CONTENT_TAG = "site-content";
 
@@ -31,9 +32,11 @@ export async function getGuides() {
   const existing = new Set(guides.map((guide) => guide.slug));
   return [
     ...guides,
-    ...[...aquariumGuides, ...ankaraDistrictGuides].filter(
-      (guide) => !existing.has(guide.slug),
-    ),
+    ...[
+      ...aquariumGuides,
+      ...ankaraSearchGuides,
+      ...ankaraDistrictGuides,
+    ].filter((guide) => !existing.has(guide.slug)),
   ];
 }
 

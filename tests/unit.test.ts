@@ -23,6 +23,7 @@ import {
 import { seedContent } from "../src/lib/content/seed";
 import { ankaraDistrictGuides } from "../src/lib/district-guides";
 import { aquariumGuides } from "../src/lib/aquarium-guides";
+import { ankaraSearchGuides } from "../src/lib/search-guides";
 import {
   readSiteContent,
   storeKind,
@@ -409,6 +410,24 @@ test("Aquarium buying guides are valid and cover distinct decisions", () => {
     assert.ok(guideSchema.safeParse(guide).success);
     assert.ok(guide.sections.length >= 4);
   });
+});
+test("Ankara search guides cover verified commercial and planning topics", () => {
+  assert.equal(ankaraSearchGuides.length, 10);
+  assert.equal(new Set(ankaraSearchGuides.map((guide) => guide.slug)).size, 10);
+  ankaraSearchGuides.forEach((guide) =>
+    assert.ok(guideSchema.safeParse(guide).success),
+  );
+  const copy = ankaraSearchGuides
+    .flatMap((guide) => [guide.title, guide.intro, ...guide.sections.flat()])
+    .join(" ");
+  for (const term of [
+    "Ankara akvaryum imalatı",
+    "özel ölçü",
+    "akvaryum fiyatları",
+    "Mamak",
+    "DSN Akvaryum",
+  ])
+    assert.match(copy, new RegExp(term, "i"));
 });
 test("Admin session tokens expire and reject tampering", () => {
   const key = sessionKey("gizli-sifre");

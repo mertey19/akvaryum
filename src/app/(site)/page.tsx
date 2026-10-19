@@ -12,7 +12,7 @@ import { meta } from "@/lib/seo";
 
 export async function generateMetadata() {
   const settings = await getSettings();
-  return meta(null, settings.homeDescription, "/");
+  return meta("Ankara Akvaryum İmalatı", settings.homeDescription, "/");
 }
 
 const valueIcons = ["water", "compare", "box"] as const;
@@ -114,6 +114,32 @@ export default async function Home() {
           ))}
         </div>
       )}
+      <section className="section container local-seo-intro">
+        <span className="eyebrow">ANKARA · MAMAK</span>
+        <h2>Ankara’da akvaryum imalatı ve hazır ölçü seçenekleri</h2>
+        <p>
+          DSN Akvaryum İmalatı, Mamak’taki adresinde DIAMOND cam ile üretilen
+          akvaryumları ve 14 hazır ölçünün 90° ile 45° fiyat seçeneklerini
+          sunar. Güncel stok ve satış bilgisi WhatsApp üzerinden teyit edilir.
+        </p>
+        <p>
+          Özel ölçü, mobilyalı akvaryum, deniz veya resif kurulumu, kurumsal
+          proje, kurulum ve bakım servisi gibi taleplerde hizmet kapsamı ayrıca
+          doğrulanmalıdır. Rehberlerimiz doğru ölçü ve ihtiyaç özetini
+          hazırlamanıza yardımcı olur.
+        </p>
+        <div className="actions">
+          <Link className="button" href="/urunler?kategori=akvaryumlar">
+            Akvaryum fiyatlarını görün <Icon name="arrow" size={18} />
+          </Link>
+          <Link
+            className="button secondary"
+            href="/rehber#ankara-akvaryum-rehberleri"
+          >
+            Ankara rehberlerini okuyun <Icon name="arrow" size={18} />
+          </Link>
+        </div>
+      </section>
       <section className="section container">
         <div className="section-heading">
           <div>

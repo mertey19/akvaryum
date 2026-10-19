@@ -104,7 +104,7 @@ Alan kuralları:
 
 ## İçerik ve proje yönetimi
 
-Yönetilebilir rehberlerin başlangıç kayıtları `src/lib/content/seed.ts` dosyasındadır. Ankara'nın 25 ilçesi için ayrı yerel rehberler `src/lib/district-guides.ts`, sekiz ek akvaryum rehberi `src/lib/aquarium-guides.ts` içinde kalıcı başlangıç içeriği olarak tutulur ve yönetim panelinden eklenen aynı adresli bir yazı varsa paneldeki sürüm kullanılır. Yazar veya tarih uydurulmaz. Galerinin başlangıç kayıtları `src/lib/content/seed.ts` içindeki açıkça işaretlenmiş konsept verisidir; gerçek projeler için başlık, tür, açıklama, görsel yolu ve yayın izni kaydı gereklidir. Mevcut konsept galerisini gerçek iş gibi yayımlamayın.
+Yönetilebilir rehberlerin başlangıç kayıtları `src/lib/content/seed.ts` dosyasındadır. Ankara'nın 25 ilçesi için ayrı yerel rehberler `src/lib/district-guides.ts`, sekiz ek akvaryum rehberi `src/lib/aquarium-guides.ts` ve Ankara odaklı 10 arama rehberi `src/lib/search-guides.ts` içinde kalıcı başlangıç içeriği olarak tutulur. Yönetim panelinden eklenen aynı adresli bir yazı varsa paneldeki sürüm kullanılır. Yazar veya tarih uydurulmaz. Galerinin başlangıç kayıtları `src/lib/content/seed.ts` içindeki açıkça işaretlenmiş konsept verisidir; gerçek projeler için başlık, tür, açıklama, görsel yolu ve yayın izni kaydı gereklidir. Mevcut konsept galerisini gerçek iş gibi yayımlamayın.
 
 Teslimat/iade sözleşmesi ve başka hukuki politika metni üretilmedi. İşletmenin onaylı içerikleri gelmeden bu yollar menüye eklenmez.
 

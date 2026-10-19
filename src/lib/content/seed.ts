@@ -28,7 +28,7 @@ export const defaultSettings: Settings = {
   aquariumPriceIncludes: "Arka fon ve zemin matı fiyata dahildir.",
   announcement: "Hazır ölçü akvaryumlar mevcut",
   homeDescription:
-    "DSN Akvaryum İmalatı: Ankara Mamak'ta DIAMOND cam ile Ultra Clear akvaryum üretimi. Hazır ölçü akvaryumlar, 90° ve 45° fiyatları, teraryum ve paludaryum; WhatsApp üzerinden sipariş.",
+    "Ankara akvaryum imalatı ve satışı: DSN Akvaryum Mamak'ta DIAMOND cam akvaryum üretir. 14 hazır ölçü, 90° ve 45° Ankara akvaryum fiyatları; WhatsApp üzerinden bilgi ve sipariş.",
   heroEyebrow: "BİR AKVARYUMDAN DAHA FAZLASI",
   heroTitle: "DSN AKVARYUM",
   heroTitleAccent: "İMALATI",
@@ -395,20 +395,90 @@ type AquariumPriceRow = {
 };
 
 const aquariumPriceRows: AquariumPriceRow[] = [
-  { slug: "akvaryum-30x20x15", dimensions: [30, 20, 15], price90: 1000, price45: 1200 },
-  { slug: "akvaryum-30x30x30", dimensions: [30, 30, 30], price90: 1600, price45: 2200 },
-  { slug: "akvaryum-35x35x35", dimensions: [35, 35, 35], price90: 1900, price45: 2400 },
-  { slug: "akvaryum-40x40x40", dimensions: [40, 40, 40], price90: 2400, price45: 3050 },
-  { slug: "akvaryum-50x30x30", dimensions: [50, 30, 30], price90: 2400, price45: 3050 },
-  { slug: "akvaryum-60x40x40", dimensions: [60, 40, 40], price90: 3700, price45: 4200 },
-  { slug: "akvaryum-40x40x30", dimensions: [40, 40, 30], price90: 2250, price45: 2600 },
-  { slug: "akvaryum-40x30x20", dimensions: [40, 30, 20], price90: 1650, price45: 2100 },
-  { slug: "akvaryum-70x40x40", dimensions: [70, 40, 40], price90: 5000, price45: 6150 },
-  { slug: "akvaryum-80x40x40", dimensions: [80, 40, 40], price90: 5200, price45: 6300 },
-  { slug: "akvaryum-90x45x45", dimensions: [90, 45, 45], price90: 7950, price45: 9900 },
-  { slug: "akvaryum-100x50x45", dimensions: [100, 50, 45], price90: 8400, price45: 10500 },
-  { slug: "akvaryum-120x50x45", dimensions: [120, 50, 45], price90: 9100, price45: 10800 },
-  { slug: "akvaryum-150x50x40", dimensions: [150, 50, 40], price90: 12000, price45: 13100 },
+  {
+    slug: "akvaryum-30x20x15",
+    dimensions: [30, 20, 15],
+    price90: 1000,
+    price45: 1200,
+  },
+  {
+    slug: "akvaryum-30x30x30",
+    dimensions: [30, 30, 30],
+    price90: 1600,
+    price45: 2200,
+  },
+  {
+    slug: "akvaryum-35x35x35",
+    dimensions: [35, 35, 35],
+    price90: 1900,
+    price45: 2400,
+  },
+  {
+    slug: "akvaryum-40x40x40",
+    dimensions: [40, 40, 40],
+    price90: 2400,
+    price45: 3050,
+  },
+  {
+    slug: "akvaryum-50x30x30",
+    dimensions: [50, 30, 30],
+    price90: 2400,
+    price45: 3050,
+  },
+  {
+    slug: "akvaryum-60x40x40",
+    dimensions: [60, 40, 40],
+    price90: 3700,
+    price45: 4200,
+  },
+  {
+    slug: "akvaryum-40x40x30",
+    dimensions: [40, 40, 30],
+    price90: 2250,
+    price45: 2600,
+  },
+  {
+    slug: "akvaryum-40x30x20",
+    dimensions: [40, 30, 20],
+    price90: 1650,
+    price45: 2100,
+  },
+  {
+    slug: "akvaryum-70x40x40",
+    dimensions: [70, 40, 40],
+    price90: 5000,
+    price45: 6150,
+  },
+  {
+    slug: "akvaryum-80x40x40",
+    dimensions: [80, 40, 40],
+    price90: 5200,
+    price45: 6300,
+  },
+  {
+    slug: "akvaryum-90x45x45",
+    dimensions: [90, 45, 45],
+    price90: 7950,
+    price45: 9900,
+  },
+  {
+    slug: "akvaryum-100x50x45",
+    dimensions: [100, 50, 45],
+    price90: 8400,
+    price45: 10500,
+  },
+  {
+    slug: "akvaryum-120x50x45",
+    dimensions: [120, 50, 45],
+    price90: 9100,
+    price45: 10800,
+  },
+  {
+    slug: "akvaryum-150x50x40",
+    dimensions: [150, 50, 40],
+    price90: 12000,
+    price45: 13100,
+  },
 ];
 
 export function grossVolumeLabel(width: number, depth: number, height: number) {

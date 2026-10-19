@@ -1155,6 +1155,17 @@ dialog::backdrop {
 .guide-group {
   margin-top: 72px;
 }
+.local-seo-intro {
+  max-width: 980px;
+}
+.local-seo-intro h2 {
+  max-width: 760px;
+}
+.local-seo-intro p {
+  max-width: 860px;
+  color: var(--muted);
+  line-height: 1.85;
+}
 .related-guides {
   display: grid;
   gap: 12px;

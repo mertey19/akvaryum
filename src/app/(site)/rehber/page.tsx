@@ -11,7 +11,12 @@ export async function generateMetadata() {
 export default async function Page() {
   const guides = await getGuides();
   const districtGuides = guides.filter((g) => g.tag === "ANKARA İLÇE REHBERİ");
-  const aquariumGuides = guides.filter((g) => g.tag !== "ANKARA İLÇE REHBERİ");
+  const searchGuides = guides.filter(
+    (g) => g.tag === "ANKARA AKVARYUM REHBERİ",
+  );
+  const aquariumGuides = guides.filter(
+    (g) => !["ANKARA İLÇE REHBERİ", "ANKARA AKVARYUM REHBERİ"].includes(g.tag),
+  );
   const cards = (items: typeof guides, offset = 0) =>
     items.map((g, i) => (
       <Link className="guide-card" href={`/rehber/${g.slug}`} key={g.slug}>
@@ -44,6 +49,25 @@ export default async function Page() {
         <div className="guide-grid">{cards(aquariumGuides)}</div>
       </section>
       <section
+        id="ankara-akvaryum-rehberleri"
+        aria-labelledby="ankara-rehberleri"
+        className="guide-group"
+      >
+        <div className="section-heading">
+          <div>
+            <span className="eyebrow">ANKARA’DA DOĞRU TALEBİ HAZIRLAYIN</span>
+            <h2 id="ankara-rehberleri">Ankara akvaryum imalatı rehberleri</h2>
+            <p>
+              İmalatçı seçimi, özel ölçü talebi, fiyat, cam, mobilya, kurulum
+              türü ve kurumsal projeler için doğrulanabilir bilgiler.
+            </p>
+          </div>
+        </div>
+        <div className="guide-grid">
+          {cards(searchGuides, aquariumGuides.length)}
+        </div>
+      </section>
+      <section
         id="ankara-ilce-rehberleri"
         aria-labelledby="ilce-rehberleri"
         className="guide-group"
@@ -59,7 +83,7 @@ export default async function Page() {
           </div>
         </div>
         <div className="guide-grid">
-          {cards(districtGuides, aquariumGuides.length)}
+          {cards(districtGuides, aquariumGuides.length + searchGuides.length)}
         </div>
       </section>
     </div>
