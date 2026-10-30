@@ -1,6 +1,7 @@
 import { neon } from "@neondatabase/serverless";
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { applyOctober2026PriceIncrease } from "../catalog";
 import {
   contentKeys,
   contentSchemas,
@@ -97,6 +98,9 @@ export async function readSiteContent(): Promise<SiteContent> {
         parsed.error.issues,
       );
   }
+  content.products = applyOctober2026PriceIncrease(
+    contentSchemas.products.parse(content.products),
+  );
   return content as SiteContent;
 }
 

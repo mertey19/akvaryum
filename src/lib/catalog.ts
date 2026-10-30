@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const aquariumPriceListDate = "30.10.2026";
+export const previousAquariumPriceListDate = "18.04.2026";
 
 export const categoryFamilies = [
   "akvaryum",
@@ -75,6 +76,24 @@ export const productSchema = z
   });
 export type Product = z.infer<typeof productSchema>;
 export type Variant = z.infer<typeof variantSchema>;
+
+export function applyOctober2026PriceIncrease(products: Product[]) {
+  return products.map((product) => {
+    if (product.priceListDate !== previousAquariumPriceListDate) return product;
+    const increase = (price: number | null) =>
+      price === null ? null : Math.round(price * 1.1);
+    return {
+      ...product,
+      price: increase(product.price),
+      priceListDate: aquariumPriceListDate,
+      variants: product.variants.map((variant) => ({
+        ...variant,
+        price: increase(variant.price),
+      })),
+    };
+  });
+}
+
 export function publishedProducts(products: Product[], demo: boolean) {
   return products.filter(
     (product) => product.published && (demo || !product.isDemo),

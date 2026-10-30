@@ -4,6 +4,7 @@ import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import {
+  applyOctober2026PriceIncrease,
   aquariumOptions,
   money,
   normalize,
@@ -231,6 +232,28 @@ test("Aquarium price list exposes all supplied dimensions and option prices", ()
   assert.equal(categoryPage.items.length, 14);
   assert.equal(categoryPage.pages, 1);
   assert.equal(categoryPage.page, 1);
+});
+test("Stored April aquarium prices receive the October increase exactly once", () => {
+  const current = getProducts().find(
+    (product) => product.slug === "akvaryum-30x20x15",
+  )!;
+  const legacy = {
+    ...current,
+    price: 100000,
+    priceListDate: "18.04.2026",
+    variants: current.variants.map((variant) => ({
+      ...variant,
+      price: variant.id === "90" ? 100000 : 120000,
+    })),
+  };
+  const [updated] = applyOctober2026PriceIncrease([legacy]);
+  assert.equal(updated.price, 110000);
+  assert.equal(updated.priceListDate, "30.10.2026");
+  assert.deepEqual(
+    updated.variants.map((variant) => variant.price),
+    [110000, 132000],
+  );
+  assert.deepEqual(applyOctober2026PriceIncrease([updated]), [updated]);
 });
 test("DIAMOND glass is applied only to aquarium products", () => {
   const all = getProducts();
