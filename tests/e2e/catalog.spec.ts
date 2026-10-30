@@ -96,13 +96,13 @@ test("verified DIAMOND glass information is consistent", async ({ page }) => {
     "DIAMOND cam",
   );
   await expect(page.locator(".aquarium-price-options").first()).toContainText(
-    "₺1.000,00",
+    "₺1.100,00",
   );
   await expect(page.locator(".aquarium-price-options").first()).toContainText(
-    "₺1.200,00",
+    "₺1.320,00",
   );
   await expect(page.locator(".aquarium-price-meta").first()).toContainText(
-    "18.04.2026",
+    "30.10.2026",
   );
   await page
     .locator(".product-card")
@@ -368,7 +368,7 @@ test("variant updates SKU, price, stock and preserves context in contact draft",
   await page.goto("/urun/akvaryum-60x40x40");
   await page.getByRole("button", { name: /45° fiyat seçeneği/ }).click();
   await expect(page.getByTestId("sku")).toHaveText("AKV-60X40X40-45");
-  await expect(page.locator(".detail-price")).toContainText("4.200,00");
+  await expect(page.locator(".detail-price")).toContainText("4.620,00");
   await expect(page.locator(".detail-meta")).toContainText(
     "Stok bilgisi alınmalı",
   );

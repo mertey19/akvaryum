@@ -20,24 +20,24 @@ Hazır ölçü akvaryumların mevcut olduğu kullanıcı tarafından 13 Eylül 2
 
 ## Akvaryum fiyat listesi
 
-Kullanıcının sağladığı 18.04.2026 tarihli fiyat listesindeki 14 ölçü, `src/lib/repository.ts` içindeki DSN akvaryum kayıtlarına aktarılmıştır. Tutarlar TL olarak yorumlanıp uygulamada tam sayı kuruş saklanır. Kaynaktaki `90` ve `45` sütun başlıkları arayüzde `90°` ve `45°` olarak korunur; teknik karşılıkları doğrulanmış bir üretim iddiasına dönüştürülmez. Görünen brüt hacim, dış ölçülerin geometrik çarpımıdır. Stok, hazırlık süresi, cam kalınlığı, paket içeriği ve teslimat sağlanmadığı için bu alanlar bilgi alınmalı olarak kalır. Akvaryum görseli kategori düzeyindedir ve ölçüye özel fotoğraf olduğu iddia edilmez.
+Kullanıcının sağladığı 18.04.2026 tarihli fiyat listesindeki 14 ölçü, `src/lib/content/seed.ts` içindeki DSN akvaryum kayıtlarına aktarılmıştır. Kullanıcının 30.10.2026 tarihli talebiyle fiyatı bulunan tüm ürün seçenekleri %10 artırılmış ve arayüzdeki fiyat listesi tarihi bu güncelleme tarihine alınmıştır. Tutarlar TL olarak yorumlanıp uygulamada tam sayı kuruş saklanır. Kaynaktaki `90` ve `45` sütun başlıkları arayüzde `90°` ve `45°` olarak korunur; teknik karşılıkları doğrulanmış bir üretim iddiasına dönüştürülmez. Görünen brüt hacim, dış ölçülerin geometrik çarpımıdır. Stok, hazırlık süresi, cam kalınlığı, paket içeriği ve teslimat sağlanmadığı için bu alanlar bilgi alınmalı olarak kalır. Akvaryum görseli kategori düzeyindedir ve ölçüye özel fotoğraf olduğu iddia edilmez.
 
 | Ölçü (cm)     |       90° |       45° |
 | ------------- | --------: | --------: |
-| 30 × 20 × 15  |  1.000 TL |  1.200 TL |
-| 30 × 30 × 30  |  1.600 TL |  2.200 TL |
-| 35 × 35 × 35  |  1.900 TL |  2.400 TL |
-| 40 × 40 × 40  |  2.400 TL |  3.050 TL |
-| 50 × 30 × 30  |  2.400 TL |  3.050 TL |
-| 60 × 40 × 40  |  3.700 TL |  4.200 TL |
-| 40 × 40 × 30  |  2.250 TL |  2.600 TL |
-| 40 × 30 × 20  |  1.650 TL |  2.100 TL |
-| 70 × 40 × 40  |  5.000 TL |  6.150 TL |
-| 80 × 40 × 40  |  5.200 TL |  6.300 TL |
-| 90 × 45 × 45  |  7.950 TL |  9.900 TL |
-| 100 × 50 × 45 |  8.400 TL | 10.500 TL |
-| 120 × 50 × 45 |  9.100 TL | 10.800 TL |
-| 150 × 50 × 40 | 12.000 TL | 13.100 TL |
+| 30 × 20 × 15  |  1.100 TL |  1.320 TL |
+| 30 × 30 × 30  |  1.760 TL |  2.420 TL |
+| 35 × 35 × 35  |  2.090 TL |  2.640 TL |
+| 40 × 40 × 40  |  2.640 TL |  3.355 TL |
+| 50 × 30 × 30  |  2.640 TL |  3.355 TL |
+| 60 × 40 × 40  |  4.070 TL |  4.620 TL |
+| 40 × 40 × 30  |  2.475 TL |  2.860 TL |
+| 40 × 30 × 20  |  1.815 TL |  2.310 TL |
+| 70 × 40 × 40  |  5.500 TL |  6.765 TL |
+| 80 × 40 × 40  |  5.720 TL |  6.930 TL |
+| 90 × 45 × 45  |  8.745 TL | 10.890 TL |
+| 100 × 50 × 45 |  9.240 TL | 11.550 TL |
+| 120 × 50 × 45 | 10.010 TL | 11.880 TL |
+| 150 × 50 × 40 | 13.200 TL | 14.410 TL |
 
 Bu kayıtlar, fiyat ve ölçü kaynağı verilmiş olsa da ürün kimliği, fotoğraf, stok ve üretim ayrıntıları tamamlanmadığı için `isDemo: true` kalır. Fiyat listesinin güncelliği teklif öncesinde yeniden teyit edilmelidir.
 

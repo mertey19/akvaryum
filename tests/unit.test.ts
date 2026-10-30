@@ -87,7 +87,7 @@ test("Filtering, totals, ordering and page bounds use the same result set", () =
       { kategori: "akvaryumlar", sirala: "fiyat-artan" },
       getProducts(),
     ).items[0].price,
-    100000,
+    110000,
   );
   assert.equal(queryProducts({ min: "999999" }, getProducts()).total, 0);
   assert.equal(queryProducts({ sayfa: "2" }, getProducts()).items.length, 10);
@@ -176,20 +176,20 @@ test("Terrarium and paludarium concepts are searchable, honest demo records", ()
 });
 test("Aquarium price list exposes all supplied dimensions and option prices", () => {
   const expected = [
-    ["akvaryum-30x20x15", "30 × 20 × 15 cm", 100000, 120000],
-    ["akvaryum-30x30x30", "30 × 30 × 30 cm", 160000, 220000],
-    ["akvaryum-35x35x35", "35 × 35 × 35 cm", 190000, 240000],
-    ["akvaryum-40x40x40", "40 × 40 × 40 cm", 240000, 305000],
-    ["akvaryum-50x30x30", "50 × 30 × 30 cm", 240000, 305000],
-    ["akvaryum-60x40x40", "60 × 40 × 40 cm", 370000, 420000],
-    ["akvaryum-40x40x30", "40 × 40 × 30 cm", 225000, 260000],
-    ["akvaryum-40x30x20", "40 × 30 × 20 cm", 165000, 210000],
-    ["akvaryum-70x40x40", "70 × 40 × 40 cm", 500000, 615000],
-    ["akvaryum-80x40x40", "80 × 40 × 40 cm", 520000, 630000],
-    ["akvaryum-90x45x45", "90 × 45 × 45 cm", 795000, 990000],
-    ["akvaryum-100x50x45", "100 × 50 × 45 cm", 840000, 1050000],
-    ["akvaryum-120x50x45", "120 × 50 × 45 cm", 910000, 1080000],
-    ["akvaryum-150x50x40", "150 × 50 × 40 cm", 1200000, 1310000],
+    ["akvaryum-30x20x15", "30 × 20 × 15 cm", 110000, 132000],
+    ["akvaryum-30x30x30", "30 × 30 × 30 cm", 176000, 242000],
+    ["akvaryum-35x35x35", "35 × 35 × 35 cm", 209000, 264000],
+    ["akvaryum-40x40x40", "40 × 40 × 40 cm", 264000, 335500],
+    ["akvaryum-50x30x30", "50 × 30 × 30 cm", 264000, 335500],
+    ["akvaryum-60x40x40", "60 × 40 × 40 cm", 407000, 462000],
+    ["akvaryum-40x40x30", "40 × 40 × 30 cm", 247500, 286000],
+    ["akvaryum-40x30x20", "40 × 30 × 20 cm", 181500, 231000],
+    ["akvaryum-70x40x40", "70 × 40 × 40 cm", 550000, 676500],
+    ["akvaryum-80x40x40", "80 × 40 × 40 cm", 572000, 693000],
+    ["akvaryum-90x45x45", "90 × 45 × 45 cm", 874500, 1089000],
+    ["akvaryum-100x50x45", "100 × 50 × 45 cm", 924000, 1155000],
+    ["akvaryum-120x50x45", "120 × 50 × 45 cm", 1001000, 1188000],
+    ["akvaryum-150x50x40", "150 × 50 × 40 cm", 1320000, 1441000],
   ] as const;
   const all = getProducts();
   const aquariums = all.filter(
@@ -218,7 +218,7 @@ test("Aquarium price list exposes all supplied dimensions and option prices", ()
     assert.equal(product.stockQuantity, null);
     assert.equal(product.leadTime, null);
     assert.equal(product.isDemo, true);
-    assert.equal(product.priceListDate, "18.04.2026");
+    assert.equal(product.priceListDate, "30.10.2026");
   }
 
   assert.equal(
@@ -276,7 +276,7 @@ test("45° and 90° aquarium pages filter and price by the selected option", () 
   );
   const slugs = (secenek: string) =>
     queryProducts(
-      { kategori: "akvaryumlar", secenek, min: "13100" },
+      { kategori: "akvaryumlar", secenek, min: "14000" },
       all,
     ).items.map((p) => p.slug);
   assert.ok(slugs("45").includes("akvaryum-150x50x40"));

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const aquariumPriceListDate = "18.04.2026";
+export const aquariumPriceListDate = "30.10.2026";
 
 export const categoryFamilies = [
   "akvaryum",
